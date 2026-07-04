@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { ArrowRight, CheckCircle, Zap, Shield, Users, Award, Headphones, Leaf, Droplet, Bug, TrendingUp, MessageSquare, Calendar, User, Star, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { cropImages } from '@/lib/cropImages';
 
 export default function Home() {
   const [stats, setStats] = useState({
@@ -62,35 +63,35 @@ export default function Home() {
   const products = [
     {
       name: 'Maize',
-      icon: '🌽',
+      image: cropImages.maize.primary,
       category: 'Cereals',
       description: 'High-yield certified maize seed suitable for different ecological regions',
       benefits: ['High yield', 'Disease resistant', 'Drought tolerant'],
     },
     {
       name: 'Irish Potato',
-      icon: '🥔',
+      image: cropImages.potato.primary,
       category: 'Root Crops',
       description: 'Certified potato seeds with excellent productivity',
       benefits: ['High productivity', 'Quality tubers', 'Long storage'],
     },
     {
       name: 'Wheat',
-      icon: '🌾',
+      image: cropImages.wheat.secondary,
       category: 'Cereals',
       description: 'Improved wheat seed varieties for commercial farming',
       benefits: ['High yield', 'Good quality', 'Early maturity'],
     },
     {
       name: 'Soybean',
-      icon: '🫘',
+      image: cropImages.soybean.primary,
       category: 'Legumes',
       description: 'Protein-rich soybean seed with excellent germination',
       benefits: ['High protein', 'Nitrogen fixing', 'Market demand'],
     },
     {
       name: 'Bean',
-      icon: '🫘',
+      image: cropImages.bean.primary,
       category: 'Legumes',
       description: 'Quality bean seeds for reliable harvests',
       benefits: ['High quality', 'Good germination', 'Certified'],
@@ -131,12 +132,12 @@ export default function Home() {
   ];
 
   const gallery = [
-    { id: 1, label: 'Seed Production', image: '🌱' },
-    { id: 2, label: 'Farm Visits', image: '🚜' },
-    { id: 3, label: 'Harvest', image: '🌾' },
-    { id: 4, label: 'Farmers', image: '👨‍🌾' },
-    { id: 5, label: 'Training', image: '📚' },
-    { id: 6, label: 'Company Events', image: '🎉' },
+    { id: 1, label: 'Irish Potato', image: cropImages.potato.primary },
+    { id: 2, label: 'Bean', image: cropImages.bean.primary },
+    { id: 3, label: 'Maize', image: cropImages.maize.primary },
+    { id: 4, label: 'Wheat', image: cropImages.wheat.primary },
+    { id: 5, label: 'Soybean', image: cropImages.soybean.primary },
+    { id: 6, label: 'Certified Maize Seed', image: cropImages.maize.secondary },
   ];
 
   const testimonials = [
@@ -353,7 +354,13 @@ export default function Home() {
                 className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-amber-400 hover:shadow-xl hover:-translate-y-3 group animate-fade-in-up hover:bg-gradient-to-br hover:from-amber-50 hover:to-white"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-5xl mb-4 group-hover:scale-125 transition-transform duration-300 inline-block">{product.icon}</div>
+                <div className="h-36 rounded-lg overflow-hidden mb-4">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
                 <div className="inline-block px-3 py-1 bg-gradient-to-r from-green-100 to-green-50 text-green-700 text-xs font-bold rounded-full mb-3 group-hover:from-amber-100 group-hover:to-amber-50 group-hover:text-amber-700 transition-all duration-300">
                   {product.category}
                 </div>
@@ -424,9 +431,11 @@ export default function Home() {
                 className="relative h-48 rounded-lg overflow-hidden cursor-pointer group animate-fade-in-up hover:scale-105 transition-transform duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300">
-                  {item.image}
-                </div>
+                <img
+                  src={item.image}
+                  alt={item.label}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                   <p className="text-white font-semibold group-hover:translate-y-0 translate-y-2 transition-transform duration-300">{item.label}</p>
                 </div>

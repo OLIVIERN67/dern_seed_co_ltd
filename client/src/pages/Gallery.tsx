@@ -3,30 +3,46 @@ import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { cropImages } from '@/lib/cropImages';
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState('all');
 
-  const galleryItems = [
-    { id: 1, category: 'production', title: 'Seed Production', emoji: '🌱', description: 'Our modern seed production facilities' },
-    { id: 2, category: 'farm', title: 'Farm Visits', emoji: '🚜', description: 'Regular visits to farmer fields' },
-    { id: 3, category: 'harvest', title: 'Harvest', emoji: '🌾', description: 'Successful harvests with our seeds' },
-    { id: 4, category: 'farmers', title: 'Farmers', emoji: '👨‍🌾', description: 'Our farming community' },
-    { id: 5, category: 'training', title: 'Training', emoji: '📚', description: 'Farmer training sessions' },
-    { id: 6, category: 'events', title: 'Company Events', emoji: '🎉', description: 'Community events and celebrations' },
-    { id: 7, category: 'production', title: 'Quality Control', emoji: '✓', description: 'Rigorous quality testing' },
-    { id: 8, category: 'farm', title: 'Field Preparation', emoji: '🌍', description: 'Preparing fields for planting' },
-    { id: 9, category: 'harvest', title: 'Post-Harvest', emoji: '📦', description: 'Harvest handling and storage' },
-  ];
+  const galleryItems = (() => {
+    const items: Array<{ id: number; category: string; title: string; image: string; description: string }> = [];
+
+    let id = 1;
+
+    const pushCropImages = (category: string, label: string, images: string[]) => {
+      images.forEach((img, index) => {
+        items.push({
+          id: id++,
+          category,
+          title: `${label} - Photo ${index + 1}`,
+          image: img,
+          description: `${label} photos from the DERN Gallery.`,
+        });
+      });
+    };
+
+    pushCropImages('potato', 'Potato', cropImages.potato.all);
+    pushCropImages('bean', 'Bean', cropImages.bean.all);
+    pushCropImages('maize', 'Maize', cropImages.maize.all);
+    pushCropImages('wheat', 'Wheat', cropImages.wheat.all);
+    pushCropImages('soybean', 'Soybean', cropImages.soybean.all);
+
+    return items;
+  })();
+
+
 
   const categories = [
     { id: 'all', label: 'All Images' },
-    { id: 'production', label: 'Seed Production' },
-    { id: 'farm', label: 'Farm Visits' },
-    { id: 'harvest', label: 'Harvest' },
-    { id: 'farmers', label: 'Farmers' },
-    { id: 'training', label: 'Training' },
-    { id: 'events', label: 'Company Events' },
+    { id: 'potato', label: 'Potato' },
+    { id: 'bean', label: 'Bean' },
+    { id: 'maize', label: 'Maize' },
+    { id: 'wheat', label: 'Wheat' },
+    { id: 'soybean', label: 'Soybean' },
   ];
 
   const filteredItems = activeCategory === 'all'
@@ -88,9 +104,7 @@ export default function Gallery() {
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 {/* Background */}
-                <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-7xl">
-                  {item.emoji}
-                </div>
+                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-end justify-end p-6">
@@ -123,19 +137,19 @@ export default function Gallery() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Seed Production',
-                count: '3',
-                description: 'Images showcasing our production facilities and quality control processes',
+                title: 'Potato',
+                count: galleryItems.filter((item) => item.category === 'potato').length.toString(),
+                description: 'Field and tuber photos for certified Irish potato seed.',
               },
               {
-                title: 'Farm Operations',
-                count: '2',
-                description: 'Field visits and farm preparation activities with our farming partners',
+                title: 'Bean & Soybean',
+                count: galleryItems.filter((item) => item.category === 'bean' || item.category === 'soybean').length.toString(),
+                description: 'Legume crop photos from multiplication and field activities.',
               },
               {
-                title: 'Harvest & Training',
-                count: '4',
-                description: 'Successful harvests and farmer training sessions in the field',
+                title: 'Maize & Wheat',
+                count: galleryItems.filter((item) => item.category === 'maize' || item.category === 'wheat').length.toString(),
+                description: 'Cereal crop images from early growth to mature harvest stage.',
               },
             ].map((stat, index) => (
               <div
@@ -165,23 +179,23 @@ export default function Gallery() {
           <div className="grid lg:grid-cols-2 gap-8">
             {[
               {
-                title: 'Community Impact',
-                description: 'Our seeds have helped thousands of farmers improve their livelihoods and achieve food security.',
-                emoji: '👥',
-              },
-              {
-                title: 'Quality Standards',
-                description: 'Every batch of seeds undergoes rigorous testing to ensure it meets our high quality standards.',
+                title: 'Crop-Accurate Visuals',
+                description: 'Each crop card now uses the corresponding crop image from your DERN Gallery folder.',
                 emoji: '✓',
               },
               {
-                title: 'Farmer Support',
-                description: 'We provide comprehensive support from seed selection through harvest and beyond.',
+                title: 'Certified Production Focus',
+                description: 'Photos emphasize multiplication fields and certified seed preparation processes.',
+                emoji: '✓',
+              },
+              {
+                title: 'Real DERN Crop Fields',
+                description: 'Images represent actual DERN crop fields rather than generic placeholder graphics.',
                 emoji: '🤝',
               },
               {
-                title: 'Sustainable Practices',
-                description: 'Our farming practices promote environmental sustainability and long-term soil health.',
+                title: 'Crop Diversity',
+                description: 'The gallery covers Irish potato, bean, maize, wheat, and soybean crops.',
                 emoji: '🌱',
               },
             ].map((highlight, index) => (

@@ -1,35 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
+import { cropImages } from '@/lib/cropImages';
 
 const productCategories = [
   {
     name: 'Irish Potato Seed',
-    icon: '🥔',
+    icon: cropImages.potato.primary,
     description: 'High-altitude adapted, high-yielding varieties',
     varieties: ['Kirundo', 'Ndamira', 'Gikungu', 'Cyerekezo'],
   },
   {
     name: 'Bean Seed',
-    icon: '🫘',
+    icon: cropImages.bean.primary,
     description: 'High-yield, disease-tolerant grain varieties',
     varieties: ['RWR 3194', 'RWV 3316', 'MAC 44', 'Mwirasi', 'MBC23', 'Kigondo'],
   },
   {
     name: 'Maize Seed',
-    icon: '🌽',
+    icon: cropImages.maize.primary,
     description: 'Vigorous, high-germination cereal varieties',
     varieties: ['RHMH1520', 'PAN661', 'H628', 'H629'],
   },
   {
     name: 'Wheat Seed',
-    icon: '🌾',
+    icon: cropImages.wheat.secondary,
     description: 'Strong establishment, high grain quality',
     varieties: ['Nyaruka', 'Gihundo', 'Kibatsi', 'Majyambere'],
   },
   {
     name: 'Soybean Seed',
-    icon: '🌿',
+    icon: cropImages.soybean.primary,
     description: 'Excellent germination, sustainable rotation crop',
     varieties: ['RWASOYA 20-8', 'RWASOYA 20-3', 'PEKA 6'],
   },
@@ -129,7 +130,7 @@ export default function Navigation() {
                     {productCategories.map((cat) => (
                       <div key={cat.name} className="group">
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-2xl">{cat.icon}</span>
+                          <img src={cat.icon} alt={cat.name} className="w-10 h-10 rounded-md object-cover" />
                           <h4 className="font-bold text-gray-900 font-poppins text-sm group-hover:text-green-700 transition-colors">
                             {cat.name}
                           </h4>
@@ -253,7 +254,7 @@ export default function Navigation() {
                   {productCategories.map((cat) => (
                     <div key={cat.name}>
                       <div className="flex items-center gap-2 mb-1">
-                        <span>{cat.icon}</span>
+                        <img src={cat.icon} alt={cat.name} className="w-7 h-7 rounded object-cover" />
                         <span className="text-sm font-semibold text-gray-800">{cat.name}</span>
                       </div>
                       <div className="flex flex-wrap gap-1.5 pl-6">

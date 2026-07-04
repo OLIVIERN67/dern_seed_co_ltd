@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { ArrowRight, Filter, CheckCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { cropImages } from '@/lib/cropImages';
 
 export default function Products() {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -11,7 +12,7 @@ export default function Products() {
     {
       id: 1,
       name: 'Certified Irish Potato Seed',
-      icon: '🥔',
+      image: cropImages.potato.primary,
       category: 'Root Crops',
       description: "Improved varieties offering high productivity, good processing quality, and excellent adaptability to Rwanda's highland farming systems.",
       varieties: ['Kirundo', 'Ndamira', 'Gikungu', 'Cyerekezo'],
@@ -20,7 +21,7 @@ export default function Products() {
     {
       id: 2,
       name: 'Certified Bean Seed',
-      icon: '🫘',
+      image: cropImages.bean.primary,
       category: 'Legumes',
       description: 'Selected for high yield potential, nutritional value, and adaptability to different agro-ecological conditions.',
       varieties: ['RWR 3194', 'RWV 3316', 'MAC 44', 'Mwirasi', 'MBC23', 'Kigondo', 'RWV1129', 'RWV2350-2B'],
@@ -29,7 +30,7 @@ export default function Products() {
     {
       id: 3,
       name: 'Certified Maize Seed',
-      icon: '🌽',
+      image: cropImages.maize.primary,
       category: 'Cereals',
       description: 'Improved maize varieties that provide reliable performance and high productivity across different ecological regions.',
       varieties: ['RHMH1520', 'PAN661', 'H628', 'H629'],
@@ -38,7 +39,7 @@ export default function Products() {
     {
       id: 4,
       name: 'Certified Wheat Seed',
-      icon: '🌾',
+      image: cropImages.wheat.secondary,
       category: 'Cereals',
       description: "Produced under strict quality control to ensure strong crop establishment and high grain quality, adapted to Rwanda's wheat-growing areas.",
       varieties: ['Nyaruka', 'Gihundo', 'Kibatsi', 'Majyambere', 'Mizero', 'Reberaho'],
@@ -47,7 +48,7 @@ export default function Products() {
     {
       id: 5,
       name: 'Certified Soybean Seed',
-      icon: '🌿',
+      image: cropImages.soybean.primary,
       category: 'Legumes',
       description: 'Quality soybean seed suitable for grain production, processing industries, and sustainable crop rotation systems.',
       varieties: ['RWASOYA 20-8', 'RWASOYA 20-3', 'PEKA 6'],
@@ -128,8 +129,12 @@ export default function Products() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Product Visual */}
-                <div className="h-40 bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-6xl relative flex-shrink-0">
-                  {product.icon}
+                <div className="h-40 bg-gradient-to-br from-green-100 to-green-50 relative flex-shrink-0 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
                   <div className="absolute top-4 right-4 bg-amber-500 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
                     Certified
                   </div>
