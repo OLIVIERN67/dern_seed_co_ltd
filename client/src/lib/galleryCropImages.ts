@@ -9,13 +9,9 @@ const MAIZE_IMAGES = [
   '/gallery/maize seed 2.jpeg',
   '/gallery/maize seed 3.jpeg',
   '/gallery/maize seed.jpeg',
-  '/gallery/maize seed 1.jpeg',
-  '/gallery/maize seed 2.jpeg',
-  '/gallery/maize seed 3.jpeg',
-  '/gallery/maize seed.jpeg',
   '/gallery/maize white.jpeg',
-  '/gallery/maize seed 2.jpeg',
 ];
+
 
 const POTATO_IMAGES = [
   '/gallery/potatoes.jpeg',
