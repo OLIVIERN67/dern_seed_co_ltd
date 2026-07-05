@@ -58,7 +58,8 @@ export default function Gallery() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
+            backgroundImage: 'url(/gallery/Home background 1.jpeg)',
+
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />

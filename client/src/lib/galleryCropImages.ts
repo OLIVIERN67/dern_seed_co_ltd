@@ -50,12 +50,12 @@ export const cropGallery = {
   },
   maize: {
     primary: MAIZE_IMAGES[0],
-    secondary: MAIZE_IMAGES[1],
+    secondary: MAIZE_IMAGES[1] ?? MAIZE_IMAGES[0],
     all: MAIZE_IMAGES,
   },
   wheat: {
     primary: WHEAT_IMAGES[0],
-    secondary: WHEAT_IMAGES[1],
+    secondary: WHEAT_IMAGES[1] ?? WHEAT_IMAGES[0],
     all: WHEAT_IMAGES,
   },
   soybean: {
