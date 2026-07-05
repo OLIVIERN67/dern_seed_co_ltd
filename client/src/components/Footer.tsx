@@ -25,7 +25,7 @@ export default function Footer() {
             <p className="text-green-100 mb-6">Subscribe to our newsletter for farming tips and product updates.</p>
             <form onSubmit={handleSubscribe} className="flex gap-2">
               <input
-                type="email"
+                type="email" 
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

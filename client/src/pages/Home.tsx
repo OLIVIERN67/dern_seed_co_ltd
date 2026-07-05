@@ -4,6 +4,8 @@ import { ArrowRight, CheckCircle, Zap, Shield, Users, Award, Headphones, Leaf, D
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
+import HomeBackgroundSlideshow from './HomeBackgroundSlideshow';
+
 
 export default function Home() {
   const [stats, setStats] = useState({
@@ -191,12 +193,8 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1800&q=85)',
-          }}
-        />
+        {/* Animated background slideshow */}
+        <HomeBackgroundSlideshow />
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/80 to-gray-900/20" />
 
         <div className="container relative z-10">
