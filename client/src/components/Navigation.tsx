@@ -74,11 +74,11 @@ export default function Navigation() {
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm'
+          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-md'
           : 'bg-white border-b border-gray-100'
       }`}
     >
-      <div className="container flex items-center justify-between h-20">
+      <div className="container flex items-center justify-between h-16 sm:h-20">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img src="/images/logo.png" alt="DERN SEED" className="w-12 h-12 object-contain" />
@@ -89,16 +89,16 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-1">
           <Link
             href="/"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             Home
           </Link>
           <Link
             href="/about"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             About
           </Link>
@@ -111,7 +111,7 @@ export default function Navigation() {
           >
             <button
               onClick={() => setMegaMenuOpen((v) => !v)}
-              className="flex items-center gap-1 text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors py-2"
+              className="flex items-center gap-1 text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
               aria-expanded={megaMenuOpen}
             >
               Products
@@ -172,41 +172,41 @@ export default function Navigation() {
 
           <Link
             href="/services"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             Services
           </Link>
           <Link
             href="/gallery"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             Gallery
           </Link>
           <Link
             href="/blog"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             Blog
           </Link>
           <Link
             href="/contact"
-            className="text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors"
+            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
           >
             Contact
           </Link>
         </div>
 
         {/* CTA Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2">
           <Link
             href="/login"
-            className="px-4 py-2 border-2 border-green-700 text-green-700 font-semibold rounded-lg text-sm hover:bg-green-50 transition-all duration-300"
+            className="px-4 py-2 border-2 border-green-700 text-green-700 font-semibold rounded-lg text-sm hover:bg-green-50 transition-all duration-300 hover:-translate-y-0.5"
           >
             Login
           </Link>
           <Link
             href="/signup"
-            className="px-4 py-2 bg-green-700 text-white font-semibold rounded-lg text-sm hover:bg-green-800 transition-all duration-300"
+            className="px-4 py-2 bg-green-700 text-white font-semibold rounded-lg text-sm hover:bg-green-800 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
           >
             Sign Up
           </Link>
@@ -216,6 +216,7 @@ export default function Navigation() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          aria-label="Toggle menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

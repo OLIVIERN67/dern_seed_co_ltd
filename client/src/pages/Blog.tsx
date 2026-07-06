@@ -1,42 +1,52 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, Search, Calendar, User, Tag } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { applySeo } from '@/lib/seo';
 
 export default function Blog() {
+  useEffect(() => {
+    applySeo({
+      title: 'DERN SEED Blog - Farming Tips, Guides & Agricultural Resources',
+      description: 'Learn farming best practices, seed selection guides, pest management, soil preparation, and water management tips from DERN SEED agricultural experts.',
+      keywords: ['farming tips', 'agricultural guide', 'seed selection', 'pest management', 'soil preparation', 'water management', 'crop protection', 'Rwanda agriculture'],
+      ogImage: '/images/logo.png',
+    });
+  }, []);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
 
   const articles = [
     {
       id: 1,
-      title: 'Best Time to Plant Maize',
+      title: 'Best Time to Plant Maize in Rwanda',
       category: 'Seasonal Guide',
       date: 'June 2026',
       author: 'Agricultural Team',
-      excerpt: 'Learn the optimal planting times for maize in different regions to maximize your harvest.',
-      content: 'Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best planting times are typically March-April and September-October. Proper timing ensures optimal moisture availability for germination and growth.',
+      excerpt: 'Learn the optimal planting times for maize in different regions to maximize your harvest. Discover seasonal patterns and climate considerations.',
+      content: 'Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best planting times are typically March-April and September-October. Proper timing ensures optimal moisture availability for germination and growth. Consider your local climate zone and soil conditions.',
       image: '🌽',
     },
     {
       id: 2,
-      title: 'Choosing Certified Seeds',
+      title: 'How to Choose Certified Seeds for Your Farm',
       category: 'Buying Guide',
       date: 'June 2026',
       author: 'Seed Specialist',
-      excerpt: 'A comprehensive guide to selecting the right certified seeds for your farming needs.',
-      content: 'When selecting seeds, consider factors such as your local climate, soil type, market demand, and farming experience. Always choose certified seeds from reputable suppliers to ensure quality and germination rates.',
+      excerpt: 'A comprehensive guide to selecting the right certified seeds for your farming needs. Learn quality indicators and supplier selection.',
+      content: 'When selecting seeds, consider factors such as your local climate, soil type, market demand, and farming experience. Always choose certified seeds from reputable suppliers to ensure quality and germination rates. DERN SEED provides certified varieties for all major crops.',
       image: '🌱',
     },
     {
       id: 3,
-      title: 'Pest Management Tips',
+      title: 'Integrated Pest Management for African Crops',
       category: 'Crop Protection',
       date: 'May 2026',
       author: 'Technical Team',
-      excerpt: 'Effective strategies for managing common pests and protecting your crops naturally.',
-      content: 'Integrated Pest Management (IPM) combines cultural, biological, and chemical methods. Start with preventive measures like crop rotation, use resistant varieties, and monitor crops regularly for early pest detection.',
+      excerpt: 'Effective strategies for managing common pests and protecting your crops naturally. Learn IPM techniques for sustainable farming.',
+      content: 'Integrated Pest Management (IPM) combines cultural, biological, and chemical methods. Start with preventive measures like crop rotation, use resistant varieties, and monitor crops regularly for early pest detection. Disease-resistant certified seeds are your first line of defense.',
       image: '🐛',
     },
     {
@@ -85,19 +95,19 @@ export default function Blog() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-80 flex items-center overflow-hidden">
+      <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
-          <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Blog & Resources</h1>
-            <p className="text-xl text-gray-200">
+          <div className="max-w-3xl animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Blog & Resources</h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
               Educational content and farming tips to help you succeed.
             </p>
           </div>

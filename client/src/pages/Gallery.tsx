@@ -1,11 +1,21 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
+import { applySeo } from '@/lib/seo';
 
 export default function Gallery() {
+  useEffect(() => {
+    applySeo({
+      title: 'DERN SEED Gallery - Farming Operations & Community Impact',
+      description: 'View our gallery of certified seed farming operations, training sessions, and community impact across Rwanda. See potato, bean, maize, wheat, and soybean cultivation.',
+      keywords: ['seed farming gallery', 'agricultural photos', 'crop cultivation', 'farming operations Rwanda', 'certified seeds production'],
+      ogImage: '/images/logo.png',
+    });
+  }, []);
   const [activeCategory, setActiveCategory] = useState('all');
 
   const galleryItems = (() => {
@@ -54,29 +64,32 @@ export default function Gallery() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-80 flex items-center overflow-hidden">
+      <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(/gallery/Home background 1.jpeg)',
-
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
-          <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Our Gallery</h1>
-            <p className="text-xl text-gray-200">
-              Explore our farming operations, training sessions, and community impact.
+          <div className="max-w-3xl animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Our Gallery</h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
+              Explore our farming operations, training sessions, and community impact across Rwanda.
             </p>
           </div>
         </div>
       </section>
 
       {/* Gallery Section */}
-      <section className="py-20">
+      <section className="py-24">
         <div className="container">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-8 leading-tight">Browse Our Collections</h2>
+          </div>
+
           {/* Category Filter */}
           <div className="mb-12 animate-fade-in-up">
             <div className="flex flex-wrap gap-2">

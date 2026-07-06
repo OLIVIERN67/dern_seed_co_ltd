@@ -1,15 +1,19 @@
-# Backend PHP + MySQL REST API (Modular) - Progress
+# Project TODOs - DERN SEED CO LTD
 
-- [ ] Inspect existing backend structure (if any)
-- [x] Decide auth approach: **1) MySQL-backed server-side sessions**
-- [x] Create backend folder structure + bootstrap/router/core
-- [x] Implement config (DB via PDO), core router/request/response
-- [x] Implement auth endpoints: register, login, logout
-- [x] Implement auth middleware + secure session handling (DB sessions)
-- [x] Implement CRUD for starter resources (users + orders)
-- [x] Add reusable validation utilities + security helpers
-- [x] Add MySQL schema (users, sessions, orders)
-- [x] Add README + env example + run/test instructions
-- [x] Quick manual test commands (curl) AND fix any issues found
+## Completed Tasks ✅
+- [x] **Fix Homepage Background**: Removed duplicate slideshow and implemented single high-quality hero image with fade-in animation.
+- [x] **UI Design & Layout**: Increased padding, improved grid systems, and established typography hierarchy.
+- [x] **Consistent Color Theme**: Applied agriculture-themed palette (forest green, harvest gold) across all pages.
+- [x] **Mobile Responsiveness**: Implemented mobile-first design with responsive text and button sizing.
+- [x] **Navigation Enhancement**: Added hover states, sticky header, and improved mega-menu styling.
+- [x] **Product Section Fixes**: Removed naming duplications and improved card layouts.
+- [x] **Performance Optimization**: Added lazy loading and async decoding to all images.
+- [x] **Conversion Optimization**: Strengthened CTA sections with dual buttons and improved copy.
+- [x] **Trust Signals**: Added certification badges and social proof social proof.
+- [x] **SEO Implementation**: Added meta tags to Blog, Contact, and Gallery pages.
 
-
+## Next Steps 🚀
+- [ ] Monitor site analytics for improved engagement.
+- [ ] A/B test CTA button colors and copy.
+- [ ] Implement WhatsApp integration for direct customer support.
+- [ ] Gather and add real customer testimonials.

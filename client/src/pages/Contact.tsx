@@ -1,10 +1,20 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'wouter';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { applySeo } from '@/lib/seo';
 
 export default function Contact() {
+  useEffect(() => {
+    applySeo({
+      title: 'Contact DERN SEED - Get in Touch with Our Agricultural Experts',
+      description: 'Contact DERN SEED for certified seeds, agricultural support, and farming inquiries. Located in Musanze, Rwanda. Call +250 782 724 840 or email us today.',
+      keywords: ['contact DERN SEED', 'certified seeds Rwanda', 'agricultural support', 'Musanze Rwanda', 'seed supplier contact'],
+      ogImage: '/images/logo.png',
+    });
+  }, []);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -34,33 +44,33 @@ export default function Contact() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-80 flex items-center overflow-hidden">
+      <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
-          <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Get In Touch</h1>
-            <p className="text-xl text-gray-200">
-              We'd love to hear from you. Contact us with any questions or inquiries.
+          <div className="max-w-3xl animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Get In Touch</h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
+              We'd love to hear from you. Contact us with any questions about our certified seeds and agricultural services.
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20">
+      <section className="py-24">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div className="animate-slide-in-left">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Contact Info</div>
-              <h2 className="text-4xl font-bold font-poppins mb-8">Contact Information</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Contact Info</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">Contact Information</h2>
 
               <div className="space-y-6">
                 {/* Address */}

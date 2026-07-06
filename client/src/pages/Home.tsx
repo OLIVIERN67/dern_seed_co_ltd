@@ -203,46 +203,46 @@ export default function Home() {
               <span>🌱 Premium Quality Seeds</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
               Growing Agriculture Through <span className="text-amber-500">Quality Certified Seeds</span>
             </h1>
 
-            <p className="text-xl text-gray-200 mb-8 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 leading-relaxed max-w-xl">
               Empowering Farmers with Reliable Seed Solutions for Better Harvests and Sustainable Farming.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-amber-500 text-gray-900 font-bold text-sm sm:text-base rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg w-full sm:w-auto"
               >
-                Explore Products <ArrowRight className="ml-2 w-5 h-5" />
+                Explore Products <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-300"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold text-sm sm:text-base rounded-lg hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"
               >
                 Contact Us
               </Link>
             </div>
 
             {/* Hero Stats */}
-            <div className="flex gap-8 pt-8 border-t border-white/20">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-white/20">
               <div className="animate-fade-in-up stagger-1">
-                <div className="text-4xl font-bold font-poppins text-amber-500">{stats.farmers.toLocaleString()}+</div>
-                <div className="text-sm text-gray-300">Farmers Served</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.farmers.toLocaleString()}+</div>
+                <div className="text-xs text-gray-300 mt-1">Farmers Served</div>
               </div>
               <div className="animate-fade-in-up stagger-2">
-                <div className="text-4xl font-bold font-poppins text-amber-500">{stats.varieties}</div>
-                <div className="text-sm text-gray-300">Seed Varieties</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.varieties}</div>
+                <div className="text-xs text-gray-300 mt-1">Seed Varieties</div>
               </div>
               <div className="animate-fade-in-up stagger-3">
-                <div className="text-4xl font-bold font-poppins text-amber-500">{stats.experience}+</div>
-                <div className="text-sm text-gray-300">Years Experience</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.experience}+</div>
+                <div className="text-xs text-gray-300 mt-1">Years Experience</div>
               </div>
               <div className="animate-fade-in-up stagger-4">
-                <div className="text-4xl font-bold font-poppins text-amber-500">{stats.districts}</div>
-                <div className="text-sm text-gray-300">Districts Reached</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.districts}</div>
+                <div className="text-xs text-gray-300 mt-1">Districts Reached</div>
               </div>
             </div>
           </div>
@@ -250,11 +250,11 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <div className="animate-slide-in-left">
-            <div className="relative rounded-2xl overflow-hidden h-96 shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <div className="relative rounded-2xl overflow-hidden h-64 sm:h-80 md:h-96 shadow-lg hover:-translate-y-1 transition-all duration-300">
               <img
                 src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=85"
                 alt="About DERN SEED"
@@ -268,14 +268,14 @@ export default function Home() {
             </div>
 
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">About Us</div>
-              <h2 className="text-4xl font-bold font-poppins mb-6 text-gray-900">DERN SEED CO LTD</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2 sm:mb-3">About Us</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 sm:mb-8 text-gray-900 leading-tight">DERN SEED CO LTD</h2>
 
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-base sm:text-lg">
                 DERN SEED CO LTD is a professional agricultural company specializing in the production and distribution of high-quality certified seeds. We are committed to supporting farmers with reliable seed varieties that improve productivity, food security, and sustainable agriculture.
               </p>
 
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-base sm:text-lg">
                 Our mission is to empower farmers across Rwanda with access to premium certified seeds and expert agricultural support. We believe in sustainable farming practices that benefit both farmers and the environment.
               </p>
 
@@ -345,37 +345,44 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-amber-400 hover:shadow-xl hover:-translate-y-3 group animate-fade-in-up hover:bg-gradient-to-br hover:from-amber-50 hover:to-white"
+                className="bg-white border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-2xl hover:-translate-y-4 group animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="h-36 rounded-lg overflow-hidden mb-4">
+                <div className="h-48 rounded-t-xl overflow-hidden mb-0">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
                   />
                 </div>
-                <div className="inline-block px-3 py-1 bg-gradient-to-r from-green-100 to-green-50 text-green-700 text-xs font-bold rounded-full mb-3 group-hover:from-amber-100 group-hover:to-amber-50 group-hover:text-amber-700 transition-all duration-300">
-                  {product.category}
+                <div className="p-6">
+                  <div className="inline-block px-3 py-1 bg-gradient-to-r from-green-100 to-green-50 text-green-700 text-xs font-bold rounded-full mb-3 group-hover:from-green-200 group-hover:to-green-100 transition-all duration-300">
+                    {product.category}
+                  </div>
+                <h3 className="font-bold text-xl font-poppins mb-3 text-gray-900 leading-tight">{product.name}</h3>
+                <p className="text-gray-600 text-base mb-4 leading-relaxed">{product.description}</p>
+                <div className="space-y-2 mb-6">
+                  <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Key Benefits:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.benefits.map((benefit, i) => (
+                      <span key={i} className="text-xs bg-green-50 text-green-700 px-3 py-1.5 rounded-full font-medium border border-green-200">
+                        ✓ {benefit}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="font-bold text-xl font-poppins mb-2 text-gray-900">{product.name}</h3>
-                <p className="text-gray-600 text-sm mb-4">{product.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {product.benefits.map((benefit, i) => (
-                    <span key={i} className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full font-medium">
-                      {benefit}\n                    </span>
-                  ))}
+                  <Link
+                    href="/products"
+                    className="inline-flex items-center px-4 py-2 bg-green-700 text-white font-semibold text-sm rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                  >
+                    View Details <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
                 </div>
-                <Link
-                  href="/products"
-                  className="text-green-700 font-semibold text-sm hover:text-green-800 transition-all duration-300 inline-flex items-center gap-1 group-hover:gap-2"
-                >
-                  Learn More <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
               </div>
             ))}
           </div>
@@ -412,17 +419,17 @@ export default function Home() {
       </section>
 
       {/* Gallery */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Work</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Gallery</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-4 leading-tight">Gallery</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
               See our farming operations, training sessions, and community impact.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {gallery.map((item, index) => (
               <div
                 key={item.id}
@@ -433,6 +440,8 @@ export default function Home() {
                   src={item.image}
                   alt={item.label}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                   <p className="text-white font-semibold group-hover:translate-y-0 translate-y-2 transition-transform duration-300">{item.label}</p>
@@ -444,7 +453,7 @@ export default function Home() {
           <div className="text-center mt-8">
             <Link
               href="/gallery"
-              className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1"
+              className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               View Full Gallery <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
@@ -578,38 +587,46 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden">
+      <section className="relative py-24 md:py-32 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=75)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/90 to-amber-600/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 via-green-900/90 to-green-800/85" />
 
         <div className="container relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold font-poppins text-gray-900 mb-4 animate-fade-in-up">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-poppins text-white mb-6 animate-fade-in-up leading-tight">
             Ready to Improve Your Harvest?
           </h2>
-          <p className="text-lg text-gray-800 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-            Let's grow together with certified seeds and expert agricultural support.
+          <p className="text-lg md:text-xl text-gray-100 mb-10 max-w-2xl mx-auto animate-fade-in-up leading-relaxed">
+            Let's grow together with certified seeds and expert agricultural support. Join thousands of farmers achieving better results.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center px-8 py-4 bg-gray-900 text-white font-bold rounded-lg hover:bg-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-fade-in-up"
-          >
-            Contact Us Now <ArrowRight className="ml-2 w-5 h-5" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-lg"
+            >
+              Get Started Now <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+            <Link
+              href="/products"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-300 text-lg"
+            >
+              Explore Products
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Contact Preview */}
-      <section className="py-20">
+      <section className="py-24">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-12 md:gap-16">
             <div className="animate-slide-in-left">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Get In Touch</div>
-              <h2 className="text-4xl font-bold font-poppins mb-8">Contact Information</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Get In Touch</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">Contact Information</h2>
 
               <div className="space-y-6">
                 <div className="flex gap-4">

@@ -1,15 +1,14 @@
 const MAIZE_IMAGES = [
   '/gallery/maize crop 1.jpeg',
-  '/gallery/maize crop.jpeg',
-  '/gallery/maize crop 2.jpeg',
+  '/gallery/Maize crop 2.jpeg',
   '/gallery/maize crop 3.jpeg',
+  '/gallery/maize crop 6.jpeg',
+  '/gallery/maize crop 11.jpeg',
   '/gallery/maize crop4.jpeg',
-  '/gallery/maize crop 5.jpeg',
   '/gallery/maize seed 1.jpeg',
   '/gallery/maize seed 2.jpeg',
   '/gallery/maize seed 3.jpeg',
   '/gallery/maize seed.jpeg',
-  '/gallery/maize white.jpeg',
 ];
 
 

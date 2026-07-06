@@ -76,21 +76,31 @@ export default function About() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-96 flex items-center overflow-hidden">
+      <section className="relative min-h-96 flex items-center overflow-hidden py-24 md:py-32">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
-          <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">About DERN SEED</h1>
-            <p className="text-xl text-gray-200 mb-8">
-              Growing quality seeds for sustainable agriculture, since June 2020.
+          <div className="max-w-3xl animate-fade-in-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">About DERN SEED</h1>
+            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">
+              Growing quality seeds for sustainable agriculture since June 2020. Trusted by over 50,000 farmers across Rwanda.
             </p>
+            <div className="flex gap-4 flex-wrap">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-amber-500" />
+                <span className="text-white font-semibold">Certified Seeds</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-amber-500" />
+                <span className="text-white font-semibold">Expert Support</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

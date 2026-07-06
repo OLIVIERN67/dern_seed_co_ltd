@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-poppins: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -486,6 +487,54 @@
 
   .hover-border-shift {
     @apply transition-all duration-300 hover:border-green-400;
+  }
+
+  /* ===== TYPOGRAPHY HIERARCHY ===== */
+  
+  /* Heading Styles */
+  h1 {
+    @apply text-5xl md:text-6xl font-bold font-poppins leading-tight text-gray-900 mb-6;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl font-bold font-poppins leading-tight text-gray-900 mb-6;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl font-bold font-poppins leading-snug text-gray-900 mb-4;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl font-semibold font-poppins text-gray-900 mb-3;
+  }
+  
+  h5 {
+    @apply text-lg font-semibold font-poppins text-gray-900 mb-2;
+  }
+  
+  h6 {
+    @apply text-base font-semibold font-poppins text-gray-900 mb-2;
+  }
+  
+  /* Paragraph Styles */
+  p {
+    @apply text-base leading-relaxed text-gray-700;
+  }
+  
+  .text-lead {
+    @apply text-xl leading-relaxed text-gray-700;
+  }
+  
+  .text-subtitle {
+    @apply text-lg font-semibold text-gray-800;
+  }
+  
+  .text-caption {
+    @apply text-sm text-gray-600;
+  }
+  
+  .text-label {
+    @apply text-xs font-bold uppercase tracking-wider text-gray-600;
   }
 
   /* ===== TEXT UTILITIES ===== */
