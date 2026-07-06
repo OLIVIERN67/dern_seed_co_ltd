@@ -1,7 +1,15 @@
-- [ ] Identify where the missing maize image is referenced (home/products/gallery)
-- [ ] Verify correct maize image filenames exist in `client/public/gallery/` and match paths used in `galleryCropImages.ts`
-- [x] Update `client/src/lib/galleryCropImages.ts` to use valid maize/wheat images for `primary`/`secondary` when the expected file is missing
+# Backend PHP + MySQL REST API (Modular) - Progress
 
-- [ ] (If needed) update any page sections that use maize-specific cropImages (e.g., `Navigation` mega menu icons)
-- [ ] Validate build/dev and confirm the maize image loads correctly across pages/devices
+- [ ] Inspect existing backend structure (if any)
+- [x] Decide auth approach: **1) MySQL-backed server-side sessions**
+- [x] Create backend folder structure + bootstrap/router/core
+- [x] Implement config (DB via PDO), core router/request/response
+- [x] Implement auth endpoints: register, login, logout
+- [x] Implement auth middleware + secure session handling (DB sessions)
+- [x] Implement CRUD for starter resources (users + orders)
+- [x] Add reusable validation utilities + security helpers
+- [x] Add MySQL schema (users, sessions, orders)
+- [x] Add README + env example + run/test instructions
+- [x] Quick manual test commands (curl) AND fix any issues found
+
 

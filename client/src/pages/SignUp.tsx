@@ -23,21 +23,43 @@ export default function SignUp() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password === formData.confirmPassword && formData.agreeTerms) {
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          fullName: '',
-          email: '',
-          phone: '',
-          password: '',
-          confirmPassword: '',
-          agreeTerms: false,
-        });
-      }, 3000);
+
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    if (!formData.agreeTerms) {
+      alert('You must agree to the terms');
+      return;
+    }
+
+    setSubmitted(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error ?? 'Registration failed');
+      }
+
+      // After register, backend sets the session cookie.
+      window.location.href = '/';
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Registration failed');
+    } finally {
+      setSubmitted(false);
     }
   };
 

@@ -7,9 +7,30 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error ?? 'Login failed');
+      }
+
+      // Cookie-based session is set by the backend.
+      window.location.href = '/';
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Login failed');
+    }
   };
 
   return (
