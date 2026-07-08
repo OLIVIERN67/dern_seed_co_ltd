@@ -20,10 +20,10 @@ export default function Home() {
     // Animate counters
     const interval = setInterval(() => {
       setStats(prev => ({
-        farmers: prev.farmers < 50000 ? prev.farmers + 1000 : 50000,
+        farmers: prev.farmers < 18000 ? prev.farmers + 1000 : 18000,
         varieties: prev.varieties < 25 ? prev.varieties + 1 : 25,
-        experience: prev.experience < 15 ? prev.experience + 1 : 15,
-        districts: prev.districts < 30 ? prev.districts + 1 : 30,
+        experience: prev.experience < 5 ? prev.experience + 1 : 5,
+        districts: prev.districts < 14 ? prev.districts + 1 : 14,
       }));
     }, 50);
 
