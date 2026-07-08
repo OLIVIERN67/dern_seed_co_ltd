@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Zap, Shield, Users, Award, Headphones, Leaf, D
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
+import { fetchTestimonials, type Testimonial } from '@/lib/api';
 import HomeBackgroundSlideshow from './HomeBackgroundSlideshow';
 
 
@@ -142,8 +143,12 @@ export default function Home() {
     { id: 6, label: 'Certified Maize Seed', image: cropImages.maize.secondary },
   ];
 
-  const testimonials = [
+  // Testimonials are loaded dynamically from the backend (/api/testimonials).
+  // The static list below is only a fallback when the API is unreachable,
+  // so the section never renders empty.
+  const fallbackTestimonials: Testimonial[] = [
     {
+      id: 1,
       name: 'John Mugabe',
       role: 'Farmer, Musanze',
       rating: 5,
@@ -151,6 +156,7 @@ export default function Home() {
       initials: 'JM',
     },
     {
+      id: 2,
       name: 'Mary Uwimana',
       role: 'Agricultural Cooperative Lead',
       rating: 5,
@@ -158,6 +164,7 @@ export default function Home() {
       initials: 'MU',
     },
     {
+      id: 3,
       name: 'Peter Habimana',
       role: 'Commercial Farmer',
       rating: 5,
@@ -165,6 +172,24 @@ export default function Home() {
       initials: 'PH',
     },
   ];
+
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(fallbackTestimonials);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchTestimonials()
+      .then((data) => {
+        if (!cancelled && data.testimonials.length > 0) {
+          setTestimonials(data.testimonials.slice(0, 6));
+        }
+      })
+      .catch(() => {
+        // Keep the fallback testimonials when the API is unavailable.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const blogPosts = [
     {
@@ -508,7 +533,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((testimonial, index) => (
               <div
-                key={index}
+                key={testimonial.id}
                 className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-amber-400 hover:shadow-xl hover:-translate-y-3 animate-fade-in-up hover:bg-gradient-to-br hover:from-amber-50 hover:to-white group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

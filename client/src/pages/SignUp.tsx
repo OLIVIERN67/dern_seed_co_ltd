@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Eye, EyeOff, UserPlus, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, UserPlus, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { register } from '@/lib/api';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +15,7 @@ export default function SignUp() {
     confirmPassword: '',
     agreeTerms: false,
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -25,41 +27,28 @@ export default function SignUp() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
 
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      toast.error('Passwords do not match');
       return;
     }
 
     if (!formData.agreeTerms) {
-      alert('You must agree to the terms');
+      toast.error('You must agree to the terms');
       return;
     }
 
-    setSubmitted(true);
+    setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error ?? 'Registration failed');
-      }
-
+      await register(formData.fullName, formData.email, formData.password);
+      toast.success('Account created successfully! Welcome to DERN SEED.');
       // After register, backend sets the session cookie.
       window.location.href = '/';
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Registration failed');
+      toast.error(err instanceof Error ? err.message : 'Registration failed');
     } finally {
-      setSubmitted(false);
+      setLoading(false);
     }
   };
 
@@ -144,6 +133,9 @@ export default function SignUp() {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Min 8 characters with uppercase, lowercase, number, and special character.
+            </p>
           </div>
 
           {/* Confirm Password */}
@@ -181,42 +173,22 @@ export default function SignUp() {
             />
             <label className="text-sm text-gray-600">
               I agree to the{' '}
-              <a href="#" className="text-green-700 font-semibold hover:text-green-800">
+              <Link href="/contact" className="text-green-700 font-semibold hover:text-green-800">
                 Terms and Conditions
-              </a>
+              </Link>
             </label>
           </div>
 
           {/* Create Account Button */}
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 mt-6"
+            disabled={loading}
+            className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 mt-6 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
           >
-            <UserPlus className="w-5 h-5" />
-            Create Account
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <UserPlus className="w-5 h-5" />}
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
-
-          {/* Success Message */}
-          {submitted && (
-            <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-semibold animate-fade-in-up flex items-center gap-2">
-              <CheckCircle className="w-5 h-5" />
-              Account created successfully!
-            </div>
-          )}
         </form>
-
-        {/* Divider */}
-        <div className="flex items-center gap-3 my-6">
-          <div className="flex-1 h-px bg-gray-300" />
-          <span className="text-gray-500 text-sm">or</span>
-          <div className="flex-1 h-px bg-gray-300" />
-        </div>
-
-        {/* Google Sign Up */}
-        <button className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2 animate-fade-in-up">
-          <span className="text-xl">G</span>
-          Sign Up with Google
-        </button>
 
         {/* Login Link */}
         <p className="text-center text-gray-600 mt-6 animate-fade-in-up">

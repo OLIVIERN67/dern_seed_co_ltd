@@ -1,7 +1,15 @@
 import type { Request, Response } from "express";
 import { AuthService } from "../services/AuthService";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { getEnv } from "../config/env";
+
+/** Convert a ZodError into a single human-readable message. */
+function formatZodError(err: ZodError): string {
+  return err.issues.map((issue) => {
+    const field = issue.path.join(".");
+    return field ? `${field}: ${issue.message}` : issue.message;
+  }).join("; ");
+}
 
 const RegisterSchema = z.object({
   name: z.string().min(2).max(120).regex(/^[a-zA-Z\s\-']+$/, "Name can only contain letters, spaces, hyphens, and apostrophes"),
@@ -37,6 +45,10 @@ export class AuthController {
 
       res.status(201).json({ ok: true, user_id: out.userId });
     } catch (e: any) {
+      if (e instanceof ZodError) {
+        res.status(400).json({ error: formatZodError(e) });
+        return;
+      }
       const msg = e?.message ?? "Registration failed";
       const status = String(msg).toLowerCase().includes("already registered") ? 409 : 400;
       res.status(status).json({ error: msg });

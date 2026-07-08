@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createServer } from "./server";
 
 const port = process.env.PORT ? Number(process.env.PORT) : 8000;

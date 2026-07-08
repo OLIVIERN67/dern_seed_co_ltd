@@ -1,14 +1,17 @@
-name: Build and Deploy React App
+name: Full-Stack CI/CD — DERN SEED
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  # ---------------------------------------------------------------
+  # 1. Verify: type-check and build both frontend and backend
+  # ---------------------------------------------------------------
+  verify:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,15 +20,61 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install Dependencies
+      - name: Install Frontend Dependencies
         run: npm install
 
-      - name: Build Project
+      - name: Type-check Frontend
+        run: npm run check
+
+      - name: Build Frontend
+        run: npm run build
+        env:
+          # Set in repo Settings -> Secrets and variables -> Actions -> Variables
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+          VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
+          VITE_WHATSAPP_NUMBER: ${{ vars.VITE_WHATSAPP_NUMBER }}
+
+      - name: Install Backend Dependencies
+        working-directory: backend-node
+        run: npm install
+
+      - name: Build Backend
+        working-directory: backend-node
         run: npm run build
 
-      - name: Deploy to FTP
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist/
+          retention-days: 7
+
+      - name: Upload Backend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: |
+            backend-node/dist/
+            backend-node/package.json
+            backend-node/package-lock.json
+            backend-node/src/db/schema.sql
+          retention-days: 7
+
+  # ---------------------------------------------------------------
+  # 2. Deploy frontend static build via FTP (shared hosting)
+  # ---------------------------------------------------------------
+  deploy-frontend:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Frontend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist/
+
+      - name: Deploy Frontend to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -36,3 +85,63 @@ jobs:
           local-dir: dist/
           server-dir: /
           dangerous-clean-slate: true
+
+  # ---------------------------------------------------------------
+  # 3. Deploy backend via SSH (VPS with Node.js + MariaDB + PM2)
+  #    Requires secrets: SSH_HOST, SSH_USER, SSH_PRIVATE_KEY,
+  #    and BACKEND_DIR (e.g. /var/www/dernseed-backend).
+  #    Skipped automatically when SSH_HOST is not configured.
+  # ---------------------------------------------------------------
+  deploy-backend:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check SSH configuration
+        id: check-ssh
+        run: |
+          if [ -n "${{ secrets.SSH_HOST }}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "SSH secrets not configured — skipping backend deployment."
+          fi
+
+      - name: Download Backend Artifact
+        if: steps.check-ssh.outputs.enabled == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-dist
+          path: backend-node/
+
+      - name: Copy Backend to Server
+        if: steps.check-ssh.outputs.enabled == 'true'
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "backend-node/*"
+          target: ${{ secrets.BACKEND_DIR }}
+          strip_components: 1
+
+      - name: Install & Restart Backend on Server
+        if: steps.check-ssh.outputs.enabled == 'true'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd "${{ secrets.BACKEND_DIR }}"
+            # The server keeps its own .env file (never committed to git).
+            # See backend-node/.env.example for the required variables.
+            npm install --omit=dev
+            # Apply schema (idempotent: uses CREATE TABLE IF NOT EXISTS)
+            if [ -n "${{ secrets.DB_NAME }}" ]; then
+              mysql -h "${{ secrets.DB_HOST }}" -u "${{ secrets.DB_USER }}" -p"${{ secrets.DB_PASS }}" "${{ secrets.DB_NAME }}" < src/db/schema.sql || true
+            fi
+            # Restart with PM2 (installs it if missing)
+            command -v pm2 >/dev/null 2>&1 || npm install -g pm2
+            pm2 restart dern-seed-backend || pm2 start dist/index.js --name dern-seed-backend
+            pm2 save

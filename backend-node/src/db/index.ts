@@ -6,6 +6,7 @@ import { createProductRepository } from "./repositories/productRepository";
 import { createSeedRepository } from "./repositories/seedRepository";
 import { createFarmerRepository } from "./repositories/farmerRepository";
 import { createEmployeeRepository } from "./repositories/employeeRepository";
+import { createTestimonialRepository } from "./repositories/testimonialRepository";
 
 import { getEnv, requireEnv } from "../config/env";
 
@@ -30,6 +31,7 @@ export const db = {
   seeds: createSeedRepository(pool),
   farmers: createFarmerRepository(pool),
   employees: createEmployeeRepository(pool),
+  testimonials: createTestimonialRepository(pool),
 };
 
 

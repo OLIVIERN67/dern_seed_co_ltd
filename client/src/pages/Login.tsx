@@ -1,35 +1,29 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { login } from '@/lib/api';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL ?? ''}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error ?? 'Login failed');
-      }
-
+      await login(email, password);
+      toast.success('Signed in successfully. Welcome back!');
       // Cookie-based session is set by the backend.
       window.location.href = '/';
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Login failed');
+      toast.error(err instanceof Error ? err.message : 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,39 +112,27 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Remember Me & Forgot Password */}
+            {/* Remember Me & Contact Support */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-gray-700">
                 <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
                 Remember me
               </label>
-              <a href="#" className="text-green-700 hover:text-green-800 font-semibold">
-                Forgot password?
-              </a>
+              <Link href="/contact" className="text-green-700 hover:text-green-800 font-semibold">
+                Forgot password? Contact us
+              </Link>
             </div>
 
             {/* Sign In Button */}
             <button
               type="submit"
-              className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 mt-6"
+              disabled={loading}
+              className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 mt-6 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
             >
-              <LogIn className="w-5 h-5" />
-              Sign In
+              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <LogIn className="w-5 h-5" />}
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-gray-300" />
-            <span className="text-gray-500 text-sm">or</span>
-            <div className="flex-1 h-px bg-gray-300" />
-          </div>
-
-          {/* Google Sign In */}
-          <button className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2">
-            <span className="text-xl">G</span>
-            Continue with Google
-          </button>
 
           {/* Sign Up Link */}
           <p className="text-center text-gray-600 mt-6">

@@ -16,10 +16,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
+    <!--
+      Analytics: Google Analytics 4 is loaded at runtime by the app
+      (client/src/lib/analytics.ts) when VITE_GA_MEASUREMENT_ID is configured.
+      No hardcoded analytics script tag is needed here.
+    -->
   </body>
 
 </html>

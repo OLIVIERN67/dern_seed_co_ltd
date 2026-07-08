@@ -10,16 +10,27 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Serve static files from dist/public in production
+  // Vite builds the frontend into `dist/` (see vite.config.ts `build.outDir`).
+  // In production this file is bundled to `dist/index.js`, so static assets live
+  // in the same directory (`__dirname`). In development they live in `../dist`.
   const staticPath =
     process.env.NODE_ENV === "production"
-      ? path.resolve(__dirname, "public")
-      : path.resolve(__dirname, "..", "dist", "public");
+      ? path.resolve(__dirname)
+      : path.resolve(__dirname, "..", "dist");
 
   app.use(express.static(staticPath));
 
-  // Handle client-side routing - serve index.html for all routes
-  app.get("*", (_req, res) => {
+  // Handle client-side routing - serve index.html for all non-API routes.
+  // API requests should be routed to the backend (backend-node) by a reverse
+  // proxy such as Nginx in production. See DEPLOYMENT.md for details.
+  app.get("*", (req, res) => {
+    if (req.path.startsWith("/api/")) {
+      res.status(502).json({
+        error:
+          "API requests must be proxied to the backend service (backend-node). Check your reverse proxy configuration.",
+      });
+      return;
+    }
     res.sendFile(path.join(staticPath, "index.html"));
   });
 

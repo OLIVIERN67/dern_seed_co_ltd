@@ -6,10 +6,13 @@ export const farmerRouter = Router();
 
 // Public routes
 farmerRouter.get("/api/farmers", FarmerController.list);
-farmerRouter.get("/api/farmers/:id", FarmerController.getById);
 
 // Protected routes (require authentication)
-farmerRouter.post("/api/farmers", requireAuth, FarmerController.create);
+// NOTE: "/me" must be registered BEFORE "/:id", otherwise Express matches "me" as an :id param.
 farmerRouter.get("/api/farmers/me", requireAuth, FarmerController.getMyProfile);
+farmerRouter.post("/api/farmers", requireAuth, FarmerController.create);
+
+// Public parameterized route (after "/me")
+farmerRouter.get("/api/farmers/:id", FarmerController.getById);
 farmerRouter.patch("/api/farmers/:id", requireAuth, FarmerController.updateById);
 farmerRouter.delete("/api/farmers/:id", requireAuth, FarmerController.deleteById);

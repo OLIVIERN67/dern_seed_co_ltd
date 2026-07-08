@@ -1,9 +1,12 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { useEffect } from "react";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import WhatsAppButton from "./components/WhatsAppButton";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { initAnalytics, trackPageView } from "./lib/analytics";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Products from "./pages/Products";
@@ -33,6 +36,21 @@ function Router() {
   );
 }
 
+/** Initializes analytics once and tracks SPA route changes. */
+function AnalyticsTracker() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location);
+  }, [location]);
+
+  return null;
+}
+
 function App() {
   return (
     <ErrorBoundary>
@@ -42,7 +60,9 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <AnalyticsTracker />
           <Router />
+          <WhatsAppButton />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

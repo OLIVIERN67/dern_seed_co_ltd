@@ -129,8 +129,39 @@ CREATE TABLE IF NOT EXISTS employees (
   INDEX idx_is_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert default admin user (password: Admin123!)
--- Password hash for 'Admin123!' generated with bcrypt
-INSERT INTO users (name, email, password_hash, role) 
-VALUES ('Admin', 'admin@dernseed.com', '$2a$10$YourHashedPasswordHere', 'admin')
-ON DUPLICATE KEY UPDATE email=email;
+-- Create testimonials table
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  role VARCHAR(120),
+  rating TINYINT NOT NULL DEFAULT 5,
+  message TEXT NOT NULL,
+  initials VARCHAR(4),
+  is_approved TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_is_approved (is_approved),
+  INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed initial testimonials (idempotent: only insert when table is empty)
+INSERT INTO testimonials (name, role, rating, message, initials)
+SELECT * FROM (
+  SELECT 'John Mugabe' AS name, 'Farmer, Musanze' AS role, 5 AS rating,
+         'DERN SEED has transformed my farming. The quality of seeds and support is exceptional.' AS message, 'JM' AS initials
+  UNION ALL
+  SELECT 'Mary Uwimana', 'Agricultural Cooperative Lead', 5,
+         'We trust DERN SEED for all our seed needs. Their certified varieties have increased our yields significantly.', 'MU'
+  UNION ALL
+  SELECT 'Peter Habimana', 'Commercial Farmer', 5,
+         'The germination rates are consistently high. Excellent customer service and technical support.', 'PH'
+) AS seed_data
+WHERE NOT EXISTS (SELECT 1 FROM testimonials LIMIT 1);
+
+-- Insert default admin user
+-- Default credentials: admin@dernseed.com / Admin123!
+-- IMPORTANT: change this password immediately after the first login in production.
+-- The hash below is a real bcrypt hash (cost 10) of 'Admin123!'.
+INSERT INTO users (name, email, password_hash, role)
+VALUES ('Admin', 'admin@dernseed.com', '$2b$10$ajhXagcjMrlEeG8mx6bDLe2njAuplCaHODSNtZnnceY9EAIlJ1582', 'admin')
+ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash), role = 'admin';
