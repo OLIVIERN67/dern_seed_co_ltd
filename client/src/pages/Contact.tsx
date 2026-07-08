@@ -30,14 +30,63 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validate = () => {
+    const next: Record<string, string> = {};
+
+    if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
+      next.fullName = 'Full name is required.';
+    }
+
+    if (!formData.email.trim()) {
+      next.email = 'Email is required.';
+    } else {
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim());
+      if (!ok) next.email = 'Enter a valid email address.';
+    }
+
+    if (!formData.phone.trim() || formData.phone.trim().length < 3) {
+      next.phone = 'Phone number is required.';
+    }
+
+    if (!formData.subject.trim()) {
+      next.subject = 'Subject is required.';
+    }
+
+    if (!formData.message.trim() || formData.message.trim().length < 5) {
+      next.message = 'Message is required (min 5 characters).';
+    }
+
+    return next;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setSubmitted(true);
-    setTimeout(() => {
+
+    const nextErrors = validate();
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    try {
+      setSubmitted(true);
+      const { api } = await import('@/lib/api');
+
+      await api.post<{ ok: boolean; id: number }>("/api/contact", {
+        ...formData,
+        language: null,
+      });
+
+      setErrors({});
       setSubmitted(false);
       setFormData({ fullName: '', email: '', phone: '', subject: '', message: '' });
-    }, 3000);
+    } catch {
+      setSubmitted(false);
+      setErrors((prev) => ({
+        ...prev,
+        form: 'Submission failed. Please try again later.',
+      }));
+    }
   };
 
   return (
@@ -70,7 +119,7 @@ export default function Contact() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div className="animate-slide-in-left">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Contact Info</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Contact Info</div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">Contact Information</h2>
 
               <div className="space-y-6">
@@ -123,9 +172,7 @@ export default function Contact() {
                   <div>
                     <div className="font-bold text-gray-900 mb-1">Business Hours</div>
                     <div className="text-gray-600">
-                      Monday - Friday: 8:00 AM - 5:00 PM<br />
-                      Saturday: 9:00 AM - 1:00 PM<br />
-                      Sunday: Closed
+                      Monday - Friday: 8:00 AM - 5:00 PM
                     </div>
                   </div>
                 </div>
@@ -134,11 +181,10 @@ export default function Contact() {
               {/* Map */}
               <div className="mt-8 rounded-xl overflow-hidden h-64 shadow-lg border border-gray-200">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.1234567890!2d29.6!3d-1.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d8d8d8d8d8d8d9%3A0x1234567890abcdef!2sMuhoza%20Sector%2C%20Musanze%20District%2C%20Rwanda!5e0!3m2!1sen!2srw!4v1234567890"
+                  src="https://maps.app.goo.gl/3ERniWZbfJKnc9hN7"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
@@ -163,6 +209,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
                     placeholder="Your name"
                   />
+                  {errors.fullName && (
+                    <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -177,6 +226,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
                     placeholder="your@email.com"
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+                  )}
                 </div>
 
                 {/* Phone */}
@@ -190,6 +242,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
                     placeholder="+250 (0) XXX XXX XXX"
                   />
+                  {errors.phone && (
+                    <p className="mt-1 text-xs text-red-600">{errors.phone}</p>
+                  )}
                 </div>
 
                 {/* Subject */}
@@ -223,6 +278,9 @@ export default function Contact() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent resize-none"
                     placeholder="Your message here..."
                   />
+                  {errors.message && (
+                    <p className="mt-1 text-xs text-red-600">{errors.message}</p>
+                  )}
                 </div>
 
                 {/* Submit Button */}
@@ -238,6 +296,12 @@ export default function Contact() {
                 {submitted && (
                   <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-semibold animate-fade-in-up">
                     ✓ Message sent successfully! We'll get back to you soon.
+                  </div>
+                )}
+
+                {errors.form && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 font-semibold animate-fade-in-up">
+                    {errors.form}
                   </div>
                 )}
               </form>

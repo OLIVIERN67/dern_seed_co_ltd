@@ -36,10 +36,21 @@ const productCategories = [
   },
 ];
 
+const aboutMenuItems = [
+  { name: 'Staff Information', href: '/about#staff' },
+  { name: 'Mission', href: '/about#mission' },
+  { name: 'Vision', href: '/about#vision' },
+  { name: 'Values', href: '/about#values' },
+  { name: 'Goals', href: '/about#goals' },
+  { name: 'What We Do', href: '/about#what-we-do' },
+  { name: 'Staff Administration', href: '/about#staff-administration' },
+];
+
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [aboutMenuOpen, setAboutMenuOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -89,12 +100,38 @@ export default function Navigation() {
           >
             Home
           </Link>
-          <Link
-            href="/about"
-            className="text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
+          {/* About Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setAboutMenuOpen(true)}
+            onMouseLeave={() => setAboutMenuOpen(false)}
           >
-            About
-          </Link>
+            <button
+              type="button"
+              className="flex items-center gap-1 text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
+              aria-expanded={aboutMenuOpen}
+            >
+              About
+              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${aboutMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {aboutMenuOpen && (
+              <div className="absolute left-0 top-full mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg animate-fade-in-down z-50">
+                <div className="py-2">
+                  {aboutMenuItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                      onClick={() => setAboutMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Products Mega Menu Trigger */}
           <div
@@ -119,17 +156,13 @@ export default function Navigation() {
                 id="products-mega-menu"
                 className="fixed left-0 top-20 w-full bg-white border-t border-b border-gray-200 shadow-xl animate-fade-in-down"
               >
-
                 <div className="container py-8">
                   <div className="grid grid-cols-5 gap-6">
                     {productCategories.map((cat) => (
                       <div key={cat.name} className="group">
-                        <div className="flex items-center gap-2 mb-2">
-                          <img src={cat.icon} alt={cat.name} className="w-10 h-10 rounded-md object-cover" />
-                          <h4 className="font-bold text-gray-900 font-poppins text-sm group-hover:text-green-700 transition-colors">
-                            {cat.name}
-                          </h4>
-                        </div>
+                        <h4 className="font-bold text-gray-900 font-poppins text-sm group-hover:text-green-700 transition-colors mb-3">
+                          {cat.name}
+                        </h4>
                         <p className="text-xs text-gray-500 mb-3">{cat.description}</p>
                         <ul className="space-y-1.5">
                           {cat.varieties.map((variety) => (
@@ -228,13 +261,34 @@ export default function Navigation() {
             >
               Home
             </Link>
-            <Link
-              href="/about"
-              className="block text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              About
-            </Link>
+            {/* About Dropdown (Mobile) */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setAboutMenuOpen(!aboutMenuOpen)}
+                className="w-full flex items-center justify-between text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors py-2"
+              >
+                About
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${aboutMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {aboutMenuOpen && (
+                <div className="pl-4 space-y-1">
+                  {aboutMenuItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block text-gray-600 font-inter text-sm hover:text-green-700 transition-colors py-2"
+                      onClick={() => {
+                        setAboutMenuOpen(false);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
       {/* Products (no dropdown) */}
             <div>

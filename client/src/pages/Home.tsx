@@ -234,15 +234,30 @@ export default function Home() {
 
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-500/40 text-amber-500 px-4 py-2 rounded-full mb-6 text-xs font-bold uppercase tracking-wider">
+            {/* Welcome Message from Father Alexandre */}
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl">🌱</span>
+                </div>
+                <div>
+                  <p className="text-white text-sm font-semibold mb-2">Welcome from Father Alexandre NTABANGANYIMANA</p>
+                  <p className="text-gray-200 text-xs sm:text-sm leading-relaxed">
+                    Managing Director, DERN SEED Company Ltd. We are committed to providing quality certified seeds to empower farmers and transform agriculture in Rwanda.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-500/40 text-amber-500 px-4 py-2 rounded-full mb-4 text-xs font-bold uppercase tracking-wider">
               <span>🌱 Premium Quality Seeds</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-white mb-4 leading-tight">
               Growing Agriculture Through <span className="text-amber-500">Quality Certified Seeds</span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed max-w-xl">
               Empowering Farmers with Reliable Seed Solutions for Better Harvests and Sustainable Farming.
             </p>
 

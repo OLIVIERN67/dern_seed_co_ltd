@@ -8,7 +8,13 @@ import { createFarmerRepository } from "./repositories/farmerRepository";
 import { createEmployeeRepository } from "./repositories/employeeRepository";
 import { createTestimonialRepository } from "./repositories/testimonialRepository";
 
+// New repositories for public contact/product inquiry + blog documents
+import { createContactMessageRepository } from "./repositories/contactMessageRepository";
+import { createProductInquiryRepository } from "./repositories/productInquiryRepository";
+import { createBlogDocumentRepository } from "./repositories/blogDocumentRepository";
+
 import { getEnv, requireEnv } from "../config/env";
+
 
 const pool = mysql.createPool({
   host: requireEnv("DB_HOST"),
@@ -32,6 +38,10 @@ export const db = {
   farmers: createFarmerRepository(pool),
   employees: createEmployeeRepository(pool),
   testimonials: createTestimonialRepository(pool),
+  contactMessages: createContactMessageRepository(pool),
+  productInquiries: createProductInquiryRepository(pool),
+  blogDocuments: createBlogDocumentRepository(pool),
 };
+
 
 

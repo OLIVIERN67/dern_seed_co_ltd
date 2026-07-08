@@ -8,6 +8,10 @@ import { seedRouter } from "./seeds";
 import { farmerRouter } from "./farmers";
 import { employeeRouter } from "./employees";
 import { testimonialRouter } from "./testimonials";
+import { contactRouter } from "./contact";
+import { productInquiryRouter } from "./productInquiries";
+import { blogDocumentsRouter } from "./blogDocuments";
+
 
 export const routes = Router();
 
@@ -20,6 +24,10 @@ routes.use(authRouter);
 routes.use(userRouter);
 routes.use(orderRouter);
 routes.use(productRouter);
+routes.use(contactRouter);
+routes.use(productInquiryRouter);
+routes.use(blogDocumentsRouter);
+
 routes.use(seedRouter);
 routes.use(farmerRouter);
 routes.use(employeeRouter);
