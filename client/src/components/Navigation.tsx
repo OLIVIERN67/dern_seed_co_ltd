@@ -61,14 +61,7 @@ export default function Navigation() {
     closeTimer.current = setTimeout(() => setMegaMenuOpen(false), 150);
   };
 
-  const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Gallery', href: '/gallery' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Contact', href: '/contact' },
-  ];
+
 
   return (
     <nav
@@ -110,9 +103,11 @@ export default function Navigation() {
             onMouseLeave={scheduleClose}
           >
             <button
+              type="button"
               onClick={() => setMegaMenuOpen((v) => !v)}
               className="flex items-center gap-1 text-gray-600 font-inter text-sm font-medium px-3 py-2 rounded-lg hover:text-green-700 hover:bg-green-50 transition-all duration-300"
               aria-expanded={megaMenuOpen}
+              aria-controls="products-mega-menu"
             >
               Products
               <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${megaMenuOpen ? 'rotate-180' : ''}`} />
@@ -121,10 +116,10 @@ export default function Navigation() {
             {/* Mega Menu Panel */}
             {megaMenuOpen && (
               <div
+                id="products-mega-menu"
                 className="fixed left-0 top-20 w-full bg-white border-t border-b border-gray-200 shadow-xl animate-fade-in-down"
-                onMouseEnter={openMenu}
-                onMouseLeave={scheduleClose}
               >
+
                 <div className="container py-8">
                   <div className="grid grid-cols-5 gap-6">
                     {productCategories.map((cat) => (
@@ -241,39 +236,22 @@ export default function Navigation() {
               About
             </Link>
 
-            {/* Mobile Products Accordion */}
+      {/* Products (no dropdown) */}
             <div>
               <button
-                onClick={() => setMobileProductsOpen((v) => !v)}
+                type="button"
+                onClick={() => {
+                  setMobileProductsOpen(false);
+                  setIsOpen(false);
+                  window.location.href = '/products';
+                }}
                 className="w-full flex items-center justify-between text-gray-600 font-inter text-sm font-medium hover:text-green-700 transition-colors py-2"
               >
                 Products
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${mobileProductsOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className="w-4 h-4 opacity-0" />
               </button>
-              {mobileProductsOpen && (
-                <div className="pl-4 pb-2 space-y-4">
-                  {productCategories.map((cat) => (
-                    <div key={cat.name}>
-                      <div className="flex items-center gap-2 mb-1">
-                        <img src={cat.icon} alt={cat.name} className="w-7 h-7 rounded object-cover" />
-                        <span className="text-sm font-semibold text-gray-800">{cat.name}</span>
-                      </div>
-                      <div className="flex flex-wrap gap-1.5 pl-6">
-                        {cat.varieties.map((variety) => (
-                          <span key={variety} className="text-xs text-gray-500">{variety}</span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  <Link
-                    href="/products"
-                    onClick={() => { setIsOpen(false); setMobileProductsOpen(false); }}
-                    className="inline-flex items-center text-sm font-semibold text-green-700 pl-1"
-                  >
-                    View All Products <ArrowRight className="ml-1.5 w-4 h-4" />
-                  </Link>
-                </div>
-              )}
+
+
             </div>
 
             <Link

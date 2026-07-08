@@ -13,6 +13,7 @@ export default function Contact() {
       description: 'Contact DERN SEED for certified seeds, agricultural support, and farming inquiries. Located in Musanze, Rwanda. Call +250 782 724 840 or email us today.',
       keywords: ['contact DERN SEED', 'certified seeds Rwanda', 'agricultural support', 'Musanze Rwanda', 'seed supplier contact'],
       ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/contact',
     });
   }, []);
   const [formData, setFormData] = useState({

@@ -13,6 +13,7 @@ export default function Blog() {
       description: 'Learn farming best practices, seed selection guides, pest management, soil preparation, and water management tips from DERN SEED agricultural experts.',
       keywords: ['farming tips', 'agricultural guide', 'seed selection', 'pest management', 'soil preparation', 'water management', 'crop protection', 'Rwanda agriculture'],
       ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/blog',
     });
   }, []);
   const [searchTerm, setSearchTerm] = useState('');

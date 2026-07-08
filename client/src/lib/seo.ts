@@ -3,9 +3,10 @@ interface SeoConfig {
   description: string;
   keywords: string[];
   ogImage?: string;
+  canonical?: string;
 }
 
-export function applySeo({ title, description, keywords, ogImage }: SeoConfig) {
+export function applySeo({ title, description, keywords, ogImage, canonical }: SeoConfig) {
   // Set document title
   document.title = title;
 
@@ -27,6 +28,17 @@ export function applySeo({ title, description, keywords, ogImage }: SeoConfig) {
   }
   metaKeywords.setAttribute('content', keywords.join(', '));
 
+  // Update or create canonical URL
+  if (canonical) {
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', canonical);
+  }
+
   // Update or create OG title
   let ogTitle = document.querySelector('meta[property="og:title"]');
   if (!ogTitle) {
@@ -44,6 +56,17 @@ export function applySeo({ title, description, keywords, ogImage }: SeoConfig) {
     document.head.appendChild(ogDescription);
   }
   ogDescription.setAttribute('content', description);
+
+  // Update or create OG URL
+  if (canonical) {
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta');
+      ogUrl.setAttribute('property', 'og:url');
+      document.head.appendChild(ogUrl);
+    }
+    ogUrl.setAttribute('content', canonical);
+  }
 
   // Update or create OG image if provided
   if (ogImage) {

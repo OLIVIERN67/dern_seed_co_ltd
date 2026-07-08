@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, ChevronDown, Leaf, TrendingUp, Users, Award, Headphones, Droplet, Sprout, ShieldCheck, GraduationCap, MapPin as MapPinIcon, FlaskConical, Handshake, Landmark, HeartHandshake, Truck, ClipboardList, BarChart3 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { applySeo } from '@/lib/seo';
 
 export default function Services() {
+  useEffect(() => {
+    applySeo({
+      title: 'DERN SEED Services - Certified Seed Production & Agricultural Solutions',
+      description: 'Discover DERN SEED services: certified seed production, agricultural training, technical support, seed processing, and distribution. Comprehensive farming solutions for Rwandan farmers.',
+      keywords: ['seed production services', 'agricultural training Rwanda', 'certified seed multiplication', 'farming technical support', 'seed processing', 'agricultural solutions', 'DERN SEED services'],
+      ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/services',
+    });
+  }, []);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const services = [

@@ -5,10 +5,20 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
 import { fetchTestimonials, type Testimonial } from '@/lib/api';
+import { applySeo } from '@/lib/seo';
 import HomeBackgroundSlideshow from './HomeBackgroundSlideshow';
 
 
 export default function Home() {
+  useEffect(() => {
+    applySeo({
+      title: 'DERN SEED CO LTD — Certified Seed Solutions | Rwanda\'s Premier Agricultural Seed Company',
+      description: 'DERN SEED Company Ltd provides certified seeds for maize, beans, potatoes, wheat, and soybeans in Rwanda. Quality-assured seeds produced under national standards for optimal crop yield and agricultural success.',
+      keywords: ['certified seeds Rwanda', 'agricultural seeds', 'maize seeds', 'bean seeds', 'potato seeds', 'wheat seeds', 'soybean seeds', 'DERN SEED', 'Rwanda agriculture', 'seed company', 'farming solutions', 'crop seeds', 'quality seeds', 'Musanze Rwanda'],
+      ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/',
+    });
+  }, []);
   const [stats, setStats] = useState({
     farmers: 0,
     varieties: 0,
@@ -274,16 +284,106 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Managing Director Welcome Section (jump target) */}
+      <section id="managing-director" className="py-16 sm:py-20 md:py-24 bg-gray-50">
+        <div className="container">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+            <div className="animate-slide-in-left">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg h-72 sm:h-80 md:h-[28rem]">
+                <img
+                  src="/gallery/managing director.jpeg"
+                  alt="Managing Director of DERN SEED Company Ltd"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-green-900/75 via-green-900/20 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full">
+                    <span className="text-amber-500 font-bold">🌱</span>
+                    <span className="text-xs sm:text-sm font-bold">Welcome from our Managing Director</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="animate-slide-in-right">
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Welcome Message</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 text-gray-900 leading-tight">
+                Welcome Message from the Managing Director
+              </h2>
+
+              {/* Clean, balanced layout: right text block + optional Read More */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div className="grid md:grid-cols-1 gap-6">
+                  <div>
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-4">
+                      <span className="font-semibold">Dear Valued Visitors, Partners, Farmers, and Stakeholders,</span>
+                    </p>
+
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                      Welcome to <span className="font-semibold">Dern Seed Company Ltd.</span> We are honored to serve Rwanda’s agricultural community through high-quality certified seeds and reliable support.
+                    </p>
+
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed mt-4">
+                      Our mission is simple: ensure farmers have access to trustworthy, high-performing, and climate-resilient seed varieties.
+                    </p>
+
+                    <details className="mt-4">
+                      <summary className="cursor-pointer select-none inline-flex items-center gap-2 text-green-700 font-semibold">
+                        Read More
+                        <ArrowRight className="w-4 h-4" />
+                      </summary>
+                      <div className="mt-3 text-gray-700 text-base sm:text-lg leading-relaxed space-y-4">
+                        <p>
+                          As the Managing Director, I am honored to lead an organization committed to strengthening Rwanda's agricultural sector through the production and supply of high-quality certified seeds and innovative agricultural services.
+                        </p>
+                        <p>
+                          Since our establishment in 2020 under the Diocese of Ruhengeri, we remain dedicated to improving food security, increasing agricultural productivity, and enhancing the livelihoods of farming communities across Rwanda.
+                        </p>
+                        <p>
+                          We believe that <span className="font-semibold">quality seed is the foundation of successful agriculture.</span> This enables farmers to achieve higher yields, better incomes, and sustainable farming systems.
+                        </p>
+                        <p>
+                          Beyond seed production, Dern Seed Company Ltd provides comprehensive agricultural services, including technical training, extension support, contract farming, seed quality assurance, agribusiness advisory services, and market linkage initiatives.
+                        </p>
+                        <p>
+                          On behalf of our Board of Directors, management team, and dedicated staff, I sincerely thank you for your interest. We look forward to building lasting partnerships and growing together toward a more productive, prosperous, and food-secure future.
+                        </p>
+                        <p>
+                          <span className="font-semibold">Thank you for visiting our website, and welcome to the Dern Seed Company Ltd family.</span>
+                        </p>
+                      </div>
+                    </details>
+                  </div>
+
+                  <div className="pt-4 border-t border-gray-100 mt-2 space-y-3">
+                    <p className="text-gray-900 font-bold text-xl sm:text-2xl leading-snug">Rev. Fr. Alexandre NTABANGANYIMANA</p>
+                    <div className="flex items-center gap-3">
+                      <div className="h-px bg-gray-200 w-16" />
+                      <p className="text-green-700 font-semibold tracking-wide">Managing Director</p>
+                      <div className="h-px bg-gray-200 w-16" />
+                    </div>
+                    <p className="text-gray-700 font-semibold text-base">Dern Seed Company Ltd</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
+
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <div className="animate-slide-in-left">
               <div className="relative rounded-2xl overflow-hidden h-64 sm:h-80 md:h-96 shadow-lg hover:-translate-y-1 transition-all duration-300">
               <img
                 src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=85"
-                alt="About DERN SEED"
+                alt="Agricultural farming field with crops representing DERN SEED's certified seed production"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
                 <div className="absolute bottom-6 left-6 bg-gray-900/90 text-white p-4 rounded-lg backdrop-blur-sm">
                   <div className="text-3xl font-bold font-poppins text-amber-500">15+</div>

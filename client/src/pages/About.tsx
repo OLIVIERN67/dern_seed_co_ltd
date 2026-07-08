@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { applySeo } from '@/lib/seo';
 
 export default function About() {
+  useEffect(() => {
+    applySeo({
+      title: 'About DERN SEED - Rwanda\'s Leading Certified Seed Company',
+      description: 'Learn about DERN SEED Company Ltd, Rwanda\'s premier certified seed provider. Discover our mission, values, and commitment to agricultural excellence since 2019.',
+      keywords: ['about DERN SEED', 'certified seed company Rwanda', 'agricultural company', 'seed production', 'farming solutions', 'Musanze Rwanda', 'agricultural excellence'],
+      ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/about',
+    });
+  }, []);
   const values = [
     {
       icon: <CheckCircle className="w-8 h-8" />,
@@ -112,9 +123,12 @@ export default function About() {
             <div className="animate-slide-in-left">
               <div className="relative rounded-2xl overflow-hidden h-96 shadow-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=600&q=85"
-                  alt="Dern Seed Company field operations"
+                  src="/gallery/Our Gallery background.jpeg"
+                  alt="Our Gallery Background"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/gallery/managing director.jpeg';
+                  }}
                 />
               </div>
             </div>

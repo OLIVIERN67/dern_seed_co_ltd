@@ -1,18 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Filter, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, ChevronDown } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { cropImages } from '@/lib/cropImages';
+import { applySeo } from '@/lib/seo';
 
 export default function Products() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    applySeo({
+      title: 'DERN SEED Products - Certified Seeds for Maize, Beans, Potatoes, Wheat & Soybeans',
+      description: 'Browse DERN SEED certified seeds: Irish potato, bean, maize, wheat, and soybean varieties. Quality-assured seeds produced under national standards for optimal crop yield.',
+      keywords: ['certified seeds Rwanda', 'maize seeds', 'bean seeds', 'potato seeds', 'wheat seeds', 'soybean seeds', 'seed varieties', 'agricultural seeds', 'crop seeds', 'quality seeds'],
+      ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/products',
+    });
+
+    // Add Product Schema
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'DERN SEED Certified Seeds',
+      description: 'Quality-certified seeds for maize, beans, potatoes, wheat, and soybeans',
+      itemListElement: products.map((product, index) => ({
+        '@type': 'Product',
+        position: index + 1,
+        name: product.name,
+        description: product.description,
+        category: product.category,
+        brand: {
+          '@type': 'Brand',
+          name: 'DERN SEED Company Ltd'
+        }
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(productSchema);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   const products = [
     {
       id: 1,
       name: 'Certified Irish Potato Seed',
-      image: cropImages.potato.primary,
       category: 'Root Crops',
       description: "Improved varieties offering high productivity, good processing quality, and excellent adaptability to Rwanda's highland farming systems.",
       varieties: ['Kirundo', 'Ndamira', 'Gikungu', 'Cyerekezo'],
@@ -21,7 +59,6 @@ export default function Products() {
     {
       id: 2,
       name: 'Certified Bean Seed',
-      image: cropImages.bean.primary,
       category: 'Legumes',
       description: 'Selected for high yield potential, nutritional value, and adaptability to different agro-ecological conditions.',
       varieties: ['RWR 3194', 'RWV 3316', 'MAC 44', 'Mwirasi', 'MBC23', 'Kigondo', 'RWV1129', 'RWV2350-2B'],
@@ -30,7 +67,6 @@ export default function Products() {
     {
       id: 3,
       name: 'Certified Maize Seed',
-      image: cropImages.maize.primary,
       category: 'Cereals',
       description: 'Improved maize varieties that provide reliable performance and high productivity across different ecological regions.',
       varieties: ['RHMH1520', 'PAN661', 'H628', 'H629'],
@@ -39,7 +75,6 @@ export default function Products() {
     {
       id: 4,
       name: 'Certified Wheat Seed',
-      image: cropImages.wheat.secondary,
       category: 'Cereals',
       description: "Produced under strict quality control to ensure strong crop establishment and high grain quality, adapted to Rwanda's wheat-growing areas.",
       varieties: ['Nyaruka', 'Gihundo', 'Kibatsi', 'Majyambere', 'Mizero', 'Reberaho'],
@@ -48,7 +83,6 @@ export default function Products() {
     {
       id: 5,
       name: 'Certified Soybean Seed',
-      image: cropImages.soybean.primary,
       category: 'Legumes',
       description: 'Quality soybean seed suitable for grain production, processing industries, and sustainable crop rotation systems.',
       varieties: ['RWASOYA 20-8', 'RWASOYA 20-3', 'PEKA 6'],
@@ -97,26 +131,39 @@ export default function Products() {
       {/* Products Section */}
       <section className="py-20">
         <div className="container">
-          {/* Filters */}
+          {/* Filters - Professional Dropdown */}
           <div className="mb-12 animate-fade-in-up">
-            <div className="flex items-center gap-2 mb-6">
-              <Filter className="w-5 h-5 text-green-700" />
-              <span className="font-semibold text-gray-900">Filter by Category</span>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {filters.map((filter) => (
-                <button
-                  key={filter.id}
-                  onClick={() => setActiveFilter(filter.id)}
-                  className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
-                    activeFilter === filter.id
-                      ? 'bg-green-700 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {filter.label}
-                </button>
-              ))}
+            <div className="relative inline-block w-full md:w-64">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+              >
+                <span className="font-semibold text-gray-900">
+                  {filters.find(f => f.id === activeFilter)?.label || 'Select Category'}
+                </span>
+                <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg animate-fade-in-up">
+                  {filters.map((filter) => (
+                    <button
+                      key={filter.id}
+                      onClick={() => {
+                        setActiveFilter(filter.id);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 transition-colors duration-200 ${
+                        activeFilter === filter.id
+                          ? 'bg-green-50 text-green-700 font-semibold'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -128,22 +175,15 @@ export default function Products() {
                 className="bg-white border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up flex flex-col"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {/* Product Visual */}
-                <div className="h-40 bg-gradient-to-br from-green-100 to-green-50 relative flex-shrink-0 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 right-4 bg-amber-500 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
-                    Certified
-                  </div>
-                </div>
-
                 {/* Product Info */}
                 <div className="p-6 flex flex-col flex-1">
-                  <div className="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-3 self-start">
-                    {product.category}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
+                      {product.category}
+                    </div>
+                    <div className="bg-amber-500 text-gray-900 px-3 py-1 rounded-full text-xs font-bold">
+                      Certified
+                    </div>
                   </div>
                   <h3 className="font-bold text-xl font-poppins mb-2 text-gray-900">{product.name}</h3>
                   <p className="text-gray-600 text-sm mb-4 leading-relaxed">{product.description}</p>

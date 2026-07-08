@@ -14,6 +14,7 @@ export default function Gallery() {
       description: 'View our gallery of certified seed farming operations, training sessions, and community impact across Rwanda. See potato, bean, maize, wheat, and soybean cultivation.',
       keywords: ['seed farming gallery', 'agricultural photos', 'crop cultivation', 'farming operations Rwanda', 'certified seeds production'],
       ogImage: '/images/logo.png',
+      canonical: 'https://dernseed.com/gallery',
     });
   }, []);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -118,7 +119,7 @@ export default function Gallery() {
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 {/* Background */}
-                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                <img src={item.image} alt={item.title} className="w-full h-full object-cover" loading="lazy" />
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-end justify-end p-6">
