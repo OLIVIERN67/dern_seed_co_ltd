@@ -614,10 +614,10 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { label: 'Farmers Served', value: '50,000+' },
+              { label: 'Farmers Served', value: '18,000+' },
               { label: 'Seed Varieties', value: '25+' },
-              { label: 'Years Experience', value: '15+' },
-              { label: 'Districts Reached', value: '30+' },
+              { label: 'Years Experience', value: '5+' },
+              { label: 'Districts Reached', value: '14+' },
             ].map((stat, index) => (
               <div
                 key={index}
