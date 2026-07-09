@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { UserService } from "../services/UserService";
+import { UserService } from "../services/UserService.js";
+
 
 const UpdateMeSchema = z.object({
   name: z.string().min(2).max(120),

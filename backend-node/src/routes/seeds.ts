@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/requireAuth";
-import { SeedController } from "../controllers/SeedController";
+import { requireAuth } from "../middleware/requireAuth.js";
+import { SeedController } from "../controllers/SeedController.js";
+
 
 export const seedRouter = Router();
 

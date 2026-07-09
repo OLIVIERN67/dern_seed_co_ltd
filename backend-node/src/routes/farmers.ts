@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/requireAuth";
-import { FarmerController } from "../controllers/FarmerController";
+import { requireAuth } from "../middleware/requireAuth.js";
+import { FarmerController } from "../controllers/FarmerController.js";
+
 
 export const farmerRouter = Router();
 

@@ -4,7 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 
-import { routes } from "./routes";
+import { routes } from "./routes/index.js";
+
 import { errorHandler } from "./middleware/errorHandler";
 import { notFoundHandler } from "./middleware/notFoundHandler";
 import { authSessionMiddleware } from "./middleware/authSessionMiddleware";

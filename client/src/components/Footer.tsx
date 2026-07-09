@@ -23,18 +23,18 @@ export default function Footer() {
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl font-bold font-poppins text-white mb-2">Stay Updated</h3>
             <p className="text-green-100 mb-6">Subscribe to our newsletter for farming tips and product updates.</p>
-            <form onSubmit={handleSubscribe} className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 sm:gap-2">
               <input
-                type="email" 
+                type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="min-w-0 flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-amber-500 text-gray-900 font-semibold rounded-lg hover:bg-amber-600 transition-colors"
+                className="w-full sm:w-auto px-6 py-3 bg-amber-500 text-gray-900 font-semibold rounded-lg hover:bg-amber-600 transition-colors"
               >
                 Subscribe
               </button>

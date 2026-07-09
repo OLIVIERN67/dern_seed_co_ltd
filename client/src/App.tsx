@@ -6,6 +6,7 @@ import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { initAnalytics, trackPageView } from "./lib/analytics";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -54,16 +55,15 @@ function AnalyticsTracker() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <AnalyticsTracker />
-          <Router />
-          <WhatsAppButton />
-        </TooltipProvider>
+      <ThemeProvider defaultTheme="light" switchable>
+        <LanguageProvider>
+          <TooltipProvider>
+            <Toaster />
+            <AnalyticsTracker />
+            <Router />
+            <WhatsAppButton />
+          </TooltipProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

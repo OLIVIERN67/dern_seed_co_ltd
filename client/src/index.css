@@ -665,6 +665,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent unnecessary horizontal scrolling across the whole app */
+html,
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Selection styling */
 ::selection {
   @apply bg-green-700 text-white;

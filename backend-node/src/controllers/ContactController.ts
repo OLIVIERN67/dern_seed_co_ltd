@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { submitContact } from "../services/contactService";
+import { submitContact } from "../services/contactService.js";
+
 
 export class ContactController {
   static async submit(req: Request, res: Response) {

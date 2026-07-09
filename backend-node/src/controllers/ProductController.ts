@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { ProductService } from "../services/ProductService";
+import { ProductService } from "../services/ProductService.js";
+
 
 const CreateProductSchema = z.object({
   name: z.string().min(2).max(200),

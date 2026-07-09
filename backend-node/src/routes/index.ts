@@ -1,16 +1,17 @@
 import { Router } from "express";
 
-import { authRouter } from "./auth";
-import { userRouter } from "./users";
-import { orderRouter } from "./orders";
-import { productRouter } from "./products";
-import { seedRouter } from "./seeds";
-import { farmerRouter } from "./farmers";
-import { employeeRouter } from "./employees";
-import { testimonialRouter } from "./testimonials";
-import { contactRouter } from "./contact";
-import { productInquiryRouter } from "./productInquiries";
-import { blogDocumentsRouter } from "./blogDocuments";
+import { authRouter } from "./auth.js";
+import { userRouter } from "./users.js";
+import { orderRouter } from "./orders.js";
+import { productRouter } from "./products.js";
+import { seedRouter } from "./seeds.js";
+import { farmerRouter } from "./farmers.js";
+import { employeeRouter } from "./employees.js";
+import { testimonialRouter } from "./testimonials.js";
+import { contactRouter } from "./contact.js";
+import { productInquiryRouter } from "./productInquiries.js";
+import { blogDocumentsRouter } from "./blogDocuments.js";
+
 
 
 export const routes = Router();

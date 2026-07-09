@@ -1,7 +1,9 @@
 import type { Request, Response } from "express";
-import { AuthService } from "../services/AuthService";
+import { AuthService } from "../services/AuthService.js";
+
 import { z, ZodError } from "zod";
-import { getEnv } from "../config/env";
+import { getEnv } from "../config/env.js";
+
 
 /** Convert a ZodError into a single human-readable message. */
 function formatZodError(err: ZodError): string {

@@ -3,8 +3,10 @@ import { z } from "zod";
 import path from "path";
 import fs from "fs";
 
-import { requireEnv } from "../config/env";
-import { db } from "../db";
+import { requireEnv } from "../config/env.js";
+
+import { db } from "../db/index.js";
+
 
 export class BlogDocumentController {
   static async list(req: Request, res: Response) {

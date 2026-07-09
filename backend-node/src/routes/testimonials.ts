@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/requireAuth";
-import { TestimonialController } from "../controllers/TestimonialController";
+import { requireAuth } from "../middleware/requireAuth.js";
+import { TestimonialController } from "../controllers/TestimonialController.js";
+
 
 export const testimonialRouter = Router();
 
