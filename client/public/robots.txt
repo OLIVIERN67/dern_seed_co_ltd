@@ -1,22 +1,21 @@
+```txt
 # robots.txt for DERN SEED Company Ltd
-# Allow all crawlers to access the site
+# Website: https://dernseedcoltd.rw
 
+# Allow search engines to crawl the website
 User-agent: *
 Allow: /
 
-# Disallow admin and private areas
+# Block private and unnecessary pages
 Disallow: /admin/
 Disallow: /api/
 Disallow: /login
 Disallow: /signup
 
-# Allow important assets
+# Allow important website resources
+Allow: /assets/
 Allow: /images/
-Allow: /css/
-Allow: /js/
 
 # Sitemap location
-Sitemap: https://dernseed.com/sitemap.xml
-
-# Crawl-delay (optional, adjust as needed)
-# Crawl-delay: 1
+Sitemap: https://dernseedcoltd.rw/sitemap.xml
+```
