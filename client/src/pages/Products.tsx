@@ -15,7 +15,7 @@ export default function Products() {
       description: 'Browse DERN SEED certified seeds: Irish potato, bean, maize, wheat, and soybean varieties. Quality-assured seeds produced under national standards for optimal crop yield.',
       keywords: ['certified seeds Rwanda', 'maize seeds', 'bean seeds', 'potato seeds', 'wheat seeds', 'soybean seeds', 'seed varieties', 'agricultural seeds', 'crop seeds', 'quality seeds'],
       ogImage: '/images/logo.png',
-      canonical: 'https://dernseed.com/products',
+      canonical: 'https://dernseedcoltd.rw/products',
     });
 
     // Add Product Schema

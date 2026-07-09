@@ -16,7 +16,7 @@ export default function Home() {
       description: 'DERN SEED Company Ltd provides certified seeds for maize, beans, potatoes, wheat, and soybeans in Rwanda. Quality-assured seeds produced under national standards for optimal crop yield and agricultural success.',
       keywords: ['certified seeds Rwanda', 'agricultural seeds', 'maize seeds', 'bean seeds', 'potato seeds', 'wheat seeds', 'soybean seeds', 'DERN SEED', 'Rwanda agriculture', 'seed company', 'farming solutions', 'crop seeds', 'quality seeds', 'Musanze Rwanda'],
       ogImage: '/images/logo.png',
-      canonical: 'https://dernseed.com/',
+      canonical: 'https://dernseed.rw/',
     });
   }, []);
   const [stats, setStats] = useState({
@@ -153,13 +153,11 @@ export default function Home() {
     { id: 6, label: 'Certified Maize Seed', image: cropImages.maize.secondary },
   ];
 
-  // Testimonials are loaded dynamically from the backend (/api/testimonials).
-  // The static list below is only a fallback when the API is unreachable,
-  // so the section never renders empty.
+
   const fallbackTestimonials: Testimonial[] = [
     {
       id: 1,
-      name: 'John Mugabe',
+      name: 'Gratien MUNEZERO',
       role: 'Farmer, Musanze',
       rating: 5,
       message: 'DERN SEED has transformed my farming. The quality of seeds and support is exceptional.',
