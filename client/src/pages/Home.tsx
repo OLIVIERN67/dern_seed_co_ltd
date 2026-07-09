@@ -235,22 +235,22 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
             {/* Welcome Message from Father Alexandre */}
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
+            <div >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">🌱</span>
+                <div>
+                  
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold mb-2">Welcome from Father Alexandre NTABANGANYIMANA</p>
+                  {/* <p className="text-white text-sm font-semibold mb-2">Welcome from Father Alexandre NTABANGANYIMANA</p>
                   <p className="text-gray-200 text-xs sm:text-sm leading-relaxed">
                     Managing Director, DERN SEED Company Ltd. We are committed to providing quality certified seeds to empower farmers and transform agriculture in Rwanda.
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-500/40 text-amber-500 px-4 py-2 rounded-full mb-4 text-xs font-bold uppercase tracking-wider">
-              <span>🌱 Premium Quality Seeds</span>
+            <div >
+              
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-white mb-4 leading-tight">
@@ -314,8 +314,8 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-green-900/75 via-green-900/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full">
-                    <span className="text-amber-500 font-bold">🌱</span>
-                    <span className="text-xs sm:text-sm font-bold">Welcome from our Managing Director</span>
+                    {/* <span className="text-amber-500 font-bold">🌱</span> */}
+                    {/* <span className="text-xs sm:text-sm font-bold">Welcome from our Managing Director</span> */}
                   </div>
                 </div>
               </div>
@@ -372,13 +372,13 @@ export default function Home() {
                   </div>
 
                   <div className="pt-4 border-t border-gray-100 mt-2 space-y-3">
-                    <p className="text-gray-900 font-bold text-xl sm:text-2xl leading-snug">Rev. Fr. Alexandre NTABANGANYIMANA</p>
+                    <p className="text-gray-900 font-bold text-xl sm:text-2xl leading-snug">Father Alexandre NTABANGANYIMANA</p>
                     <div className="flex items-center gap-3">
                       <div className="h-px bg-gray-200 w-16" />
-                      <p className="text-green-700 font-semibold tracking-wide">Managing Director</p>
+                      <p className="text-green-700 font-semibold tracking-wide">Managing Director of Dern Seed Company Ltd</p>
                       <div className="h-px bg-gray-200 w-16" />
                     </div>
-                    <p className="text-gray-700 font-semibold text-base">Dern Seed Company Ltd</p>
+                    <p className="text-gray-700 font-semibold text-base"></p>
                   </div>
                 </div>
               </div>
