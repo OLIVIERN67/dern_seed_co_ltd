@@ -62,7 +62,13 @@ export default function Footer() {
               Empowering farmers with high-quality certified seeds for sustainable agriculture and better harvests.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
+              <a
+                href="https://www.facebook.com/dernseedcompanyLtd/?locale=cy_GB"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-green-500 transition-colors"
+                aria-label="DERN SEED on Facebook"
+              >
                 <Facebook size={20} />
               </a>
               <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">

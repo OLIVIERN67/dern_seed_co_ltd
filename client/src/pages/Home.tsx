@@ -394,14 +394,14 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
             <div className="animate-slide-in-left">
               <div className="relative rounded-2xl overflow-hidden h-64 sm:h-80 md:h-96 shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <img
-                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=85"
-                alt="Agricultural farming field with crops representing DERN SEED's certified seed production"
+                <img
+                  src="/gallery/derne image.jpeg"
+                  alt="DERN SEED certified seed production"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
                 <div className="absolute bottom-6 left-6 bg-gray-900/90 text-white p-4 rounded-lg backdrop-blur-sm">
-                  <div className="text-3xl font-bold font-poppins text-amber-500">15+</div>
+                  <div className="text-3xl font-bold font-poppins text-amber-500">5+</div>
                   <div className="text-xs text-gray-300">Years of Excellence</div>
                 </div>
               </div>
