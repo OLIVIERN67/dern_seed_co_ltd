@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function About() {
   useEffect(() => {
@@ -16,6 +17,10 @@ export default function About() {
       canonical: 'https://dernseed.com/about',
     });
   }, []);
+  
+  const { t } = useLanguage();
+  const { theme } = useTheme();
+
   const values = [
     {
       icon: <CheckCircle className="w-8 h-8" />,
@@ -83,10 +88,8 @@ export default function About() {
     'Contract Farming Model for Certified Bean Seed Multiplication, Grain Production, and Bean Aggregation, Storage, and Market Linkage Hub',
   ];
 
-  const { t } = useLanguage();
-
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900">
+    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
       <Navigation />
 
       {/* Hero Section */}
@@ -101,16 +104,24 @@ export default function About() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('about_hero_heading')}</h1>
-            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">{t('about_hero_description')}</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+              {t('about_hero_heading') || 'About DERN SEED'}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">
+              {t('about_hero_description') || 'Rwanda\'s leading certified seed company committed to agricultural excellence'}
+            </p>
             <div className="flex gap-4 flex-wrap">
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-amber-500" />
-                <span className="text-white font-semibold">{t('about_hero_badge_1')}</span>
+                <span className="text-white font-semibold">
+                  {t('about_hero_badge_1') || 'Certified Seeds'}
+                </span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-amber-500" />
-                <span className="text-white font-semibold">{t('about_hero_badge_2')}</span>
+                <span className="text-white font-semibold">
+                  {t('about_hero_badge_2') || 'Since 2020'}
+                </span>
               </div>
             </div>
           </div>
@@ -118,7 +129,7 @@ export default function About() {
       </section>
 
       {/* Company Overview */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-in-left">
@@ -135,14 +146,18 @@ export default function About() {
             </div>
 
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_who_we_are')}</div>
-              <h2 className="text-4xl font-bold font-poppins mb-6 text-gray-900 dark:text-gray-100">{t('about_our_story')}</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">
+                {t('about_who_we_are') || 'Who We Are'}
+              </div>
+              <h2 className={`text-4xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {t('about_our_story') || 'Our Story'}
+              </h2>
 
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className={`mb-4 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                 Dern Seed Company Ltd is a Rwandan agribusiness company specializing in the production, multiplication, processing, and marketing of certified agricultural seeds. Since our establishment in June 2020, we have been committed to providing high-quality planting materials that improve agricultural productivity, strengthen food security, and increase farmers' incomes across Rwanda.
               </p>
 
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className={`mb-4 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                 Our expertise covers the production and supply of certified Irish potato, bean, maize, wheat, and soybean seeds. We work closely with farmers, cooperatives, development partners, and public institutions through contract farming and outgrower schemes that promote sustainable and climate-smart agriculture.
               </p>
 
@@ -150,7 +165,7 @@ export default function About() {
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1"
               >
-                {t('contact_get_in_touch')} <ArrowRight className="ml-2 w-4 h-4" />
+                {t('contact_get_in_touch') || 'Get In Touch'} <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -158,55 +173,63 @@ export default function About() {
       </section>
 
       {/* Ownership */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Ownership</div>
-            <h2 className="text-4xl font-bold font-poppins mb-6 text-gray-900">Backed by the Ruhengeri Catholic Diocese</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+            <h2 className={`text-4xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Backed by the Ruhengeri Catholic Diocese
+            </h2>
+            <p className={`leading-relaxed mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Dern Seed Company Ltd is a privately managed agribusiness company owned by the Ruhengeri Catholic Diocese. Guided by the Diocese's commitment to social and economic development, the company promotes sustainable agriculture, supports smallholder farmers, and contributes to community empowerment through the production and distribution of certified quality seeds.
             </p>
-            <p className="text-gray-600 leading-relaxed">
-              The company operates under professional management led by its Managing Director, <span className="font-semibold text-gray-900">Father Alexandre NTABANGANYIMANA</span>, and is committed to transparency, innovation, and long-term partnerships that contribute to the transformation of agriculture in Rwanda.
+            <p className={`leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+              The company operates under professional management led by its Managing Director, <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Father Alexandre NTABANGANYIMANA</span>, and is committed to transparency, innovation, and long-term partnerships that contribute to the transformation of agriculture in Rwanda.
             </p>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="grid md:grid-cols-2 gap-12 mb-12">
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 animate-fade-in-up">
-              <div className="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center text-green-700 mb-4">
+            <div className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up`}>
+              <div className={`w-14 h-14 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-lg flex items-center justify-center mb-4`}>
                 <Target className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-bold font-poppins mb-4 text-gray-900">Our Mission</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className={`text-2xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Our Mission
+              </h3>
+              <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                 To produce, process, and distribute high-quality certified seeds while empowering farmers through contract farming, extension services, technology adoption, and sustainable agricultural practices.
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 animate-fade-in-up stagger-1">
-              <div className="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center text-green-700 mb-4">
+            <div className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up stagger-1`}>
+              <div className={`w-14 h-14 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-lg flex items-center justify-center mb-4`}>
                 <Leaf className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-bold font-poppins mb-4 text-gray-900">Our Vision</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className={`text-2xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Our Vision
+              </h3>
+              <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                 To become a leading producer and supplier of certified quality seeds and innovative agricultural solutions that transform farmers' productivity and contribute to food security in Rwanda and the East African region.
               </p>
             </div>
           </div>
 
           {/* Our Goal */}
-          <div className="bg-green-50 rounded-2xl p-8 lg:p-12 border border-green-100">
-            <h3 className="text-2xl font-bold font-poppins mb-2 text-gray-900">Our Goal</h3>
-            <p className="text-gray-600 mb-6">
+          <div className={`${theme === 'dark' ? 'bg-green-900/20 border-green-800' : 'bg-green-50 border-green-100'} rounded-2xl p-8 lg:p-12 border`}>
+            <h3 className={`text-2xl font-bold font-poppins mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Our Goal
+            </h3>
+            <p className={`mb-6 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Our goal is to become a leading and trusted provider of certified seeds and integrated agricultural solutions in Rwanda and the East African region by:
             </p>
             <ul className="grid md:grid-cols-2 gap-3">
               {goals.map((goal, index) => (
-                <li key={index} className="flex items-start gap-3 text-gray-700">
+                <li key={index} className={`flex items-start gap-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                   <CheckCircle className="w-5 h-5 text-green-700 flex-shrink-0 mt-0.5" />
                   <span>{goal}</span>
                 </li>
@@ -217,21 +240,23 @@ export default function About() {
       </section>
 
       {/* What We Do */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Scope</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">What We Do</h2>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              What We Do
+            </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {whatWeDo.map((item, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-6 flex items-start gap-3 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up"
+                className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 flex items-start gap-3 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CheckCircle className="w-5 h-5 text-green-700 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-700">{item}</span>
+                <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>{item}</span>
               </div>
             ))}
           </div>
@@ -239,12 +264,14 @@ export default function About() {
       </section>
 
       {/* Core Values */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">What Drives Us</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Our Values</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Our Values
+            </h2>
+            <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               These values guide every decision we make and shape our culture and relationships.
             </p>
           </div>
@@ -253,14 +280,18 @@ export default function About() {
             {values.map((value, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 text-center animate-fade-in-up"
+                className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 text-center animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center text-green-700 mx-auto mb-4">
+                <div className={`w-14 h-14 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-lg flex items-center justify-center mx-auto mb-4`}>
                   {value.icon}
                 </div>
-                <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{value.title}</h3>
-                <p className="text-gray-600 text-sm">{value.description}</p>
+                <h3 className={`font-bold text-lg font-poppins mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  {value.title}
+                </h3>
+                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                  {value.description}
+                </p>
               </div>
             ))}
           </div>
@@ -268,17 +299,19 @@ export default function About() {
       </section>
 
       {/* Target Beneficiaries */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Who We Serve</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Target Beneficiaries</h2>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Target Beneficiaries
+            </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
             {beneficiaries.map((b, index) => (
               <span
                 key={index}
-                className="px-5 py-2 bg-white border border-gray-200 rounded-full text-gray-700 font-medium text-sm animate-fade-in-up"
+                className={`px-5 py-2 ${theme === 'dark' ? 'bg-gray-900 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-full font-medium text-sm animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 {b}
@@ -289,12 +322,14 @@ export default function About() {
       </section>
 
       {/* Strategic Project Portfolio */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Looking Ahead</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Recent Strategic Project Portfolio</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Recent Strategic Project Portfolio
+            </h2>
+            <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               These initiatives aim to increase the availability of quality seed, strengthen farmer-market connections, improve productivity, and enhance resilience to climate change.
             </p>
           </div>
@@ -302,13 +337,15 @@ export default function About() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up"
+                className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="w-10 h-10 bg-green-700 text-white rounded-lg flex items-center justify-center font-bold mb-4">
                   {index + 1}
                 </div>
-                <p className="text-gray-700 leading-relaxed">{project}</p>
+                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
+                  {project}
+                </p>
               </div>
             ))}
           </div>
@@ -316,11 +353,13 @@ export default function About() {
       </section>
 
       {/* Company Information */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
-          <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded-2xl p-8 lg:p-10 shadow-sm">
-            <h3 className="text-2xl font-bold font-poppins mb-6 text-gray-900">Company Information</h3>
-            <dl className="space-y-3 text-gray-700">
+          <div className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-2xl p-8 lg:p-10 shadow-sm`}>
+            <h3 className={`text-2xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Company Information
+            </h3>
+            <dl className={`space-y-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
               <div className="flex flex-col sm:flex-row sm:gap-2">
                 <dt className="font-semibold sm:w-48 flex-shrink-0">Company Name:</dt>
                 <dd>Dern Seed Company Ltd</dd>
@@ -336,13 +375,17 @@ export default function About() {
               <div className="flex flex-col sm:flex-row sm:gap-2">
                 <dt className="font-semibold sm:w-48 flex-shrink-0">Telephone:</dt>
                 <dd>
-                  <a href="tel:+250782724840" className="hover:text-green-700 transition-colors">+250 782 724 840</a>
+                  <a href="tel:+250782724840" className={`transition-colors ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
+                    +250 782 724 840
+                  </a>
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
                 <dt className="font-semibold sm:w-48 flex-shrink-0">Email:</dt>
                 <dd>
-                  <a href="mailto:dernseedcompanyltd2020@gmail.com" className="hover:text-green-700 transition-colors break-all">dernseedcompanyltd2020@gmail.com</a>
+                  <a href="mailto:dernseedcompanyltd2020@gmail.com" className={`transition-colors break-all ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
+                    dernseedcompanyltd2020@gmail.com
+                  </a>
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">

@@ -25,40 +25,16 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "wouter";
-import { cropImages } from "@/lib/cropImages";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 
-// Product categories data with icons
+// Product categories - simplified
 const productCategories = [
-  {
-    name: "Irish Potato Seed",
-    icon: cropImages.potato.primary,
-    description: "High-altitude adapted, high-yielding varieties",
-    varieties: ["Kirundo", "Ndamira", "Gikungu", "Cyerekezo"],
-    color: "from-amber-50 to-orange-50",
-  },
-  {
-    name: "Bean Seed",
-    icon: cropImages.bean.primary,
-    description: "High-yield, disease-tolerant grain varieties",
-    varieties: [
-      "RWR 3194",
-      "RWV 3316",
-      "MAC 44",
-      "Mwirasi",
-      "MBC23",
-      "Kigondo",
-    ],
-    color: "from-green-50 to-emerald-50",
-  },
-  {
-    name: "Maize Seed",
-    icon: cropImages.maize.primary,
-    description: "Vigorous, high-germination cereal varieties",
-    varieties: ["RHMH1520", "PAN661", "H628", "H629"],
-    color: "from-yellow-50 to-amber-50",
-  },
+  { name: "Irish Potato Seed" },
+  { name: "Bean Seed" },
+  { name: "Maize Seed" },
+  { name: "Wheat Seed" },
+  { name: "SoyBean Seed" }
 ];
 
 const aboutMenuItems = [
@@ -228,66 +204,41 @@ export default function Navigation() {
                     </button>
 
                     {isActive && (
-                      <div className="absolute left-0 top-full mt-2 w-[320px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden animate-fade-in-down z-50">
-                        <div className="p-3">
-                          {item.name === "nav_products" ? (
-                            // Products dropdown with categories
-                            <div className="space-y-3">
+                      <div className="absolute left-0 top-full mt-2 overflow-hidden animate-fade-in-down z-50">
+                        {item.name === "nav_products" ? (
+                          // Products dropdown - simplified
+                          <div className="w-[240px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 p-3">
+                            <div className="space-y-2">
                               {(item.dropdown as typeof productCategories).map(
                                 category => (
-                                  <div
+                                  <Link
                                     key={category.name}
-                                    className={`bg-gradient-to-r ${category.color} dark:from-gray-800 dark:to-gray-700 rounded-xl p-4 transition-all duration-300 hover:shadow-lg`}
+                                    href="/products"
+                                    onClick={() => setActiveDropdown(null)}
+                                    className="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200"
                                   >
-                                    <div className="flex items-start gap-3 mb-2">
-                                      <div className="flex-shrink-0 w-10 h-10 bg-white/80 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                                        <img
-                                          src={category.icon}
-                                          alt={category.name}
-                                          className="w-6 h-6 object-contain"
-                                        />
-                                      </div>
-                                      <div>
-                                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
-                                          {category.name}
-                                        </h4>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                                          {category.description}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="flex flex-wrap gap-1.5 mt-2">
-                                      {category.varieties.map(variety => (
-                                        <Link
-                                          key={variety}
-                                          href="/products"
-                                          onClick={() =>
-                                            setActiveDropdown(null)
-                                          }
-                                          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-white/80 dark:bg-gray-800/80 hover:bg-green-50 dark:hover:bg-green-900/30 text-gray-700 dark:text-gray-300 rounded-lg transition-colors duration-200"
-                                        >
-                                          <span className="w-1 h-1 rounded-full bg-green-500" />
-                                          {variety}
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  </div>
+                                    {category.name}
+                                  </Link>
                                 )
                               )}
-                              <Link
-                                href="/products"
-                                onClick={() => setActiveDropdown(null)}
-                                className="flex items-center justify-center gap-2 w-full py-2.5 text-sm font-medium text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors duration-200"
-                              >
-                                {getTranslation(
-                                  "view_all_products",
-                                  "View All Products"
-                                )}
-                                <ArrowRight className="w-4 h-4" />
-                              </Link>
+                              <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+                                <Link
+                                  href="/products"
+                                  onClick={() => setActiveDropdown(null)}
+                                  className="flex items-center justify-center gap-2 w-full py-2.5 text-sm font-medium text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors duration-200"
+                                >
+                                  {getTranslation(
+                                    "view_all_products",
+                                    "View All Products"
+                                  )}
+                                  <ArrowRight className="w-4 h-4" />
+                                </Link>
+                              </div>
                             </div>
-                          ) : (
-                            // About dropdown
+                          </div>
+                        ) : (
+                          // About dropdown - wider
+                          <div className="w-[420px] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 p-3">
                             <div className="grid grid-cols-2 gap-1.5">
                               {(item.dropdown as typeof aboutMenuItems).map(
                                 subItem => {
@@ -310,8 +261,8 @@ export default function Navigation() {
                                 }
                               )}
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -469,40 +420,20 @@ export default function Navigation() {
                       {isMobileOpen && (
                         <div className="pl-10 pr-4 pb-3 space-y-1.5">
                           {item.name === "nav_products"
-                            ? // Products dropdown in mobile
+                            ? // Products dropdown in mobile - simplified
                               (item.dropdown as typeof productCategories).map(
                                 category => (
-                                  <div
+                                  <Link
                                     key={category.name}
-                                    className="mb-3 last:mb-0"
+                                    href="/products"
+                                    onClick={() => {
+                                      setIsMobileOpen(false);
+                                      setIsOpen(false);
+                                    }}
+                                    className="block px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all"
                                   >
-                                    <div className="flex items-center gap-2 mb-1.5">
-                                      <img
-                                        src={category.icon}
-                                        alt={category.name}
-                                        className="w-5 h-5 object-contain"
-                                      />
-                                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                                        {category.name}
-                                      </span>
-                                    </div>
-                                    <div className="flex flex-wrap gap-1.5">
-                                      {category.varieties.map(variety => (
-                                        <Link
-                                          key={variety}
-                                          href="/products"
-                                          onClick={() => {
-                                            setIsMobileOpen(false);
-                                            setIsOpen(false);
-                                          }}
-                                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900/30 text-gray-700 dark:text-gray-300 rounded-lg transition-colors"
-                                        >
-                                          <span className="w-1 h-1 rounded-full bg-green-500" />
-                                          {variety}
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  </div>
+                                    {category.name}
+                                  </Link>
                                 )
                               )
                             : // About dropdown in mobile
