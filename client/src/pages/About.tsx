@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake, User, Briefcase } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
@@ -86,6 +86,28 @@ export default function About() {
   const projects = [
     'Scaling up Climate-Smart Irish Potato Seed Systems through Sandponic Minituber Production, Contract Farming, and Market Aggregation in Northern Rwanda',
     'Contract Farming Model for Certified Bean Seed Multiplication, Grain Production, and Bean Aggregation, Storage, and Market Linkage Hub',
+  ];
+
+  // Staff Administration Data
+  const staffMembers = [
+    {
+      name: 'Father Alexandre NTABANGANYIMANA',
+      position: 'Managing Director',
+      icon: <User className="w-6 h-6" />,
+      description: 'Leads the overall strategic direction and operations of DERN SEED Company Ltd.'
+    },
+    {
+      name: 'Cassien TWAGIRIMANA',
+      position: 'Chief Operations Officer (COO)',
+      icon: <Briefcase className="w-6 h-6" />,
+      description: 'Oversees day-to-day operations, production, and supply chain management.'
+    },
+    {
+      name: 'Mediatrice MUJAWIYERA',
+      position: 'Chief Finance Officer',
+      icon: <Briefcase className="w-6 h-6" />,
+      description: 'Manages financial planning, budgeting, and accounting operations.'
+    },
   ];
 
   return (
@@ -298,8 +320,46 @@ export default function About() {
         </div>
       </section>
 
+      {/* Staff Administration Section */}
+      <section id="staff-administration" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+        <div className="container">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Leadership</div>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Staff Administration
+            </h2>
+            <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+              Meet the dedicated leadership team driving agricultural excellence at DERN SEED.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {staffMembers.map((member, index) => (
+              <div
+                key={index}
+                className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up text-center`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className={`w-20 h-20 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                  {member.icon}
+                </div>
+                <h3 className={`font-bold text-xl font-poppins mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  {member.name}
+                </h3>
+                <p className={`text-sm font-semibold mb-3 ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
+                  {member.position}
+                </p>
+                <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {member.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Target Beneficiaries */}
-      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Who We Serve</div>
@@ -311,7 +371,7 @@ export default function About() {
             {beneficiaries.map((b, index) => (
               <span
                 key={index}
-                className={`px-5 py-2 ${theme === 'dark' ? 'bg-gray-900 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-full font-medium text-sm animate-fade-in-up`}
+                className={`px-5 py-2 ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-700'} border rounded-full font-medium text-sm animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 {b}
@@ -322,7 +382,7 @@ export default function About() {
       </section>
 
       {/* Strategic Project Portfolio */}
-      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Looking Ahead</div>
@@ -337,7 +397,7 @@ export default function About() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
+                className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="w-10 h-10 bg-green-700 text-white rounded-lg flex items-center justify-center font-bold mb-4">
@@ -353,9 +413,9 @@ export default function About() {
       </section>
 
       {/* Company Information */}
-      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
-          <div className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-2xl p-8 lg:p-10 shadow-sm`}>
+          <div className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-2xl p-8 lg:p-10 shadow-sm`}>
             <h3 className={`text-2xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               Company Information
             </h3>
