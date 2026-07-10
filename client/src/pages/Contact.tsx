@@ -1,61 +1,90 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { Link } from 'wouter';
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { applySeo } from '@/lib/seo';
+import { useState, useEffect } from "react";
+import { Link } from "wouter";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { applySeo } from "@/lib/seo";
+import { useLanguage } from "@/contexts/LanguageContext";
+import {api } from "@/lib/api"; // Make sure this import path is correct for your project
 
 export default function Contact() {
+  const { t } = useLanguage();
+
   useEffect(() => {
     applySeo({
-      title: 'Contact DERN SEED - Get in Touch with Our Agricultural Experts',
-      description: 'Contact DERN SEED for certified seeds, agricultural support, and farming inquiries. Located in Musanze, Rwanda. Call +250 782 724 840 or email us today.',
-      keywords: ['contact DERN SEED', 'certified seeds Rwanda', 'agricultural support', 'Musanze Rwanda', 'seed supplier contact'],
-      ogImage: '/images/logo.png',
-      canonical: 'https://dernseed.com/contact',
+      title:
+        t("contact_seo_title") ||
+        "Contact DERN SEED - Get in Touch with Our Agricultural Experts",
+      description:
+        t("contact_seo_description") ||
+        "Contact DERN SEED for certified seeds, agricultural support, and farming inquiries. Located in Musanze, Rwanda. Call +250 782 724 840 or email us today.",
+      keywords: [
+        "contact DERN SEED",
+        "certified seeds Rwanda",
+        "agricultural support",
+        "Musanze Rwanda",
+        "seed supplier contact",
+      ],
+      ogImage: "/images/logo.png",
+      canonical: "https://dernseed.com/contact",
     });
-  }, []);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+  }, [t]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const validate = () => {
+  const validate = (): Record<string, string> => {
     const next: Record<string, string> = {};
 
     if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
-      next.fullName = 'Full name is required.';
+      next.fullName =
+        t("validation_full_name_required") || "Full name is required.";
     }
 
     if (!formData.email.trim()) {
-      next.email = 'Email is required.';
+      next.email = t("validation_email_required") || "Email is required.";
     } else {
       const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim());
-      if (!ok) next.email = 'Enter a valid email address.';
+      if (!ok)
+        next.email =
+          t("validation_email_invalid") || "Enter a valid email address.";
     }
 
     if (!formData.phone.trim() || formData.phone.trim().length < 3) {
-      next.phone = 'Phone number is required.';
+      next.phone =
+        t("validation_phone_required") || "Phone number is required.";
     }
 
     if (!formData.subject.trim()) {
-      next.subject = 'Subject is required.';
+      next.subject = t("validation_subject_required") || "Subject is required.";
     }
 
     if (!formData.message.trim() || formData.message.trim().length < 5) {
-      next.message = 'Message is required (min 5 characters).';
+      next.message =
+        t("validation_message_min") ||
+        "Message is required (min 5 characters).";
     }
 
     return next;
@@ -66,31 +95,95 @@ export default function Contact() {
 
     const nextErrors = validate();
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+
+    // If there are errors, stop submission
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitted(false);
+    setErrors(prev => ({ ...prev, form: "" }));
 
     try {
-      setSubmitted(true);
-      const { api } = await import('@/lib/api');
+      const response = await api.post<{ ok: boolean; id: number }>(
+        "/api/contact",
+        {
+          ...formData,
+          language: null,
+        }
+      );
 
-      await api.post<{ ok: boolean; id: number }>("/api/contact", {
-        ...formData,
-        language: null,
-      });
-
-      setErrors({});
-      setSubmitted(false);
-      setFormData({ fullName: '', email: '', phone: '', subject: '', message: '' });
-    } catch {
-      setSubmitted(false);
-      setErrors((prev) => ({
+      if (response.data.ok) {
+        setSubmitted(true);
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitted(false), 5000);
+      }
+    } catch (error) {
+      setErrors(prev => ({
         ...prev,
-        form: 'Submission failed. Please try again later.',
+        form:
+          t("contact_form_error") ||
+          "Submission failed. Please try again later.",
       }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  const subjectOptions = [
+    {
+      value: "product-inquiry",
+      label: t("subject_product_inquiry") || "Product Inquiry",
+    },
+    {
+      value: "service-inquiry",
+      label: t("subject_service_inquiry") || "Service Inquiry",
+    },
+    { value: "training", label: t("subject_training") || "Training Request" },
+    {
+      value: "partnership",
+      label: t("subject_partnership") || "Partnership Opportunity",
+    },
+    { value: "other", label: t("subject_other") || "Other" },
+  ];
+
+  const faqs = [
+    {
+      q: t("faq_order_seeds") || "How do I order seeds?",
+      a:
+        t("faq_order_seeds_answer") ||
+        "Contact our sales team via phone, email, or the contact form. We'll help you select the right seeds and arrange delivery.",
+    },
+    {
+      q: t("faq_delivery_time") || "What is your delivery timeframe?",
+      a:
+        t("faq_delivery_time_answer") ||
+        "We typically deliver within 5-7 business days. Delivery times may vary depending on location and order size.",
+    },
+    {
+      q: t("faq_bulk_discounts") || "Do you offer bulk discounts?",
+      a:
+        t("faq_bulk_discounts_answer") ||
+        "Yes, we offer competitive pricing for bulk orders. Contact our sales team for a custom quote.",
+    },
+    {
+      q: t("faq_visit_office") || "Can I visit your office?",
+      a:
+        t("faq_visit_office_answer") ||
+        "Yes, we welcome visits. Please call ahead to schedule an appointment with our team.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <Navigation />
 
       {/* Hero Section */}
@@ -98,29 +191,37 @@ export default function Contact() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Get In Touch</h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+              {t("contact_get_in_touch") || "Get In Touch"}
+            </h1>
             <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
-              We'd love to hear from you. Contact us with any questions about our certified seeds and agricultural services.
+              {t("contact_contact_information") ||
+                "We'd love to hear from you. Contact us with any questions about our certified seeds and agricultural services."}
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-24">
+      <section className="py-16 md:py-20">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div className="animate-slide-in-left">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Contact Info</div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">Contact Information</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">
+                {t("contact_contact_information") || "Contact Info"}
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold font-poppins mb-10 leading-tight">
+                {t("contact_contact_information") || "Get in Touch"}
+              </h2>
 
               <div className="space-y-6">
                 {/* Address */}
@@ -129,10 +230,14 @@ export default function Contact() {
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900 mb-1">Address</div>
-                    <div className="text-gray-600">
-                      P.O. BOX 45<br />
-                      Musanze<br />
+                    <div className="font-bold text-gray-900 dark:text-white mb-1">
+                      {t("contact_address") || "Address"}
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-300">
+                      P.O. BOX 45
+                      <br />
+                      Musanze
+                      <br />
                       Rwanda
                     </div>
                   </div>
@@ -144,8 +249,13 @@ export default function Contact() {
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900 mb-1">Phone</div>
-                    <a href="tel:+250782724840" className="text-gray-600 hover:text-green-700 transition-colors">
+                    <div className="font-bold text-gray-900 dark:text-white mb-1">
+                      {t("contact_phone") || "Phone"}
+                    </div>
+                    <a
+                      href="tel:+250782724840"
+                      className="text-gray-600 dark:text-gray-300 hover:text-green-700 transition-colors"
+                    >
                       +250 782 724 840
                     </a>
                   </div>
@@ -157,8 +267,13 @@ export default function Contact() {
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900 mb-1">Email</div>
-                    <a href="mailto:dernseedcompanyltd2020@gmail.com" className="text-gray-600 hover:text-green-700 transition-colors">
+                    <div className="font-bold text-gray-900 dark:text-white mb-1">
+                      {t("contact_email") || "Email"}
+                    </div>
+                    <a
+                      href="mailto:dernseedcompanyltd2020@gmail.com"
+                      className="text-gray-600 dark:text-gray-300 hover:text-green-700 transition-colors"
+                    >
                       dernseedcompanyltd2020@gmail.com
                     </a>
                   </div>
@@ -170,61 +285,79 @@ export default function Contact() {
                     <Clock className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900 mb-1">Business Hours</div>
-                    <div className="text-gray-600">
-                      Monday - Friday: 8:00 AM - 5:00 PM
+                    <div className="font-bold text-gray-900 dark:text-white mb-1">
+                      {t("contact_hours") || "Business Hours"}
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-300">
+                      {t("contact_hours_text") ||
+                        "Monday - Friday: 8:00 AM - 5:00 PM"}
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Map */}
-              <div className="mt-8 rounded-xl overflow-hidden h-64 shadow-lg border border-gray-200">
+              <div className="mt-8 rounded-xl overflow-hidden h-64 shadow-lg border border-gray-200 dark:border-gray-700">
                 <iframe
-                  src="https://maps.app.goo.gl/3ERniWZbfJKnc9hN7"
+                  src="https://maps.google.com/maps?q=Musanze+Rwanda&t=&z=13&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
+                  title="DERN SEED Location Map"
                 />
               </div>
             </div>
 
             {/* Contact Form */}
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Send Message</div>
-              <h2 className="text-4xl font-bold font-poppins mb-8">Contact Form</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">
+                {t("contact_send_message") || "Send Message"}
+              </div>
+              <h2 className="text-4xl font-bold font-poppins mb-8">
+                {t("contact_form_title") || "Contact Form"}
+              </h2>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Full Name */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Full Name</label>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-2">
+                    {t("contact_full_name") || "Full Name"}
+                  </label>
                   <input
                     type="text"
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                    placeholder="Your name"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent dark:bg-slate-800 dark:border-slate-700 dark:text-white ${
+                      errors.fullName ? "border-red-500" : "border-gray-300"
+                    }`}
+                    placeholder={t("contact_name_placeholder") || "Your name"}
                   />
                   {errors.fullName && (
-                    <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.fullName}
+                    </p>
                   )}
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Email Address</label>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-2">
+                    {t("contact_email_address") || "Email Address"}
+                  </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                    placeholder="your@email.com"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent dark:bg-slate-800 dark:border-slate-700 dark:text-white ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
+                    placeholder={
+                      t("contact_email_placeholder") || "your@email.com"
+                    }
                   />
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-600">{errors.email}</p>
@@ -233,14 +366,20 @@ export default function Contact() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Phone Number</label>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-2">
+                    {t("contact_phone_number") || "Phone Number"}
+                  </label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                    placeholder="+250 (0) XXX XXX XXX"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent dark:bg-slate-800 dark:border-slate-700 dark:text-white ${
+                      errors.phone ? "border-red-500" : "border-gray-300"
+                    }`}
+                    placeholder={
+                      t("contact_phone_placeholder") || "+250 (0) XXX XXX XXX"
+                    }
                   />
                   {errors.phone && (
                     <p className="mt-1 text-xs text-red-600">{errors.phone}</p>
@@ -249,56 +388,86 @@ export default function Contact() {
 
                 {/* Subject */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Subject</label>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-2">
+                    {t("contact_subject") || "Subject"}
+                  </label>
                   <select
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent dark:bg-slate-800 dark:border-slate-700 dark:text-white ${
+                      errors.subject ? "border-red-500" : "border-gray-300"
+                    }`}
                   >
-                    <option value="">Select a subject</option>
-                    <option value="product-inquiry">Product Inquiry</option>
-                    <option value="service-inquiry">Service Inquiry</option>
-                    <option value="training">Training Request</option>
-                    <option value="partnership">Partnership Opportunity</option>
-                    <option value="other">Other</option>
+                    <option value="">
+                      {t("contact_select_subject") || "Select a subject"}
+                    </option>
+                    {subjectOptions.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
+                  {errors.subject && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.subject}
+                    </p>
+                  )}
                 </div>
 
                 {/* Message */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Message</label>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-2">
+                    {t("contact_message") || "Message"}
+                  </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent resize-none"
-                    placeholder="Your message here..."
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent resize-none dark:bg-slate-800 dark:border-slate-700 dark:text-white ${
+                      errors.message ? "border-red-500" : "border-gray-300"
+                    }`}
+                    placeholder={
+                      t("contact_message_placeholder") || "Your message here..."
+                    }
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs text-red-600">{errors.message}</p>
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.message}
+                    </p>
                   )}
                 </div>
 
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
-                  <Send className="w-4 h-4" />
-                  Send Message
+                  {isSubmitting ? (
+                    <>
+                      <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                      {t("contact_sending") || "Sending..."}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      {t("contact_send_button") || "Send Message"}
+                    </>
+                  )}
                 </button>
 
                 {/* Success Message */}
                 {submitted && (
                   <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-semibold animate-fade-in-up">
-                    ✓ Message sent successfully! We'll get back to you soon.
+                    ✓{" "}
+                    {t("contact_success") ||
+                      "Message sent successfully! We'll get back to you soon."}
                   </div>
                 )}
 
+                {/* Error Message */}
                 {errors.form && (
                   <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 font-semibold animate-fade-in-up">
                     {errors.form}
@@ -311,41 +480,28 @@ export default function Contact() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-slate-800">
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Quick Answers</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Find quick answers to common questions.
+            <h2 className="text-4xl font-bold font-poppins mb-4 dark:text-white">
+              {t("faq_title") || "Quick Answers"}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {t("faq_subtitle") || "Find quick answers to common questions."}
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                q: 'How do I order seeds?',
-                a: 'Contact our sales team via phone, email, or the contact form. We\'ll help you select the right seeds and arrange delivery.',
-              },
-              {
-                q: 'What is your delivery timeframe?',
-                a: 'We typically deliver within 5-7 business days. Delivery times may vary depending on location and order size.',
-              },
-              {
-                q: 'Do you offer bulk discounts?',
-                a: 'Yes, we offer competitive pricing for bulk orders. Contact our sales team for a custom quote.',
-              },
-              {
-                q: 'Can I visit your office?',
-                a: 'Yes, we welcome visits. Please call ahead to schedule an appointment with our team.',
-              },
-            ].map((item, index) => (
+            {faqs.map((item, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up"
+                className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-6 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{item.q}</h3>
-                <p className="text-gray-600">{item.a}</p>
+                <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900 dark:text-white">
+                  {item.q}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">{item.a}</p>
               </div>
             ))}
           </div>

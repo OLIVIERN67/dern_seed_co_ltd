@@ -5,6 +5,7 @@ import { ArrowRight, Search, Calendar, User, Tag } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Blog() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Blog() {
       canonical: 'https://dernseed.com/blog',
     });
   }, []);
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -92,7 +94,7 @@ export default function Blog() {
   });
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <Navigation />
 
       {/* Hero Section */}
@@ -107,10 +109,8 @@ export default function Blog() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Blog & Resources</h1>
-            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
-              Educational content and farming tips to help you succeed.
-            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('blog_hero_heading')}</h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">{t('blog_hero_description')}</p>
           </div>
         </div>
       </section>
@@ -124,7 +124,7 @@ export default function Blog() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search articles..."
+                placeholder={t('blog_search_placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
@@ -134,7 +134,7 @@ export default function Blog() {
 
           {/* Category Filter */}
           <div className="animate-fade-in-up">
-            <p className="text-sm font-semibold text-gray-700 mb-3">Filter by Category</p>
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{t('blog_filter_by_category')}</p>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <button
@@ -146,7 +146,7 @@ export default function Blog() {
                       : 'bg-white border border-gray-300 text-gray-700 hover:border-green-700'
                   }`}
                 >
-                  {category === 'all' ? 'All Articles' : category}
+                  {category === 'all' ? t('blog_all_articles') : category}
                 </button>
               ))}
             </div>
@@ -210,7 +210,7 @@ export default function Blog() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No articles found matching your search.</p>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">{t('blog_no_articles')}</p>
             </div>
           )}
         </div>
@@ -220,7 +220,7 @@ export default function Blog() {
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Featured Article</h2>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('blog_featured_article')}</h2>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg animate-fade-in-up">
@@ -232,12 +232,8 @@ export default function Blog() {
                 <div className="inline-block px-4 py-2 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-4 w-fit">
                   Seasonal Guide
                 </div>
-                <h3 className="text-3xl font-bold font-poppins mb-4 text-gray-900">
-                  Best Time to Plant Maize
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Learn the optimal planting times for maize in different regions to maximize your harvest. Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best planting times are typically March-April and September-October. Proper timing ensures optimal moisture availability for germination and growth.
-                </p>
+                <h3 className="text-3xl font-bold font-poppins mb-4 text-gray-900">Best Time to Plant Maize</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">Learn the optimal planting times for maize in different regions to maximize your harvest. Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best planting times are typically March-April and September-October. Proper timing ensures optimal moisture availability for germination and growth.</p>
                 <div className="flex items-center gap-6 mb-6 pb-6 border-b border-gray-200">
                   <div>
                     <p className="text-xs text-gray-500 uppercase">Published</p>
@@ -271,23 +267,19 @@ export default function Blog() {
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-800/85" />
 
         <div className="container relative z-10 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">
-            Stay Updated with Our Latest Articles
-          </h2>
-          <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-            Subscribe to our newsletter to receive farming tips and agricultural insights directly in your inbox.
-          </p>
+                  <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">{t('blog_newsletter_heading')}</h2>
+          <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">{t('blog_newsletter_description')}</p>
           <form className="max-w-md mx-auto flex gap-2 animate-fade-in-up">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('newsletter_email_placeholder')}
               className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
             <button
               type="submit"
               className="px-6 py-3 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1"
             >
-              Subscribe
+              {t('blog_newsletter_subscribe')}
             </button>
           </form>
         </div>

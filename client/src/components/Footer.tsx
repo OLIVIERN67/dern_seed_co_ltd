@@ -1,8 +1,10 @@
 import { Link } from 'wouter';
 import { Mail, MapPin, Phone, Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { useState } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -16,17 +18,17 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-gray-100">
+    <footer className="bg-gray-900 text-gray-100 dark:bg-slate-900 dark:text-gray-100">
       {/* Newsletter Section */}
       <div className="bg-green-700 py-12">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold font-poppins text-white mb-2">Stay Updated</h3>
-            <p className="text-green-100 mb-6">Subscribe to our newsletter for farming tips and product updates.</p>
+            <h3 className="text-2xl font-bold font-poppins text-white mb-2">{t('newsletter_stay_updated')}</h3>
+            <p className="text-green-100 mb-6">{t('newsletter_description')}</p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 sm:gap-2">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('newsletter_email_placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -36,11 +38,11 @@ export default function Footer() {
                 type="submit"
                 className="w-full sm:w-auto px-6 py-3 bg-amber-500 text-gray-900 font-semibold rounded-lg hover:bg-amber-600 transition-colors"
               >
-                Subscribe
+                {t('newsletter_subscribe')}
               </button>
             </form>
             {subscribed && (
-              <p className="text-green-100 mt-3 animate-fade-in-up">Thank you for subscribing!</p>
+              <p className="text-green-100 mt-3 animate-fade-in-up">{t('newsletter_thanks')}</p>
             )}
           </div>
         </div>
@@ -54,13 +56,11 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <img src="/images/logo.png" alt="DERN SEED" className="w-12 h-12 object-contain" />
               <div>
-                <h4 className="font-bold text-white font-poppins">DERN SEED CO LTD</h4>
-                <p className="text-xs text-gray-400">Certified Seeds</p>
+                <h4 className="font-bold text-white font-poppins">{t('brand_company')}</h4>
+                <p className="text-xs text-gray-400">{t('brand_certified_seeds')}</p>
               </div>
             </div>
-            <p className="text-gray-400 text-sm mb-6">
-              Empowering farmers with high-quality certified seeds for sustainable agriculture and better harvests.
-            </p>
+            <p className="text-gray-400 text-sm mb-6">{t('footer_company_description')}</p>
             <div className="flex gap-4">
               <a
                 href="https://www.facebook.com/dernseedcompanyLtd/?locale=cy_GB"
@@ -85,26 +85,26 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-white font-poppins mb-4">Quick Links</h4>
+            <h4 className="font-bold text-white font-poppins mb-4">{t('footer_quick_links')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Home
+                  {t('footer_link_home')}
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="text-gray-400 hover:text-green-500 transition-colors">
-                  About Us
+                  {t('footer_link_about')}
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Products
+                  {t('footer_link_products')}
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Contact
+                  {t('footer_link_contact')}
                 </Link>
               </li>
             </ul>
@@ -112,26 +112,26 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <h4 className="font-bold text-white font-poppins mb-4">Products</h4>
+            <h4 className="font-bold text-white font-poppins mb-4">{t('footer_products')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Maize
+                  {t('footer_product_maize')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Irish Potato
+                  {t('footer_product_irish_potato')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Wheat
+                  {t('footer_product_wheat')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                  Soybean
+                  {t('footer_product_soybean')}
                 </a>
               </li>
             </ul>
@@ -139,7 +139,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-white font-poppins mb-4">Contact</h4>
+            <h4 className="font-bold text-white font-poppins mb-4">{t('footer_contact')}</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex gap-2">
                 <MapPin size={16} className="text-green-500 flex-shrink-0 mt-0.5" />
@@ -164,7 +164,7 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-            <p>&copy; 2026 DERN SEED CO LTD. All Rights Reserved.</p>
+            <p>{t('footer_copyright')}</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-green-500 transition-colors">
                 Privacy Policy

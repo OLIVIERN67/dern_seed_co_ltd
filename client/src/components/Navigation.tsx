@@ -23,23 +23,10 @@ const productCategories = [
     icon: cropImages.maize.primary,
     description: 'Vigorous, high-germination cereal varieties',
     varieties: ['RHMH1520', 'PAN661', 'H628', 'H629'],
-  },
-  {
-    name: 'Wheat Seed',
-    icon: cropImages.wheat.secondary,
-    description: 'Strong establishment, high grain quality',
-    varieties: ['Nyaruka', 'Gihundo', 'Kibatsi', 'Majyambere'],
-  },
-  {
-    name: 'Soybean Seed',
-    icon: cropImages.soybean.primary,
-    description: 'Excellent germination, sustainable rotation crop',
-    varieties: ['RWASOYA 20-8', 'RWASOYA 20-3', 'PEKA 6'],
-  },
+  }
 ];
 
 const aboutMenuItems = [
-  { name: 'Staff Information', href: '/about#staff' },
   { name: 'Mission', href: '/about#mission' },
   { name: 'Vision', href: '/about#vision' },
   { name: 'Values', href: '/about#values' },

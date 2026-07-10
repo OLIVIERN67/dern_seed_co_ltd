@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function NotFound() {
   const [, setLocation] = useLocation();
@@ -10,8 +11,10 @@ export default function NotFound() {
     setLocation("/");
   };
 
+  const { t } = useLanguage();
+
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
       <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
         <CardContent className="pt-8 pb-8 text-center">
           <div className="flex justify-center mb-6">
@@ -23,15 +26,9 @@ export default function NotFound() {
 
           <h1 className="text-4xl font-bold text-slate-900 mb-2">404</h1>
 
-          <h2 className="text-xl font-semibold text-slate-700 mb-4">
-            Page Not Found
-          </h2>
+          <h2 className="text-xl font-semibold text-slate-700 dark:text-gray-100 mb-4">{t('not_found_title')}</h2>
 
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist.
-            <br />
-            It may have been moved or deleted.
-          </p>
+          <p className="text-slate-600 dark:text-gray-300 mb-8 leading-relaxed">{t('not_found_description')}</p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
@@ -39,7 +36,7 @@ export default function NotFound() {
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <Home className="w-4 h-4 mr-2" />
-              Go Home
+              {t('common_go_home')}
             </Button>
           </div>
         </CardContent>

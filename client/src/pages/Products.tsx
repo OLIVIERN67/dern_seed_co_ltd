@@ -4,8 +4,10 @@ import { ArrowRight, CheckCircle, ChevronDown } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Products() {
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -120,10 +122,8 @@ export default function Products() {
 
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Our Products</h1>
-            <p className="text-xl text-gray-200">
-              Certified seeds produced, processed, and marketed in compliance with national seed quality standards to ensure purity, vigor, and reliability.
-            </p>
+            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">{t('products_hero_heading')}</h1>
+            <p className="text-xl text-gray-200">{t('products_hero_description')}</p>
           </div>
         </div>
       </section>
@@ -185,12 +185,12 @@ export default function Products() {
                       Certified
                     </div>
                   </div>
-                  <h3 className="font-bold text-xl font-poppins mb-2 text-gray-900">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">{product.description}</p>
+                  <h3 className="font-bold text-xl font-poppins mb-2 text-gray-900 dark:text-gray-100">{product.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">{product.description}</p>
 
                   {/* Varieties */}
                   <div className="mb-4">
-                    <p className="text-xs font-semibold text-gray-700 mb-2">Available Varieties:</p>
+                    <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">{t('products_available_varieties')}</p>
                     <div className="flex flex-wrap gap-2">
                       {product.varieties.map((variety, i) => (
                         <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-1 rounded-full font-medium">
@@ -202,7 +202,7 @@ export default function Products() {
 
                   {/* Benefits */}
                   <div className="mb-6">
-                    <p className="text-xs font-semibold text-gray-700 mb-2">Key Benefits:</p>
+                    <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">{t('products_key_benefits')}</p>
                     <ul className="space-y-1.5">
                       {product.benefits.map((benefit, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
@@ -218,7 +218,7 @@ export default function Products() {
                     href="/contact"
                     className="inline-flex items-center w-full justify-center px-4 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 mt-auto"
                   >
-                    Inquire Now <ArrowRight className="ml-2 w-4 h-4" />
+                    {t('products_inquire_now')} <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </div>
               </div>
@@ -228,7 +228,7 @@ export default function Products() {
           {/* Empty State */}
           {filteredProducts.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No products found in this category.</p>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">{t('products_empty_state')}</p>
             </div>
           )}
         </div>

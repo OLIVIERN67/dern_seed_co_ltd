@@ -7,6 +7,7 @@ import { cropImages } from '@/lib/cropImages';
 import { fetchTestimonials, type Testimonial } from '@/lib/api';
 import { applySeo } from '@/lib/seo';
 import HomeBackgroundSlideshow from './HomeBackgroundSlideshow';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 
 export default function Home() {
@@ -19,6 +20,8 @@ export default function Home() {
       canonical: 'https://dernseed.rw/',
     });
   }, []);
+  const { t } = useLanguage();
+
   const [stats, setStats] = useState({
     farmers: 0,
     varieties: 0,
@@ -220,8 +223,11 @@ export default function Home() {
     },
   ];
 
+  const headline = t('home_hero_headline');
+  const parts = headline.split('{highlight}');
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <Navigation />
 
       {/* Hero Section */}
@@ -252,11 +258,11 @@ export default function Home() {
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-white mb-4 leading-tight">
-              Growing Agriculture Through <span className="text-amber-500">Quality Certified Seeds</span>
+              {parts[0]} <span className="text-amber-500">{t('home_hero_highlight')}</span> {parts[1]}
             </h1>
 
-            <p className="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed max-w-xl">
-              Empowering Farmers with Reliable Seed Solutions for Better Harvests and Sustainable Farming.
+            <p className="text-sm sm:text-base text-gray-200 dark:text-gray-300 mb-6 leading-relaxed max-w-xl">
+              {t('home_hero_description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12">
@@ -264,13 +270,13 @@ export default function Home() {
                 href="/products"
                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-amber-500 text-gray-900 font-bold text-sm sm:text-base rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg w-full sm:w-auto"
               >
-                Explore Products <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
+                {t('home_cta_explore_products')} <ArrowRight className="ml-2 w-4 sm:w-5 h-4 sm:h-5" />
               </Link>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold text-sm sm:text-base rounded-lg hover:bg-white/10 transition-all duration-300 w-full sm:w-auto"
               >
-                Contact Us
+                {t('home_cta_contact_us')}
               </Link>
             </div>
 
@@ -278,19 +284,19 @@ export default function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-white/20">
               <div className="animate-fade-in-up stagger-1">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.farmers.toLocaleString()}+</div>
-                <div className="text-xs text-gray-300 mt-1">Farmers Served</div>
+                <div className="text-xs text-gray-300 dark:text-gray-400 mt-1">{t('home_stats_farmers')}</div>
               </div>
               <div className="animate-fade-in-up stagger-2">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.varieties}</div>
-                <div className="text-xs text-gray-300 mt-1">Seed Varieties</div>
+                <div className="text-xs text-gray-300 dark:text-gray-400 mt-1">{t('home_stats_varieties')}</div>
               </div>
               <div className="animate-fade-in-up stagger-3">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.experience}+</div>
-                <div className="text-xs text-gray-300 mt-1">Years Experience</div>
+                <div className="text-xs text-gray-300 dark:text-gray-400 mt-1">{t('home_stats_experience')}</div>
               </div>
               <div className="animate-fade-in-up stagger-4">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-poppins text-amber-500">{stats.districts}</div>
-                <div className="text-xs text-gray-300 mt-1">Districts Reached</div>
+                <div className="text-xs text-gray-300 dark:text-gray-400 mt-1">{t('home_stats_districts')}</div>
               </div>
             </div>
           </div>
@@ -298,7 +304,7 @@ export default function Home() {
       </section>
 
       {/* Managing Director Welcome Section (jump target) */}
-      <section id="managing-director" className="py-16 sm:py-20 md:py-24 bg-gray-50">
+      <section id="managing-director" className="py-16 sm:py-20 md:py-24 bg-gray-50 dark:bg-slate-800">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
             <div className="animate-slide-in-left">
@@ -321,15 +327,15 @@ export default function Home() {
 
             <div className="animate-slide-in-right">
               <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Welcome Message</div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 text-gray-900 leading-tight">
-                Welcome Message from the Managing Director
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 text-gray-900 dark:text-gray-100 leading-tight">
+                {t('about_hero_heading')}
               </h2>
 
               {/* Clean, balanced layout: right text block + optional Read More */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 shadow-sm">
                 <div className="grid md:grid-cols-1 gap-6">
                   <div>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-4">
+                    <p className="text-gray-700 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
                       <span className="font-semibold">Dear Valued Visitors, Partners, Farmers, and Stakeholders,</span>
                     </p>
 

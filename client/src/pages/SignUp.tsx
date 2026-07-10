@@ -3,8 +3,10 @@ import { Link } from 'wouter';
 import { Eye, EyeOff, UserPlus, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { register } from '@/lib/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SignUp() {
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -53,7 +55,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white dark:from-slate-900 dark:to-slate-800 py-12 px-4">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="text-center mb-8 animate-fade-in-up">
@@ -65,15 +67,15 @@ export default function SignUp() {
             </div>
           </Link>
 
-          <h1 className="text-3xl font-bold font-poppins text-gray-900 mb-2">Create Account</h1>
-          <p className="text-gray-600">Join our farming community today</p>
+          <h1 className="text-3xl font-bold font-poppins text-gray-900 dark:text-gray-100 mb-2">{t('signup_title')}</h1>
+          <p className="text-gray-600 dark:text-gray-300">{t('signup_subtitle')}</p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8 animate-fade-in-up space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8 animate-fade-in-up space-y-4 dark:bg-slate-800">
           {/* Full Name */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Full Name</label>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-200 uppercase mb-2">{t('form_full_name')}</label>
             <input
               type="text"
               name="fullName"
@@ -81,13 +83,13 @@ export default function SignUp() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-              placeholder="Your full name"
+              placeholder={t('signup_placeholder_name')}
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Email Address</label>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-200 uppercase mb-2">{t('form_email_address')}</label>
             <input
               type="email"
               name="email"
@@ -95,26 +97,26 @@ export default function SignUp() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-              placeholder="you@example.com"
+              placeholder={t('signup_placeholder_email')}
             />
           </div>
 
           {/* Phone */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Phone Number</label>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-200 uppercase mb-2">{t('form_phone_number')}</label>
             <input
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-              placeholder="+250 (0) XXX XXX XXX"
+              placeholder={t('signup_placeholder_phone')}
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Password</label>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-200 uppercase mb-2">{t('signup_password_label')}</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -123,7 +125,7 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t('signup_placeholder_password')}
               />
               <button
                 type="button"
@@ -133,14 +135,12 @@ export default function SignUp() {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
-              Min 8 characters with uppercase, lowercase, number, and special character.
-            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('signup_password_hint')}</p>
           </div>
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase mb-2">Confirm Password</label>
+            <label className="block text-xs font-bold text-gray-700 dark:text-gray-200 uppercase mb-2">{t('signup_confirm_password_label')}</label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -149,7 +149,7 @@ export default function SignUp() {
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t('signup_placeholder_password')}
               />
               <button
                 type="button"
@@ -171,11 +171,8 @@ export default function SignUp() {
               required
               className="w-5 h-5 rounded border-gray-300 text-green-700 mt-0.5"
             />
-            <label className="text-sm text-gray-600">
-              I agree to the{' '}
-              <Link href="/contact" className="text-green-700 font-semibold hover:text-green-800">
-                Terms and Conditions
-              </Link>
+            <label className="text-sm text-gray-600 dark:text-gray-300">{t('signup_terms_prefix')}{' '}
+              <Link href="/contact" className="text-green-700 font-semibold hover:text-green-800">{t('signup_terms_link')}</Link>
             </label>
           </div>
 
@@ -186,16 +183,13 @@ export default function SignUp() {
             className="w-full px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 mt-6 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <UserPlus className="w-5 h-5" />}
-            {loading ? 'Creating Account...' : 'Create Account'}
+            {loading ? t('signup_creating') : t('signup_create_account')}
           </button>
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-gray-600 mt-6 animate-fade-in-up">
-          Already have an account?{' '}
-          <Link href="/login" className="text-green-700 font-semibold hover:text-green-800">
-            Sign In
-          </Link>
+        <p className="text-center text-gray-600 dark:text-gray-300 mt-6 animate-fade-in-up">{t('signup_already_have_account')}{' '}
+          <Link href="/login" className="text-green-700 font-semibold hover:text-green-800">{t('signup_sign_in')}</Link>
         </p>
       </div>
     </div>

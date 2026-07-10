@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHan
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function About() {
   useEffect(() => {
@@ -82,8 +83,10 @@ export default function About() {
     'Contract Farming Model for Certified Bean Seed Multiplication, Grain Production, and Bean Aggregation, Storage, and Market Linkage Hub',
   ];
 
+  const { t } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <Navigation />
 
       {/* Hero Section */}
@@ -98,18 +101,16 @@ export default function About() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">About DERN SEED</h1>
-            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">
-              Growing quality seeds for sustainable agriculture since June 2020. Trusted by over 50,000 farmers across Rwanda.
-            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('about_hero_heading')}</h1>
+            <p className="text-lg md:text-xl text-gray-100 mb-8 leading-relaxed">{t('about_hero_description')}</p>
             <div className="flex gap-4 flex-wrap">
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-amber-500" />
-                <span className="text-white font-semibold">Certified Seeds</span>
+                <span className="text-white font-semibold">{t('about_hero_badge_1')}</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-amber-500" />
-                <span className="text-white font-semibold">Expert Support</span>
+                <span className="text-white font-semibold">{t('about_hero_badge_2')}</span>
               </div>
             </div>
           </div>
@@ -134,8 +135,8 @@ export default function About() {
             </div>
 
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Who We Are</div>
-              <h2 className="text-4xl font-bold font-poppins mb-6 text-gray-900">Our Story</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_who_we_are')}</div>
+              <h2 className="text-4xl font-bold font-poppins mb-6 text-gray-900 dark:text-gray-100">{t('about_our_story')}</h2>
 
               <p className="text-gray-600 mb-4 leading-relaxed">
                 Dern Seed Company Ltd is a Rwandan agribusiness company specializing in the production, multiplication, processing, and marketing of certified agricultural seeds. Since our establishment in June 2020, we have been committed to providing high-quality planting materials that improve agricultural productivity, strengthen food security, and increase farmers' incomes across Rwanda.
@@ -149,7 +150,7 @@ export default function About() {
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1"
               >
-                Get In Touch <ArrowRight className="ml-2 w-4 h-4" />
+                {t('contact_get_in_touch')} <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </div>
           </div>

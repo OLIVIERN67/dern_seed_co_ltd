@@ -6,6 +6,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
 import { applySeo } from '@/lib/seo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Gallery() {
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function Gallery() {
       canonical: 'https://dernseed.com/gallery',
     });
   }, []);
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const galleryItems = (() => {
@@ -48,7 +50,7 @@ export default function Gallery() {
 
 
   const categories = [
-    { id: 'all', label: 'All Images' },
+    { id: 'all', label: t('gallery_browse_collections') },
     { id: 'potato', label: 'Potato' },
     { id: 'bean', label: 'Bean' },
     { id: 'maize', label: 'Maize' },
@@ -76,10 +78,8 @@ export default function Gallery() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">Our Gallery</h1>
-            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
-              Explore our farming operations, training sessions, and community impact across Rwanda.
-            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('gallery_hero_heading')}</h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">{t('gallery_hero_description')}</p>
           </div>
         </div>
       </section>
@@ -88,7 +88,7 @@ export default function Gallery() {
       <section className="py-24">
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-8 leading-tight">Browse Our Collections</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-8 leading-tight">{t('gallery_browse_collections')}</h2>
           </div>
 
           {/* Category Filter */}
@@ -133,7 +133,7 @@ export default function Gallery() {
           {/* Empty State */}
           {filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No images found in this category.</p>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">{t('gallery_empty_state')}</p>
             </div>
           )}
         </div>
@@ -143,10 +143,8 @@ export default function Gallery() {
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Our Visual Story</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              These images showcase our commitment to quality, farmer support, and sustainable agriculture.
-            </p>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('gallery_visual_story')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('gallery_visual_story_description')}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">

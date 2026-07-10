@@ -4,6 +4,7 @@ import { ArrowRight, ChevronDown, Leaf, TrendingUp, Users, Award, Headphones, Dr
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Services() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Services() {
     });
   }, []);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const { t } = useLanguage();
 
   const services = [
     {
@@ -181,10 +183,8 @@ export default function Services() {
 
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Our Services</h1>
-            <p className="text-xl text-gray-200">
-              Integrated agricultural solutions that support farmers, cooperatives, agribusinesses, development organizations, and institutional partners throughout the value chain.
-            </p>
+            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">{t('services_hero_heading')}</h1>
+            <p className="text-xl text-gray-200">{t('services_hero_description')}</p>
           </div>
         </div>
       </section>
