@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, ChevronDown, Leaf, TrendingUp, Users, Award, Headphones, Droplet, Sprout, ShieldCheck, GraduationCap, MapPin as MapPinIcon, FlaskConical, Handshake, Landmark, HeartHandshake, Truck, ClipboardList, BarChart3 } from 'lucide-react';
+import { 
+  ArrowRight, ChevronDown, Leaf, TrendingUp, Users, Award, 
+  Headphones, Droplet, Sprout, ShieldCheck, GraduationCap, 
+  MapPin as MapPinIcon, FlaskConical, Handshake, Landmark, 
+  HeartHandshake, Truck, ClipboardList, BarChart3 
+} from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Services() {
   useEffect(() => {
@@ -16,8 +22,10 @@ export default function Services() {
       canonical: 'https://dernseed.com/services',
     });
   }, []);
+  
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const { t } = useLanguage();
+  const { theme } = useTheme();
 
   const services = [
     {
@@ -167,8 +175,15 @@ export default function Services() {
     },
   ];
 
+  const processSteps = [
+    { step: '1', title: 'Consultation', description: 'We understand your farming needs and conditions' },
+    { step: '2', title: 'Selection', description: 'We recommend the best seed varieties for you' },
+    { step: '3', title: 'Support', description: 'We provide training and technical guidance' },
+    { step: '4', title: 'Success', description: 'We monitor progress and ensure good results' },
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
       <Navigation />
 
       {/* Hero Section */}
@@ -183,27 +198,39 @@ export default function Services() {
 
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">{t('services_hero_heading')}</h1>
-            <p className="text-xl text-gray-200">{t('services_hero_description')}</p>
+            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Our Services</h1>
+            <p className="text-xl text-gray-200">Comprehensive agricultural solutions for Rwandan farmers</p>
           </div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up"
+                className={`${
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up`}
                 style={{ animationDelay: `${(index % 6) * 0.1}s` }}
               >
-                <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center text-green-700 mb-4">
+                <div className={`w-16 h-16 ${
+                  theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'
+                } rounded-lg flex items-center justify-center mb-4`}>
                   {service.icon}
                 </div>
-                <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{service.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                <h3 className={`font-bold text-lg font-poppins mb-2 ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {service.title}
+                </h3>
+                <p className={`text-sm leading-relaxed ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {service.description}
+                </p>
               </div>
             ))}
           </div>
@@ -211,12 +238,22 @@ export default function Services() {
       </section>
 
       {/* Available Opportunities */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Get Involved</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Available Opportunities We Are Currently Offering</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <div className={`text-xs font-bold ${
+              theme === 'dark' ? 'text-green-400' : 'text-green-600'
+            } uppercase tracking-wider mb-2`}>
+              Get Involved
+            </div>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              Available Opportunities We Are Currently Offering
+            </h2>
+            <p className={`max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               We are actively creating inclusive agricultural and agribusiness opportunities for farmers, students, cooperatives, and development partners.
             </p>
           </div>
@@ -225,14 +262,24 @@ export default function Services() {
             {opportunities.map((item, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up"
+                className={`${
+                  theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex items-start gap-4">
                   <span className="text-3xl flex-shrink-0">{item.emoji}</span>
                   <div>
-                    <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{item.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+                    <h3 className={`font-bold text-lg font-poppins mb-2 ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {item.title}
+                    </h3>
+                    <p className={`text-sm leading-relaxed ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -242,11 +289,17 @@ export default function Services() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              Frequently Asked Questions
+            </h2>
+            <p className={`max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Find answers to common questions about our services.
             </p>
           </div>
@@ -255,23 +308,39 @@ export default function Services() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 animate-fade-in-up"
+                className={`${
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl overflow-hidden transition-all duration-300 animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  className={`w-full px-6 py-4 flex items-center justify-between transition-colors ${
+                    theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                  }`}
                 >
-                  <h3 className="font-bold text-lg text-gray-900 text-left">{faq.question}</h3>
+                  <h3 className={`font-bold text-lg text-left ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {faq.question}
+                  </h3>
                   <ChevronDown
-                    className={`w-5 h-5 text-green-700 transition-transform duration-300 flex-shrink-0 ml-4 ${
+                    className={`w-5 h-5 ${
+                      theme === 'dark' ? 'text-green-400' : 'text-green-700'
+                    } transition-transform duration-300 flex-shrink-0 ml-4 ${
                       expandedFaq === index ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
                 {expandedFaq === index && (
-                  <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  <div className={`px-6 py-4 border-t ${
+                    theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'
+                  }`}>
+                    <p className={`leading-relaxed ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      {faq.answer}
+                    </p>
                   </div>
                 )}
               </div>
@@ -281,36 +350,49 @@ export default function Services() {
       </section>
 
       {/* Service Process */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Our Service Process</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              Our Service Process
+            </h2>
+            <p className={`max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               How we work with farmers and partners to ensure success.
             </p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
-            {[
-              { step: '1', title: 'Consultation', description: 'We understand your farming needs and conditions' },
-              { step: '2', title: 'Selection', description: 'We recommend the best seed varieties for you' },
-              { step: '3', title: 'Support', description: 'We provide training and technical guidance' },
-              { step: '4', title: 'Success', description: 'We monitor progress and ensure good results' },
-            ].map((item, index) => (
+            {processSteps.map((item, index) => (
               <div
                 key={index}
                 className="relative animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-white border border-gray-200 rounded-xl p-6 text-center h-full">
+                <div className={`${
+                  theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl p-6 text-center h-full`}>
                   <div className="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">
                     {item.step}
                   </div>
-                  <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{item.title}</h3>
-                  <p className="text-gray-600 text-sm">{item.description}</p>
+                  <h3 className={`font-bold text-lg font-poppins mb-2 ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {item.title}
+                  </h3>
+                  <p className={`text-sm ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {item.description}
+                  </p>
                 </div>
                 {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-1 bg-green-300 transform -translate-y-1/2" />
+                  <div className={`hidden md:block absolute top-1/2 -right-3 w-6 h-1 ${
+                    theme === 'dark' ? 'bg-green-800' : 'bg-green-300'
+                  } transform -translate-y-1/2`} />
                 )}
               </div>
             ))}
