@@ -43,7 +43,7 @@ const aboutMenuItems = [
   { name: "Core Values", href: "/about#values", icon: Shield },
   { name: "Strategic Goals", href: "/about#goals", icon: TrendingUp },
   { name: "What We Do", href: "/about#what-we-do", icon: Leaf },
-  { name: "Our Team", href: "/about#staff-administration", icon: Users, isHash: true },
+  { name: "Our Team", href: "/#staff-administration", icon: Users, isHash: true },
 ];
 
 // Navigation items configuration
@@ -147,8 +147,8 @@ export default function Navigation() {
         // If element exists, scroll to it
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // If element doesn't exist, navigate to about page with hash
-        window.location.href = `/about#${elementId}`;
+        // If element doesn't exist, navigate to the homepage hash
+        window.location.href = `/#${elementId}`;
       }
     }, 100);
   };
@@ -267,20 +267,23 @@ export default function Navigation() {
                                   // If it's a hash link (Our Team), use scroll function
                                   if (subItem.isHash) {
                                     return (
-                                      <button
+                                      <Link
                                         key={subItem.name}
-                                        onClick={() => scrollToElement(hashId)}
+                                        href={subItem.href}
+                                        onClick={() => {
+                                          setActiveDropdown(null);
+                                          scrollToElement(hashId);
+                                        }}
                                         className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200 group w-full text-left"
                                       >
                                         <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center group-hover:bg-green-100 dark:group-hover:bg-green-900/50 transition-colors">
                                           <SubIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
                                         </div>
                                         <span className="font-medium">{subItem.name}</span>
-                                      </button>
+                                      </Link>
                                     );
                                   }
                                   
-                                  // Regular links
                                   return (
                                     <Link
                                       key={subItem.name}
@@ -480,8 +483,9 @@ export default function Navigation() {
                                   
                                   if (subItem.isHash) {
                                     return (
-                                      <button
+                                      <Link
                                         key={subItem.name}
+                                        href={subItem.href}
                                         onClick={() => {
                                           setIsMobileOpen(false);
                                           setIsOpen(false);
@@ -493,7 +497,7 @@ export default function Navigation() {
                                           <SubIcon className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
                                         </div>
                                         {subItem.name}
-                                      </button>
+                                      </Link>
                                     );
                                   }
                                   

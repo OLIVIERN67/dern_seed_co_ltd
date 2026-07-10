@@ -449,6 +449,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Staff Administration Section */}
+      <section id="staff-administration" className="py-20 bg-gray-50 dark:bg-slate-900">
+        <div className="container">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Team</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4 text-gray-900 dark:text-white">Staff Administration</h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Meet the senior leadership team guiding DERN SEED Company Ltd.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
+              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Managing Director</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Father Alexandre NTABANGANYIMANA</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                Leading DERN SEED Company Ltd with a deep commitment to agricultural development and community service.
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
+              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Chief Operations Officer</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Cassien TWAGIRIMANA</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                Oversees operational excellence to ensure seed production and delivery meet the highest standards.
+              </p>
+            </div>
+
+            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
+              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Chief Finance Officer</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Mediatrice MUJAWIYERA</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                Manages the company’s financial strategy and supports sustainable growth for the business.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us */}
       <section className="py-20">
         <div className="container">
