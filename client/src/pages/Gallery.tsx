@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Gallery() {
   useEffect(() => {
@@ -18,7 +19,9 @@ export default function Gallery() {
       canonical: 'https://dernseed.com/gallery',
     });
   }, []);
+  
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const galleryItems = (() => {
@@ -47,10 +50,8 @@ export default function Gallery() {
     return items;
   })();
 
-
-
   const categories = [
-    { id: 'all', label: t('gallery_browse_collections') },
+    { id: 'all', label: t('gallery_browse_collections') || 'All Categories' },
     { id: 'potato', label: 'Potato' },
     { id: 'bean', label: 'Bean' },
     { id: 'maize', label: 'Maize' },
@@ -63,7 +64,7 @@ export default function Gallery() {
     : galleryItems.filter(item => item.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
       <Navigation />
 
       {/* Hero Section */}
@@ -78,17 +79,25 @@ export default function Gallery() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('gallery_hero_heading')}</h1>
-            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">{t('gallery_hero_description')}</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+              {t('gallery_hero_heading') || 'Our Gallery'}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
+              {t('gallery_hero_description') || 'Explore our farming operations and community impact'}
+            </p>
           </div>
         </div>
       </section>
 
       {/* Gallery Section */}
-      <section className="py-24">
+      <section className={`py-24 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-8 leading-tight">{t('gallery_browse_collections')}</h2>
+            <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-8 leading-tight ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              {t('gallery_browse_collections') || 'Browse Our Collections'}
+            </h2>
           </div>
 
           {/* Category Filter */}
@@ -101,6 +110,8 @@ export default function Gallery() {
                   className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
                     activeCategory === category.id
                       ? 'bg-green-700 text-white shadow-lg'
+                      : theme === 'dark'
+                      ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -133,18 +144,30 @@ export default function Gallery() {
           {/* Empty State */}
           {filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600 dark:text-gray-300 text-lg">{t('gallery_empty_state')}</p>
+              <p className={`text-lg ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                {t('gallery_empty_state') || 'No images found in this category'}
+              </p>
             </div>
           )}
         </div>
       </section>
 
       {/* Image Stats */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">{t('gallery_visual_story')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('gallery_visual_story_description')}</p>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              {t('gallery_visual_story') || 'Our Visual Story'}
+            </h2>
+            <p className={`max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              {t('gallery_visual_story_description') || 'Explore our collection of farming operations and community impact'}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -167,12 +190,26 @@ export default function Gallery() {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-8 text-center transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up"
+                className={`${
+                  theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl p-8 text-center transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-5xl font-bold font-poppins text-green-700 mb-3">{stat.count}</div>
-                <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900">{stat.title}</h3>
-                <p className="text-gray-600 text-sm">{stat.description}</p>
+                <div className={`text-5xl font-bold font-poppins mb-3 ${
+                  theme === 'dark' ? 'text-green-400' : 'text-green-700'
+                }`}>
+                  {stat.count}
+                </div>
+                <h3 className={`font-bold text-lg font-poppins mb-2 ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {stat.title}
+                </h3>
+                <p className={`text-sm ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {stat.description}
+                </p>
               </div>
             ))}
           </div>
@@ -180,11 +217,17 @@ export default function Gallery() {
       </section>
 
       {/* Photo Highlights */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">Featured Highlights</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              Featured Highlights
+            </h2>
+            <p className={`max-w-2xl mx-auto ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Key moments that define our mission and impact.
             </p>
           </div>
@@ -214,13 +257,23 @@ export default function Gallery() {
             ].map((highlight, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up flex gap-6"
+                className={`${
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                } border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up flex gap-6`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="text-5xl flex-shrink-0">{highlight.emoji}</div>
                 <div>
-                  <h3 className="font-bold text-xl font-poppins mb-2 text-gray-900">{highlight.title}</h3>
-                  <p className="text-gray-600">{highlight.description}</p>
+                  <h3 className={`font-bold text-xl font-poppins mb-2 ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {highlight.title}
+                  </h3>
+                  <p className={`${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {highlight.description}
+                  </p>
                 </div>
               </div>
             ))}

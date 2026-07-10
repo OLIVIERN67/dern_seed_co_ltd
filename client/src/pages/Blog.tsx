@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'wouter';
 import { ArrowRight, Search, Calendar, User, Tag } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Blog() {
   useEffect(() => {
@@ -17,7 +17,9 @@ export default function Blog() {
       canonical: 'https://dernseed.com/blog',
     });
   }, []);
+  
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -94,7 +96,7 @@ export default function Blog() {
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900">
+    <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
       <Navigation />
 
       {/* Hero Section */}
@@ -109,32 +111,48 @@ export default function Blog() {
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">{t('blog_hero_heading')}</h1>
-            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">{t('blog_hero_description')}</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-6 leading-tight">
+              {t('blog_hero_heading') || 'Our Blog'}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
+              {t('blog_hero_description') || 'Farming tips, guides & agricultural resources'}
+            </p>
           </div>
         </div>
       </section>
 
       {/* Search and Filter */}
-      <section className="py-12 bg-gray-50 border-b border-gray-200">
+      <section className={`py-12 border-b ${
+        theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'
+      }`}>
         <div className="container">
           {/* Search Bar */}
           <div className="mb-8 animate-fade-in-up">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
+              }`} />
               <input
                 type="text"
-                placeholder={t('blog_search_placeholder')}
+                placeholder={t('blog_search_placeholder') || 'Search articles...'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent"
+                className={`w-full pl-12 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent ${
+                  theme === 'dark' 
+                    ? 'bg-gray-900 border-gray-700 text-white placeholder-gray-400' 
+                    : 'bg-white border-gray-300 text-gray-900'
+                }`}
               />
             </div>
           </div>
 
           {/* Category Filter */}
           <div className="animate-fade-in-up">
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{t('blog_filter_by_category')}</p>
+            <p className={`text-sm font-semibold mb-3 ${
+              theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+            }`}>
+              {t('blog_filter_by_category') || 'Filter by Category'}
+            </p>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <button
@@ -143,10 +161,12 @@ export default function Blog() {
                   className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 text-sm ${
                     activeCategory === category
                       ? 'bg-green-700 text-white shadow-lg'
+                      : theme === 'dark'
+                      ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:border-green-700'
                       : 'bg-white border border-gray-300 text-gray-700 hover:border-green-700'
                   }`}
                 >
-                  {category === 'all' ? t('blog_all_articles') : category}
+                  {category === 'all' ? (t('blog_all_articles') || 'All Articles') : category}
                 </button>
               ))}
             </div>
@@ -155,38 +175,56 @@ export default function Blog() {
       </section>
 
       {/* Articles Grid */}
-      <section className="py-20">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           {filteredArticles.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredArticles.map((article, index) => (
                 <div
                   key={article.id}
-                  className="bg-white border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up"
+                  className={`${
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                  } border rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up`}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   {/* Article Image */}
-                  <div className="h-40 bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-5xl">
+                  <div className={`h-40 flex items-center justify-center text-5xl ${
+                    theme === 'dark' ? 'bg-gray-700' : 'bg-gradient-to-br from-green-100 to-green-50'
+                  }`}>
                     {article.image}
                   </div>
 
                   {/* Article Content */}
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      <Tag className="w-4 h-4 text-green-600" />
-                      <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold">
+                      <Tag className={`w-4 h-4 ${
+                        theme === 'dark' ? 'text-green-400' : 'text-green-600'
+                      }`} />
+                      <span className={`text-xs px-3 py-1 rounded-full font-bold ${
+                        theme === 'dark' 
+                          ? 'bg-green-900/30 text-green-400' 
+                          : 'bg-green-100 text-green-700'
+                      }`}>
                         {article.category}
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-lg font-poppins mb-2 text-gray-900 line-clamp-2">
+                    <h3 className={`font-bold text-lg font-poppins mb-2 line-clamp-2 ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
                       {article.title}
                     </h3>
 
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">{article.excerpt}</p>
+                    <p className={`text-sm mb-4 line-clamp-2 ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      {article.excerpt}
+                    </p>
 
                     {/* Meta Info */}
-                    <div className="flex items-center gap-4 text-xs text-gray-500 mb-4 pb-4 border-t border-gray-200 pt-4">
+                    <div className={`flex items-center gap-4 text-xs mb-4 pt-4 border-t ${
+                      theme === 'dark' ? 'text-gray-400 border-gray-700' : 'text-gray-500 border-gray-200'
+                    }`}>
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {article.date}
@@ -200,7 +238,9 @@ export default function Blog() {
                     {/* Read More */}
                     <a
                       href="#"
-                      className="text-green-700 font-semibold text-sm hover:text-green-800 transition-colors inline-flex items-center gap-1"
+                      className={`font-semibold text-sm transition-colors inline-flex items-center gap-1 ${
+                        theme === 'dark' ? 'text-green-400 hover:text-green-300' : 'text-green-700 hover:text-green-800'
+                      }`}
                     >
                       Read More <ArrowRight className="w-4 h-4" />
                     </a>
@@ -210,38 +250,83 @@ export default function Blog() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 dark:text-gray-300 text-lg">{t('blog_no_articles')}</p>
+              <p className={`text-lg ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                {t('blog_no_articles') || 'No articles found'}
+              </p>
             </div>
           )}
         </div>
       </section>
 
       {/* Featured Article */}
-      <section className="py-20 bg-gray-50">
+      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <h2 className="text-4xl font-bold font-poppins mb-4">{t('blog_featured_article')}</h2>
+            <h2 className={`text-4xl font-bold font-poppins mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              {t('blog_featured_article') || 'Featured Article'}
+            </h2>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg animate-fade-in-up">
+          <div className={`${
+            theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+          } border rounded-2xl overflow-hidden shadow-lg animate-fade-in-up`}>
             <div className="grid lg:grid-cols-2 gap-0">
-              <div className="h-96 lg:h-auto bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center text-8xl">
+              <div className={`h-96 lg:h-auto flex items-center justify-center text-8xl ${
+                theme === 'dark' ? 'bg-gray-700' : 'bg-gradient-to-br from-green-100 to-green-50'
+              }`}>
                 🌱
               </div>
               <div className="p-8 lg:p-12 flex flex-col justify-center">
-                <div className="inline-block px-4 py-2 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-4 w-fit">
+                <div className={`inline-block px-4 py-2 text-xs font-bold rounded-full mb-4 w-fit ${
+                  theme === 'dark' 
+                    ? 'bg-green-900/30 text-green-400' 
+                    : 'bg-green-100 text-green-700'
+                }`}>
                   Seasonal Guide
                 </div>
-                <h3 className="text-3xl font-bold font-poppins mb-4 text-gray-900">Best Time to Plant Maize</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">Learn the optimal planting times for maize in different regions to maximize your harvest. Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best planting times are typically March-April and September-October. Proper timing ensures optimal moisture availability for germination and growth.</p>
-                <div className="flex items-center gap-6 mb-6 pb-6 border-b border-gray-200">
+                <h3 className={`text-3xl font-bold font-poppins mb-4 ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Best Time to Plant Maize
+                </h3>
+                <p className={`mb-6 leading-relaxed ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  Learn the optimal planting times for maize in different regions to maximize your harvest. 
+                  Maize planting times vary depending on rainfall patterns and altitude. In Rwanda, the best 
+                  planting times are typically March-April and September-October. Proper timing ensures optimal 
+                  moisture availability for germination and growth.
+                </p>
+                <div className={`flex items-center gap-6 mb-6 pb-6 border-b ${
+                  theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                }`}>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase">Published</p>
-                    <p className="font-semibold text-gray-900">June 2026</p>
+                    <p className={`text-xs uppercase ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Published
+                    </p>
+                    <p className={`font-semibold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      June 2026
+                    </p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase">By</p>
-                    <p className="font-semibold text-gray-900">Agricultural Team</p>
+                    <p className={`text-xs uppercase ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      By
+                    </p>
+                    <p className={`font-semibold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Agricultural Team
+                    </p>
                   </div>
                 </div>
                 <a
@@ -267,19 +352,25 @@ export default function Blog() {
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-800/85" />
 
         <div className="container relative z-10 text-center">
-                  <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">{t('blog_newsletter_heading')}</h2>
-          <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">{t('blog_newsletter_description')}</p>
+          <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">
+            {t('blog_newsletter_heading') || 'Subscribe to Our Newsletter'}
+          </h2>
+          <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">
+            {t('blog_newsletter_description') || 'Get the latest farming tips and updates delivered to your inbox'}
+          </p>
           <form className="max-w-md mx-auto flex gap-2 animate-fade-in-up">
             <input
               type="email"
-              placeholder={t('newsletter_email_placeholder')}
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              placeholder={t('newsletter_email_placeholder') || 'Enter your email'}
+              className={`flex-1 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 ${
+                theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
+              }`}
             />
             <button
               type="submit"
               className="px-6 py-3 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1"
             >
-              {t('blog_newsletter_subscribe')}
+              {t('blog_newsletter_subscribe') || 'Subscribe'}
             </button>
           </form>
         </div>
