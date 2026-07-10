@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'wouter';
 import { ArrowRight, Search, Calendar, User, Tag } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
