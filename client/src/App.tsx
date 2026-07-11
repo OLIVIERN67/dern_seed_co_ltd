@@ -32,13 +32,11 @@ function Router() {
       <Route path={"/login"} component={Login} />
       <Route path={"/signup"} component={SignUp} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-/** Initializes analytics once and tracks SPA route changes. */
 function AnalyticsTracker() {
   const [location] = useLocation();
 
