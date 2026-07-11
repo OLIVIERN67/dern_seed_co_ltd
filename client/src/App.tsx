@@ -1,11 +1,11 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/ui/sonner";
+import { TooltipProvider } from "@/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import WhatsAppButton from "./components/WhatsAppButton";
-import Navigation from "./components/Navigation/Index";
+import Navigation from "./components/Navigation/";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { initAnalytics, trackPageView } from "./lib/analytics";

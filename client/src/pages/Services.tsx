@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { 
-  ArrowRight, ChevronDown, Leaf, TrendingUp, Users, Award, 
-  Headphones, Droplet, Sprout, ShieldCheck, GraduationCap, 
-  MapPin as MapPinIcon, FlaskConical, Handshake, Landmark, 
-  HeartHandshake, Truck, ClipboardList, BarChart3 
-} from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -28,87 +23,104 @@ export default function Services() {
 
   const services = [
     {
-      icon: <Leaf className="w-10 h-10" />,
+      image: '/gallery/potatoes.jpeg',
+      imageAlt: 'Certified potato seed harvest from DERN SEED production',
       title: 'Certified Seed Production & Multiplication',
       description: 'We produce and multiply high-quality certified seeds — Irish potato, bean, maize, wheat, and soybean — that meet national quality standards, ensuring farmers have access to reliable planting materials for improved yields.',
     },
     {
-      icon: <TrendingUp className="w-10 h-10" />,
+      image: '/gallery/maize seed.jpeg',
+      imageAlt: 'Certified maize seed prepared for supply',
       title: 'Production & Supply of Certified Seeds',
       description: 'We process and supply certified seeds to farmers, cooperatives, agribusinesses, and development organizations, including multiplication, quality control, packaging, storage, and distribution to local and regional markets.',
     },
     {
-      icon: <Sprout className="w-10 h-10" />,
+      image: '/gallery/maize crop 1.jpeg',
+      imageAlt: 'Healthy maize crop growing in the field',
       title: 'Climate-Resilient & High-Yield Varieties',
       description: 'We develop, promote, and supply seed varieties adapted to changing environmental conditions — built to withstand drought, pests, and disease while increasing productivity and profitability.',
     },
     {
-      icon: <Handshake className="w-10 h-10" />,
+      image: '/gallery/visit.jpeg',
+      imageAlt: 'DERN SEED field visit with agricultural partners',
       title: 'Contract Seed Multiplication',
       description: 'We partner with farmers, cooperatives, and agricultural organizations, providing pre-basic and basic seed, technical guidance, and market access under agreed standards and conditions.',
     },
     {
-      icon: <ShieldCheck className="w-10 h-10" />,
+      image: '/gallery/maize seed 3.jpeg',
+      imageAlt: 'Clean certified seed ready for processing and packaging',
       title: 'Seed Processing & Packaging',
       description: 'We conduct cleaning, grading, sorting, treatment, quality control, and packaging to improve seed purity, germination rates, and storage life — collaborating with trusted partners for large-scale needs.',
     },
     {
-      icon: <GraduationCap className="w-10 h-10" />,
+      image: '/gallery/derne image.jpeg',
+      imageAlt: 'DERN SEED training and field learning activity',
       title: 'Farmer Training & Capacity Building',
       description: 'We train farmers, cooperatives, and producer groups on quality seed production, good agricultural practices, climate-smart farming, post-harvest handling, and agribusiness management.',
     },
     {
-      icon: <Headphones className="w-10 h-10" />,
+      image: '/gallery/Home background 4.jpeg',
+      imageAlt: 'Agricultural field support in a crop production area',
       title: 'Agricultural Extension Services',
       description: 'We offer technical guidance on seed selection, planting, crop management, pest and disease control, soil fertility management, and post-harvest practices.',
     },
     {
-      icon: <MapPinIcon className="w-10 h-10" />,
+      image: '/gallery/potatoes field 2.jpeg',
+      imageAlt: 'Potato demonstration plot in a DERN SEED field',
       title: 'Demonstration Plots & Field Trials',
       description: 'We establish demonstration plots and conduct field trials to showcase improved and climate-resilient varieties under real farming conditions, refining recommendations for different agro-ecological zones.',
     },
     {
-      icon: <Droplet className="w-10 h-10" />,
+      image: '/gallery/Wheat.jpeg',
+      imageAlt: 'Wheat crop used for agronomic advisory services',
       title: 'Agronomic Advisory Services',
       description: 'We guide farmers on soil preparation, planting techniques, fertilizer use, pest and disease management, irrigation practices, and crop nutrition.',
     },
     {
-      icon: <Truck className="w-10 h-10" />,
+      image: '/gallery/beans.jpeg',
+      imageAlt: 'Bean seed and agro-input distribution material',
       title: 'Agro-Input Distribution',
       description: 'We supply and distribute quality seeds, fertilizers, and crop protection products sourced from trusted suppliers, through local networks and partnerships.',
     },
     {
-      icon: <FlaskConical className="w-10 h-10" />,
+      image: '/gallery/soya.jpeg',
+      imageAlt: 'Soybean field used in research and development partnerships',
       title: 'Research & Development Partnerships',
       description: 'We collaborate with research institutions, universities, and private sector actors to test improved varieties, adapt crops to local conditions, and develop climate-smart technologies.',
     },
     {
-      icon: <Users className="w-10 h-10" />,
+      image: '/gallery/mbc 23.jpeg',
+      imageAlt: 'Bean crop field supporting market linkage work',
       title: 'Market Linkage & Buyer Connections',
       description: 'We connect farmers, cooperatives, and agribusiness partners to reliable buyers and markets, organizing supply chains and reducing post-harvest losses.',
     },
     {
-      icon: <Landmark className="w-10 h-10" />,
+      image: '/gallery/dern seed co ltd.jpg',
+      imageAlt: 'DERN SEED company presence for finance facilitation',
       title: 'Access to Finance Facilitation',
       description: 'We link farmers and cooperatives with banks, microfinance institutions, SACCOs, impact investors, DFIs, and grant programs — assisting with business profiles and documentation for financing.',
     },
     {
-      icon: <Handshake className="w-10 h-10" />,
+      image: '/gallery/Home background 3.jpeg',
+      imageAlt: 'Agricultural collaboration field scene',
       title: 'Public-Private Development Partnerships',
       description: 'We collaborate with government institutions, NGOs, development agencies, and research organizations on seed systems, climate-smart agriculture, and rural economic development.',
     },
     {
-      icon: <HeartHandshake className="w-10 h-10" />,
+      image: '/gallery/Home background 2.jpeg',
+      imageAlt: 'Community agriculture activity for youth and women empowerment',
       title: 'Youth & Women Empowerment in Agribusiness',
       description: 'We create opportunities for youth and women in seed production, training, contract farming, and value chain activities — with mentorship and access to inputs and markets.',
     },
     {
-      icon: <ClipboardList className="w-10 h-10" />,
+      image: '/gallery/potatoes 1.jpeg',
+      imageAlt: 'Maize production field for agricultural project implementation',
       title: 'Agricultural Project Implementation',
       description: 'We support planning, coordination, execution, monitoring, and evaluation of agricultural projects for NGOs, government programs, and private initiatives.',
     },
     {
-      icon: <BarChart3 className="w-10 h-10" />,
+      image: '/gallery/Wheat (2).jpeg',
+      imageAlt: 'Wheat field representing agricultural investment opportunities',
       title: 'Investment & Impact Partnership Opportunities',
       description: 'We welcome collaboration with impact investors, DFIs, agribusiness companies, and NGOs to scale seed production and generate measurable social and financial returns.',
     },
@@ -210,24 +222,29 @@ export default function Services() {
                 key={index}
                 className={`${
                   theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-                } border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up`}
+                } border rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up`}
                 style={{ animationDelay: `${(index % 6) * 0.1}s` }}
               >
-                <div className={`w-16 h-16 ${
-                  theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'
-                } rounded-lg flex items-center justify-center mb-4`}>
-                  {service.icon}
+                <div className="h-44 overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.imageAlt}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                    loading="lazy"
+                  />
                 </div>
-                <h3 className={`font-bold text-lg font-poppins mb-2 ${
-                  theme === 'dark' ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {service.title}
-                </h3>
-                <p className={`text-sm leading-relaxed ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                }`}>
-                  {service.description}
-                </p>
+                <div className="p-6">
+                  <h3 className={`font-bold text-lg font-poppins mb-2 ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {service.title}
+                  </h3>
+                  <p className={`text-sm leading-relaxed ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    {service.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
