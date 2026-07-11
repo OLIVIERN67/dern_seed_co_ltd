@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
 import { applySeo } from '@/lib/seo';
@@ -65,8 +64,6 @@ export default function Gallery() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
-      <Navigation />
-
       {/* Hero Section */}
       <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div

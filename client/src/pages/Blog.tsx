@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ArrowRight, Search, Calendar, User, Tag } from 'lucide-react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -97,8 +96,6 @@ export default function Blog() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
-      <Navigation />
-
       {/* Hero Section */}
       <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div

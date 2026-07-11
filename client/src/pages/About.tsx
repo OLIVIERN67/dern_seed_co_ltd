@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake, User, Briefcase } from 'lucide-react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -112,8 +111,6 @@ export default function About() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
-      <Navigation />
-
       {/* Hero Section */}
       <section className="relative min-h-96 flex items-center overflow-hidden py-24 md:py-32">
         <div
@@ -122,7 +119,7 @@ export default function About() {
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
+        <div className="absolute inset-0 bg-linear-to-r from-green-900/95 to-green-900/60" />
 
         <div className="container relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
@@ -216,7 +213,7 @@ export default function About() {
       <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="grid md:grid-cols-2 gap-12 mb-12">
-            <div className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up`}>
+            <div id="mission" className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up`}>
               <div className={`w-14 h-14 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-lg flex items-center justify-center mb-4`}>
                 <Target className="w-8 h-8" />
               </div>
@@ -228,7 +225,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up stagger-1`}>
+            <div id="vision" className={`${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-8 rounded-2xl shadow-lg border animate-fade-in-up stagger-1`}>
               <div className={`w-14 h-14 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-lg flex items-center justify-center mb-4`}>
                 <Leaf className="w-8 h-8" />
               </div>
@@ -242,7 +239,7 @@ export default function About() {
           </div>
 
           {/* Our Goal */}
-          <div className={`${theme === 'dark' ? 'bg-green-900/20 border-green-800' : 'bg-green-50 border-green-100'} rounded-2xl p-8 lg:p-12 border`}>
+          <div id="goals" className={`${theme === 'dark' ? 'bg-green-900/20 border-green-800' : 'bg-green-50 border-green-100'} rounded-2xl p-8 lg:p-12 border`}>
             <h3 className={`text-2xl font-bold font-poppins mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               Our Goal
             </h3>
@@ -252,7 +249,7 @@ export default function About() {
             <ul className="grid md:grid-cols-2 gap-3">
               {goals.map((goal, index) => (
                 <li key={index} className={`flex items-start gap-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
-                  <CheckCircle className="w-5 h-5 text-green-700 flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-green-700 shrink-0 mt-0.5" />
                   <span>{goal}</span>
                 </li>
               ))}
@@ -262,7 +259,7 @@ export default function About() {
       </section>
 
       {/* What We Do */}
-      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section id="what-we-do" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Scope</div>
@@ -277,7 +274,7 @@ export default function About() {
                 className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-6 flex items-start gap-3 transition-all duration-300 hover:border-green-400 hover:shadow-lg animate-fade-in-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CheckCircle className="w-5 h-5 text-green-700 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-green-700 shrink-0 mt-0.5" />
                 <span className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>{item}</span>
               </div>
             ))}
@@ -286,7 +283,7 @@ export default function About() {
       </section>
 
       {/* Core Values */}
-      <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+      <section id="values" className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
             <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">What Drives Us</div>
@@ -421,19 +418,19 @@ export default function About() {
             </h3>
             <dl className={`space-y-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Company Name:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Company Name:</dt>
                 <dd>Dern Seed Company Ltd</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Head Office:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Head Office:</dt>
                 <dd>Byimana Village, Ruhengeri Cell, Muhoza Sector, Musanze District, Rwanda</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Postal Address:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Postal Address:</dt>
                 <dd>P.O. Box 45, Musanze, Rwanda</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Telephone:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Telephone:</dt>
                 <dd>
                   <a href="tel:+250782724840" className={`transition-colors ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
                     +250 782 724 840
@@ -441,7 +438,7 @@ export default function About() {
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Email:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Email:</dt>
                 <dd>
                   <a href="mailto:dernseedcompanyltd2020@gmail.com" className={`transition-colors break-all ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
                     dernseedcompanyltd2020@gmail.com
@@ -449,7 +446,7 @@ export default function About() {
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 flex-shrink-0">Established:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">Established:</dt>
                 <dd>June 2020</dd>
               </div>
             </dl>
@@ -465,7 +462,7 @@ export default function About() {
             backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=75)',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-800/85" />
+        <div className="absolute inset-0 bg-linear-to-r from-green-900/95 to-green-800/85" />
 
         <div className="container relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">

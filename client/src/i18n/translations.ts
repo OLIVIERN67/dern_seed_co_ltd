@@ -269,8 +269,6 @@ export const translations: Record<Language, Record<string, string>> = {
       'Partner with DERN SEED for reliable certified seeds and expert agricultural support.',
     about_cta_contact_us: 'Contact Us Today',
 
-    common_read_more: 'Read More',
-
     // Services
     services_hero_heading: 'Our Services',
     services_hero_description:

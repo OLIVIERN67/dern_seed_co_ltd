@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import WhatsAppButton from "./components/WhatsAppButton";
+import Navigation from "./components/Navigation/Index";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { initAnalytics, trackPageView } from "./lib/analytics";
@@ -55,11 +56,12 @@ function AnalyticsTracker() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light" switchable>
+      <ThemeProvider>
         <LanguageProvider>
           <TooltipProvider>
             <Toaster />
             <AnalyticsTracker />
+            <Navigation />
             <Router />
             <WhatsAppButton />
           </TooltipProvider>

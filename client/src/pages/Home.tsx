@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, CheckCircle, Zap, Shield, Users, Award, Headphones, Leaf, Droplet, Bug, TrendingUp, MessageSquare, Calendar, User, Star, MapPin, Phone, Mail, Clock } from 'lucide-react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { cropImages } from '@/lib/cropImages';
 import { fetchTestimonials, type Testimonial } from '@/lib/api';
@@ -228,8 +227,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
-      <Navigation />
-
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Animated background slideshow */}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, CheckCircle, ChevronDown } from 'lucide-react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -111,8 +110,6 @@ export default function Products() {
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
       <div className="min-h-screen bg-white dark:bg-gray-900">
-        <Navigation />
-
         {/* Hero Section */}
         <section className="relative min-h-80 flex items-center overflow-hidden">
           <div

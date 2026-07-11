@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
-import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { applySeo } from "@/lib/seo";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -114,7 +113,7 @@ export default function Contact() {
         }
       );
 
-      if (response.data.ok) {
+      if (response.ok) {
         setSubmitted(true);
         setFormData({
           fullName: "",
@@ -184,8 +183,6 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
-      <Navigation />
-
       {/* Hero Section */}
       <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
         <div
