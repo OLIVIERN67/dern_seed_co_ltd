@@ -11,6 +11,7 @@ import { testimonialRouter } from "./testimonials.js";
 import { contactRouter } from "./contact.js";
 import { productInquiryRouter } from "./productInquiries.js";
 import { blogDocumentsRouter } from "./blogDocuments.js";
+import { dashboardRouter } from "./dashboard.js";
 
 
 
@@ -33,3 +34,4 @@ routes.use(seedRouter);
 routes.use(farmerRouter);
 routes.use(employeeRouter);
 routes.use(testimonialRouter);
+routes.use(dashboardRouter);

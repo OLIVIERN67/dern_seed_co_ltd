@@ -28,6 +28,25 @@ export function createProductInquiryRepository(pool: Pool) {
 
       return Number(result.insertId);
     },
+
+    async findAll() {
+      const [rows] = await pool.execute(
+        `SELECT id, full_name, email, phone, product_name, quantity, message, language, is_read, created_at
+         FROM product_inquiries
+         ORDER BY created_at DESC
+         LIMIT 500`
+      );
+      return rows as any[];
+    },
+
+    async markRead(id: number) {
+      await pool.execute(`UPDATE product_inquiries SET is_read = 1 WHERE id = ?`, [id]);
+    },
+
+    async countUnread() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM product_inquiries WHERE is_read = 0`);
+      return Number(rows[0]?.count ?? 0);
+    },
   };
 }
 

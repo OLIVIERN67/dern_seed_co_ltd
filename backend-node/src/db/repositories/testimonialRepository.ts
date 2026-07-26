@@ -67,5 +67,10 @@ export function createTestimonialRepository(pool: Pool) {
     async deleteById(id: number) {
       await pool.execute(`DELETE FROM testimonials WHERE id = ?`, [id]);
     },
+
+    async countPendingApproval() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM testimonials WHERE is_approved = 0`);
+      return Number(rows[0]?.count ?? 0);
+    },
   };
 }

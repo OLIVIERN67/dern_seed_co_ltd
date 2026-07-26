@@ -1,32 +1,7 @@
-import type { Request, Response, NextFunction } from "express";
-
-import { requireAuth } from "./requireAuth";
-
 /**
- * Minimal admin guard.
- *
- * NOTE: The current backend session middleware only attaches { id } to req.
- * For admin checks we must query the user/role.
+ * @deprecated Kept for backward compatibility with existing route imports.
+ * The real implementation now lives in sessionMiddleware.ts and uses
+ * header-based server-side sessions (no cookies, no JWT) instead of JWT
+ * verification. Import from "./sessionMiddleware.js" directly in new code.
  */
-import { db } from "../db";
-
-export function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  // Ensure session exists
-  requireAuth(req, res, () => {
-    if (!req.user) return;
-
-    db.users
-      .findById(req.user.id)
-      .then((u) => {
-        if (!u || u.role !== "admin") {
-          res.status(403).json({ error: "Forbidden" });
-          return;
-        }
-        next();
-      })
-      .catch(() => {
-        res.status(500).json({ error: "Failed to authorize" });
-      });
-  });
-}
-
+export { requireAdmin } from "./sessionMiddleware.js";

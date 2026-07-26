@@ -1,6 +1,5 @@
 import mysql from "mysql2/promise";
 import { createUserRepository } from "./repositories/userRepository";
-import { createSessionRepository } from "./repositories/sessionRepository";
 import { createOrderRepository } from "./repositories/orderRepository";
 import { createProductRepository } from "./repositories/productRepository";
 import { createSeedRepository } from "./repositories/seedRepository";
@@ -13,25 +12,41 @@ import { createContactMessageRepository } from "./repositories/contactMessageRep
 import { createProductInquiryRepository } from "./repositories/productInquiryRepository";
 import { createBlogDocumentRepository } from "./repositories/blogDocumentRepository";
 
-import { getEnv, requireEnv } from "../config/env";
+import { getEnv, requireEnv, getEnvAllowEmpty } from "../config/env";
 
 
-const pool = mysql.createPool({
+const dbConfig: any = {
   host: requireEnv("DB_HOST"),
   port: Number(getEnv("DB_PORT", "3306")),
   database: requireEnv("DB_NAME"),
   user: requireEnv("DB_USER"),
-  password: getEnv("DB_PASS", ""),
   charset: getEnv("DB_CHARSET", "utf8mb4"),
   waitForConnections: true,
   connectionLimit: 10,
-  namedPlaceholders: true,
-});
+};
+
+const dbPass = getEnvAllowEmpty("DB_PASS");
+if (dbPass !== "") {
+  dbConfig.password = dbPass;
+}
+
+const pool = mysql.createPool(dbConfig);
+
+/**
+ * Generic parameterized query helper.
+ * - For SELECT statements, resolves to an array of row objects.
+ * - For INSERT/UPDATE/DELETE, resolves to a ResultSetHeader-like object
+ *   (with .affectedRows, .insertId, etc).
+ */
+async function query<T = any>(sql: string, params: any[] = []): Promise<T> {
+  const [result] = await pool.execute(sql, params);
+  return result as unknown as T;
+}
 
 export const db = {
   pool,
+  query,
   users: createUserRepository(pool),
-  sessions: createSessionRepository(pool),
   orders: createOrderRepository(pool),
   products: createProductRepository(pool),
   seeds: createSeedRepository(pool),

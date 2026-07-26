@@ -1,0 +1,59 @@
+Cookie: dern_session=80f1bb63823956c7a74c363644ca38d17190bbcb78d47b95a68ce8000ad01c8d
+Token: 80f1bb63823956c7a74c363644ca38d17190bbcb78d47b95a68ce8000ad01c8d
+
+Session rows matching our token:
+[
+  {
+    "id": 15,
+    "user_id": 1,
+    "session_token": "80f1bb63823956c7a74c363644ca38d17190bbcb78d47b95a68ce8000ad01c8d",
+    "expires_at": "2026-08-23T22:31:50.000Z",
+    "revoked_at": null,
+    "created_at": "2026-07-24T22:31:50.000Z",
+    "last_seen_at": null
+  }
+]
+Count: 1
+
+Detailed checks:
+- revoked_at: null -> is null? true
+- expires_at: 2026-08-23T22:31:50.000Z
+- expiresAt.getTime(): 1787524310000
+- Date.now(): 1784932310516
+- expired? false
+
+Second query (simulating 2nd request):
+Count: 1
+Found! {"id":15,"user_id":1,"session_token":"80f1bb63823956c7a74c363644ca38d17190bbcb78d47b95a68ce8000ad01c8d","expires_at":"2026-08-23T22:31:50.000Z","revoked_at":null}
+
+All sessions in DB:
+[
+  {
+    "id": 15,
+    "user_id": 1,
+    "token_prefix": "80f1bb63823956c7a74c363644ca38",
+    "expires_at": "2026-08-23T22:31:50.000Z",
+    "revoked_at": null
+  },
+  {
+    "id": 14,
+    "user_id": 1,
+    "token_prefix": "4ad36be7941b48cbbfc8115203b68b",
+    "expires_at": "2026-08-23T22:31:06.000Z",
+    "revoked_at": null
+  },
+  {
+    "id": 13,
+    "user_id": 1,
+    "token_prefix": "8d1d3dfd3fac2495b646f42ecc7337",
+    "expires_at": "2026-07-24T22:27:03.000Z",
+    "revoked_at": null
+  },
+  {
+    "id": 12,
+    "user_id": 1,
+    "token_prefix": "05ed8e9b58fa2cfcec4d154b478106",
+    "expires_at": "2026-07-24T22:17:11.000Z",
+    "revoked_at": null
+  }
+]

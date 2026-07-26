@@ -16,3 +16,9 @@ export function requireEnv(key: string): string {
   return v;
 }
 
+export function getEnvAllowEmpty(key: string, defaultValue?: string): string {
+  const v = readEnv(key);
+  if (v === undefined) return defaultValue ?? "";
+  return v;
+}
+

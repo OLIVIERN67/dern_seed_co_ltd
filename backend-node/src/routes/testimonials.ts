@@ -1,14 +1,16 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/requireAuth.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 import { TestimonialController } from "../controllers/TestimonialController.js";
-
 
 export const testimonialRouter = Router();
 
-// Public routes
+// Public: approved testimonials only
 testimonialRouter.get("/api/testimonials", TestimonialController.list);
 
-// Protected routes (require authentication)
+// Any authenticated customer may submit a testimonial
 testimonialRouter.post("/api/testimonials", requireAuth, TestimonialController.create);
-testimonialRouter.patch("/api/testimonials/:id", requireAuth, TestimonialController.updateById);
-testimonialRouter.delete("/api/testimonials/:id", requireAuth, TestimonialController.deleteById);
+
+// Moderation (approve/edit/remove) is admin-only
+testimonialRouter.patch("/api/testimonials/:id", requireAdmin, TestimonialController.updateById);
+testimonialRouter.delete("/api/testimonials/:id", requireAdmin, TestimonialController.deleteById);

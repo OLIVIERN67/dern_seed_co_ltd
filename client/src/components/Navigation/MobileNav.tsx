@@ -1,5 +1,7 @@
-import { Link } from "wouter";
-import { ChevronDown, Sun, Moon, LogIn, UserPlus } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { ChevronDown, Sun, Moon, LogIn, UserPlus, LayoutDashboard, LogOut, User } from "lucide-react";
+import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   navItems,
   productCategories,
@@ -188,24 +190,79 @@ export default function MobileNav({
         </div>
 
         <div className="px-4 pt-2 pb-3 space-y-2">
-          <Link
-            href="/login"
-            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"
-            onClick={() => setIsOpen(false)}
-          >
-            <LogIn className="w-4 h-4" />
-            {getTranslation("nav_login", "Login")}
-          </Link>
-          <Link
-            href="/signup"
-            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-linear-to-r from-green-600 to-green-700 text-white font-semibold text-sm hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/20 transition-all"
-            onClick={() => setIsOpen(false)}
-          >
-            <UserPlus className="w-4 h-4" />
-            {getTranslation("nav_signup", "Sign Up")}
-          </Link>
+          <MobileAuthSection getTranslation={getTranslation} onNavigate={() => setIsOpen(false)} />
         </div>
       </div>
     </div>
+  );
+}
+
+function MobileAuthSection({
+  getTranslation,
+  onNavigate,
+}: {
+  getTranslation: (key: string, fallback: string) => string;
+  onNavigate: () => void;
+}) {
+  const { user, isStaff, logout } = useAuth();
+  const [, navigate] = useLocation();
+
+  if (user) {
+    const dashboardHref = user.role === "admin" ? "/dashboard/admin" : user.role === "employee" ? "/dashboard/employee" : null;
+
+    const handleLogout = async () => {
+      await logout();
+      toast.success(getTranslation("nav_logout_success", "Logged out"));
+      onNavigate();
+      navigate("/");
+    };
+
+    return (
+      <>
+        <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-300">
+          <User className="w-4 h-4" />
+          <span className="truncate">{user.name}</span>
+        </div>
+        {isStaff && dashboardHref && (
+          <Link
+            href={dashboardHref}
+            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"
+            onClick={onNavigate}
+          >
+            <LayoutDashboard className="w-4 h-4" />
+            {getTranslation("nav_dashboard", "Dashboard")}
+          </Link>
+        )}
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-linear-to-r from-green-600 to-green-700 text-white font-semibold text-sm hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/20 transition-all"
+        >
+          <LogOut className="w-4 h-4" />
+          {getTranslation("nav_logout", "Logout")}
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Link
+        href="/login"
+        className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"
+        onClick={onNavigate}
+      >
+        <LogIn className="w-4 h-4" />
+        {getTranslation("nav_login", "Login")}
+      </Link>
+      <Link
+        href="/signup"
+        className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-linear-to-r from-green-600 to-green-700 text-white font-semibold text-sm hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/20 transition-all"
+        onClick={onNavigate}
+      >
+        <UserPlus className="w-4 h-4" />
+        {getTranslation("nav_signup", "Sign Up")}
+      </Link>
+    </>
   );
 }

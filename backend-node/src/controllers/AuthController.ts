@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import { AuthService } from "../services/AuthService.js";
 
 import { z, ZodError } from "zod";
-import { getEnv } from "../config/env.js";
 
 
 /** Convert a ZodError into a single human-readable message. */
@@ -37,15 +36,7 @@ export class AuthController {
       const parsed = RegisterSchema.parse(req.body ?? {});
       const out = await AuthService.register(parsed.name, parsed.email, parsed.password);
 
-      res.cookie(out.cookieName, out.sessionToken, {
-        httpOnly: true,
-        secure: out.cookieSecure,
-        sameSite: "strict",
-        expires: new Date(out.expiresAtTs * 1000),
-        path: "/",
-      });
-
-      res.status(201).json({ ok: true, user_id: out.userId });
+      res.status(201).json({ ok: true, user_id: out.userId, token: out.token, user: out.user });
     } catch (e: any) {
       if (e instanceof ZodError) {
         res.status(400).json({ error: formatZodError(e) });
@@ -62,16 +53,9 @@ export class AuthController {
       const parsed = LoginSchema.parse(req.body ?? {});
       const out = await AuthService.login(parsed.email, parsed.password);
 
-      res.cookie(out.cookieName, out.sessionToken, {
-        httpOnly: true,
-        secure: out.cookieSecure,
-        sameSite: "strict",
-        expires: new Date(out.expiresAtTs * 1000),
-        path: "/",
-      });
-
       res.json({
         ok: true,
+        token: out.token,
         user: {
           id: out.user.id,
           name: out.user.name,
@@ -80,30 +64,40 @@ export class AuthController {
         },
       });
     } catch (e: any) {
+      console.error("[AuthController.login] ERROR:", e?.message || e);
+      console.error("[AuthController.login] STACK:", e?.stack || "");
       // Use generic error message for security
       res.status(401).json({ error: "Invalid email or password" });
     }
   }
 
   static async logout(req: Request, res: Response) {
-    const cookieName = (getEnv("SESSION_COOKIE_NAME", "dern_session") ?? "dern_session") as string;
-    const token = (req.cookies?.[cookieName] as string | undefined) ?? "";
+    try {
+      // Get the token from the Authorization header
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ error: "No session token provided" });
+      }
 
+      const token = authHeader.substring(7);
+      const revoked = await AuthService.logout(token);
 
-    if (token) {
-      await AuthService.logout(token);
+      if (revoked) {
+        res.json({
+          ok: true,
+          message: "Logged out successfully",
+        });
+      } else {
+        // Token was already invalid or expired
+        res.json({
+          ok: true,
+          message: "Session already ended",
+        });
+      }
+    } catch (e: any) {
+      console.error("[AuthController.logout] ERROR:", e?.message || e);
+      res.status(500).json({ error: "Logout failed" });
     }
-
-    const cookieSecure = (getEnv("SESSION_COOKIE_SECURE", "false") ?? "false") === "true";
-    res.cookie(cookieName, "", {
-      httpOnly: true,
-      secure: cookieSecure,
-      sameSite: "strict",
-      expires: new Date(Date.now() - 3600 * 1000),
-      path: "/",
-    });
-
-    res.json({ ok: true });
   }
 }
 

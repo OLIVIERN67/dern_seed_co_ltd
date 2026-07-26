@@ -60,6 +60,60 @@ export function createOrderRepository(pool: Pool) {
     async deleteByIdAndUserId(id: number, userId: number) {
       await pool.execute(`DELETE FROM orders WHERE id = ? AND user_id = ?`, [id, userId]);
     },
+
+    // ---- Staff-wide access (admin/employee dashboards) ----
+
+    async findAll() {
+      const [rows] = await pool.execute(
+        `SELECT o.id, o.user_id, u.name AS customer_name, u.email AS customer_email,
+                o.product_name, o.quantity, o.total_amount, o.status, o.created_at, o.updated_at
+         FROM orders o
+         LEFT JOIN users u ON u.id = o.user_id
+         ORDER BY o.id DESC`
+      );
+      return rows as any[];
+    },
+
+    async findByIdAny(id: number) {
+      const [rows] = await pool.execute(
+        `SELECT o.id, o.user_id, u.name AS customer_name, u.email AS customer_email,
+                o.product_name, o.quantity, o.total_amount, o.status, o.created_at, o.updated_at
+         FROM orders o
+         LEFT JOIN users u ON u.id = o.user_id
+         WHERE o.id = ?
+         LIMIT 1`,
+        [id]
+      );
+      const row = Array.isArray(rows) ? (rows as any[])[0] : undefined;
+      return row ?? null;
+    },
+
+    async updateByIdAny(id: number, fields: Partial<{product_name: string; quantity: number; total_amount: number; status: string}>) {
+      const allowed = new Set(["product_name", "quantity", "total_amount", "status"]);
+      const sets: string[] = [];
+      const params: any[] = [];
+
+      for (const [k, v] of Object.entries(fields)) {
+        if (!allowed.has(k)) continue;
+        if (v === undefined) continue;
+        sets.push(`${k} = ?`);
+        params.push(v);
+      }
+
+      if (sets.length === 0) return;
+
+      params.push(id);
+      await pool.execute(`UPDATE orders SET ${sets.join(", ")} WHERE id = ?`, params);
+    },
+
+    async deleteByIdAny(id: number) {
+      await pool.execute(`DELETE FROM orders WHERE id = ?`, [id]);
+    },
+
+    async countAll() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM orders`);
+      return Number(rows[0]?.count ?? 0);
+    },
   };
 }
 

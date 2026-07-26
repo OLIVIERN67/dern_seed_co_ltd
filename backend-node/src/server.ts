@@ -1,14 +1,13 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 
 import { routes } from "./routes/index.js";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { notFoundHandler } from "./middleware/notFoundHandler";
-import { authSessionMiddleware } from "./middleware/authSessionMiddleware";
+import { sessionMiddleware } from "./middleware/sessionMiddleware.js";
 import { getEnv } from "./config/env";
 
 export function createServer() {
@@ -68,7 +67,6 @@ export function createServer() {
     })
   );
 
-  app.use(cookieParser());
   app.use(express.json({ limit: "1mb" }));
   app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
@@ -78,8 +76,13 @@ export function createServer() {
     next();
   });
 
-  // Cookie session lookup (best-effort)
-  app.use(authSessionMiddleware);
+  // Header-based session authentication (no cookies).
+  // Reads Authorization: Bearer <token>, validates it against the sessions
+  // table, and populates req.user for any downstream requireAuth /
+  // requireAdmin / requireStaff guard. Requests with no/invalid token simply
+  // proceed with req.user left undefined - the route-level guards decide
+  // whether that's acceptable for a given endpoint.
+  app.use(sessionMiddleware);
 
   app.use(routes);
 

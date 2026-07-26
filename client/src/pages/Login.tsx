@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Eye, EyeOff, LogIn, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { login } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Login() {
   const { t } = useLanguage();
+  const { login } = useAuth();
+  const [, navigate] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,10 +20,15 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await login(email, password);
+      const user = await login(email, password);
       toast.success(t('login_welcome_back'));
-      // Cookie-based session is set by the backend.
-      window.location.href = '/';
+      if (user.role === 'admin') {
+        navigate('/dashboard/admin');
+      } else if (user.role === 'employee') {
+        navigate('/dashboard/employee');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t('login_sign_in_button'));
     } finally {

@@ -70,5 +70,10 @@ export function createFarmerRepository(pool: Pool) {
     async deleteById(id: number) {
       await pool.execute(`DELETE FROM farmers WHERE id = ?`, [id]);
     },
+
+    async countAll() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM farmers WHERE is_active = 1`);
+      return Number(rows[0]?.count ?? 0);
+    },
   };
 }

@@ -1,35 +1,6 @@
 import bcrypt from "bcryptjs";
-import { nanoid } from "nanoid";
-import crypto from "crypto";
-
 import { db } from "../db";
-import { requireEnv, getEnv } from "../config/env";
-
-function sessionCookieSecure(): boolean {
-  const v = getEnv("SESSION_COOKIE_SECURE", "false");
-  return String(v).toLowerCase() === "true";
-}
-
-function sessionTTLSeconds(): number {
-  const v = Number(getEnv("SESSION_TTL", "2592000"));
-  return Number.isFinite(v) ? v : 2592000;
-}
-
-function sessionCookieName(): string {
-  return getEnv("SESSION_COOKIE_NAME", "dern_session")!;
-}
-
-function makeToken(): string {
-  // token stored in cookie; DB stores hash for safety (similar idea).
-  // But current PHP uses token directly as sha256 hexdig (64 chars). We'll do same:
-  // token = sha256(hex(randomBytes))
-  return crypto.createHash("sha256").update(crypto.randomBytes(32)).digest("hex");
-}
-
-function tokenHashForDb(token: string) {
-  // PHP stores the token itself (hash hex). We'll store the same string.
-  return token;
-}
+import { SessionManager } from "./SessionManager.js";
 
 export class AuthService {
   static async register(name: string, email: string, password: string) {
@@ -41,33 +12,63 @@ export class AuthService {
     const passwordHash = await bcrypt.hash(password, 10);
     const userId = await db.users.create(name, email, passwordHash);
 
-    const sessionToken = makeToken();
-    const expiresAt = new Date(Date.now() + sessionTTLSeconds() * 1000);
+    // Get the user to include role in session
+    const user = await db.users.findById(userId);
+    if (!user) {
+      throw new Error("Failed to create user");
+    }
 
-    await db.sessions.createSession(userId, tokenHashForDb(sessionToken), expiresAt);
+    // Create a server-side session
+    const { token, session } = await SessionManager.createSession(
+      Number(user.id),
+      user.email,
+      user.name,
+      user.role
+    );
 
     return {
       userId,
-      sessionToken,
-      expiresAtTs: Math.floor(expiresAt.getTime() / 1000),
-      cookieName: sessionCookieName(),
-      cookieSecure: sessionCookieSecure(),
+      token,
+      user: {
+        id: Number(user.id),
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     };
   }
 
   static async login(email: string, password: string) {
+    console.log("[AuthService.login] email:", email);
     const user = await db.users.findByEmail(email);
+    console.log("[AuthService.login] user found:", !!user);
+    console.log(
+      "[AuthService.login] user data:",
+      user
+        ? JSON.stringify({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            hasHash: !!user.password_hash,
+          })
+        : "null"
+    );
     if (!user || !user.password_hash) {
       throw new Error("Invalid credentials");
     }
 
     const ok = await bcrypt.compare(password, user.password_hash);
+    console.log("[AuthService.login] bcrypt compare:", ok);
     if (!ok) throw new Error("Invalid credentials");
 
-    const sessionToken = makeToken();
-    const expiresAt = new Date(Date.now() + sessionTTLSeconds() * 1000);
-
-    await db.sessions.createSession(Number(user.id), tokenHashForDb(sessionToken), expiresAt);
+    // Create a server-side session
+    const { token, session } = await SessionManager.createSession(
+      Number(user.id),
+      user.email,
+      user.name,
+      user.role
+    );
 
     return {
       user: {
@@ -76,15 +77,18 @@ export class AuthService {
         email: user.email,
         role: user.role,
       },
-      sessionToken,
-      expiresAtTs: Math.floor(expiresAt.getTime() / 1000),
-      cookieName: sessionCookieName(),
-      cookieSecure: sessionCookieSecure(),
+      token,
     };
   }
 
-  static async logout(sessionToken: string) {
-    await db.sessions.revokeSession(tokenHashForDb(sessionToken));
+  /**
+   * Logout - revoke the session server-side
+   */
+  static async logout(token: string): Promise<boolean> {
+    const revoked = await SessionManager.revokeSession(token);
+    if (revoked) {
+      console.log("[AuthService.logout] Session revoked successfully");
+    }
+    return revoked;
   }
 }
-

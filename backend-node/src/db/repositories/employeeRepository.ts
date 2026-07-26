@@ -71,6 +71,11 @@ export function createEmployeeRepository(pool: Pool) {
       await pool.execute(`DELETE FROM employees WHERE id = ?`, [id]);
     },
 
+    async countAll() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM employees WHERE is_active = 1`);
+      return Number(rows[0]?.count ?? 0);
+    },
+
     async findByDepartment(department: string) {
       const [rows] = await pool.execute(
         `SELECT id, user_id, name, phone, email, position, department, hire_date, salary, is_active, created_at, updated_at

@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Eye, EyeOff, UserPlus, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { register } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SignUp() {
   const { t } = useLanguage();
+  const { refresh } = useAuth();
+  const [, navigate] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,8 +48,9 @@ export default function SignUp() {
     try {
       await register(formData.fullName, formData.email, formData.password);
       toast.success('Account created successfully! Welcome to DERN SEED.');
-      // After register, backend sets the session cookie.
-      window.location.href = '/';
+      // Cookie-based session was set by the backend; sync client auth state.
+      await refresh();
+      navigate('/');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Registration failed');
     } finally {

@@ -1,16 +1,15 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/requireAuth.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 import { SeedController } from "../controllers/SeedController.js";
-
 
 export const seedRouter = Router();
 
-// Public routes
+// Public routes (seed catalog)
 seedRouter.get("/api/seeds", SeedController.list);
 seedRouter.get("/api/seeds/:id", SeedController.getById);
 seedRouter.get("/api/seeds/crop/:crop_type", SeedController.getByCropType);
 
-// Protected routes (require authentication)
-seedRouter.post("/api/seeds", requireAuth, SeedController.create);
-seedRouter.patch("/api/seeds/:id", requireAuth, SeedController.updateById);
-seedRouter.delete("/api/seeds/:id", requireAuth, SeedController.deleteById);
+// Admin-only: catalog/pricing/stock management
+seedRouter.post("/api/seeds", requireAdmin, SeedController.create);
+seedRouter.patch("/api/seeds/:id", requireAdmin, SeedController.updateById);
+seedRouter.delete("/api/seeds/:id", requireAdmin, SeedController.deleteById);

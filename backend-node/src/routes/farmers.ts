@@ -1,19 +1,19 @@
 import { Router } from "express";
 import { requireAuth } from "../middleware/requireAuth.js";
+import { requireStaff } from "../middleware/requireStaff.js";
 import { FarmerController } from "../controllers/FarmerController.js";
-
 
 export const farmerRouter = Router();
 
-// Public routes
-farmerRouter.get("/api/farmers", FarmerController.list);
-
-// Protected routes (require authentication)
+// Self-service: a farmer viewing their own profile.
 // NOTE: "/me" must be registered BEFORE "/:id", otherwise Express matches "me" as an :id param.
 farmerRouter.get("/api/farmers/me", requireAuth, FarmerController.getMyProfile);
-farmerRouter.post("/api/farmers", requireAuth, FarmerController.create);
 
-// Public parameterized route (after "/me")
-farmerRouter.get("/api/farmers/:id", FarmerController.getById);
-farmerRouter.patch("/api/farmers/:id", requireAuth, FarmerController.updateById);
-farmerRouter.delete("/api/farmers/:id", requireAuth, FarmerController.deleteById);
+// Customer (farmer) records contain PII (phone/email/location) and are managed
+// by staff only (Admin: full access; Employee: manage customers as part of
+// daily operations) — not public.
+farmerRouter.get("/api/farmers", requireStaff, FarmerController.list);
+farmerRouter.get("/api/farmers/:id", requireStaff, FarmerController.getById);
+farmerRouter.post("/api/farmers", requireStaff, FarmerController.create);
+farmerRouter.patch("/api/farmers/:id", requireStaff, FarmerController.updateById);
+farmerRouter.delete("/api/farmers/:id", requireStaff, FarmerController.deleteById);

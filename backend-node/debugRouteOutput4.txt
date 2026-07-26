@@ -1,0 +1,11 @@
+Cookie: dern_session=575d555a3d6894d1b3a07ddf49b028878d7234cd78dcb2e962c6df2afa6612c5
+Login: {"ok":true,"user":{"id":1,"name":"Admin","email":"admin@dernseed.com","role":"admin"}}
+/api/users => 200: {"users":[{"id":1,"name":"Admin","email":"admin@dernseed.com","role":"admin","is_active":1,"created_at":"2026-07-24T20:4
+/api/employees => 401: {"error":"Unauthorized"}
+/api/dashboard/admin-stats => 401: {"error":"Unauthorized"}
+/api/orders => 401: {"error":"Unauthorized"}
+/api/farmers => 401: {"error":"Unauthorized"}
+/api/products => 200: {"products":[]}
+/api/seeds => 200: {"seeds":[]}
+
+=== DONE ===

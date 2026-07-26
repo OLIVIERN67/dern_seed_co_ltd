@@ -59,6 +59,11 @@ export function createProductRepository(pool: Pool) {
       await pool.execute(`DELETE FROM products WHERE id = ?`, [id]);
     },
 
+    async countAll() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM products WHERE is_available = 1`);
+      return Number(rows[0]?.count ?? 0);
+    },
+
     async findByCategory(category: string) {
       const [rows] = await pool.execute(
         `SELECT id, name, description, category, price, stock_quantity, unit, image_url, is_available, created_at, updated_at

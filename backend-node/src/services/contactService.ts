@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "../db";
 import { sendEmail } from "./emailService";
-import { requireEnv } from "../config/env";
+import { getEnv } from "../config/env";
 
 const SubmitContactSchema = z.object({
   fullName: z.string().min(2).max(120),
@@ -17,8 +17,8 @@ export type SubmitContactInput = z.infer<typeof SubmitContactSchema>;
 export async function submitContact(input: unknown) {
   const parsed = SubmitContactSchema.parse(input);
 
-  const companyInbox = requireEnv("COMPANY_INBOX_EMAIL");
-
+  // Persist first: the message must be saved even if email delivery is
+  // unavailable or misconfigured.
   const rowId = await db.contactMessages.create({
     full_name: parsed.fullName,
     email: parsed.email,
@@ -28,23 +28,26 @@ export async function submitContact(input: unknown) {
     language: parsed.language ?? null,
   });
 
-  const subject = parsed.subject ?? "New Contact Message";
-  const html = `
-    <div style="font-family: Arial, sans-serif;">
-      <h3 style="margin:0 0 10px 0;">${subject}</h3>
-      <p><b>From:</b> ${parsed.fullName} (${parsed.email})</p>
-      ${parsed.phone ? `<p><b>Phone:</b> ${parsed.phone}</p>` : ""}
-      <p><b>Message:</b></p>
-      <pre style="white-space: pre-wrap;">${parsed.message}</pre>
-    </div>
-  `;
+  const companyInbox = getEnv("COMPANY_INBOX_EMAIL");
+  if (companyInbox) {
+    const subject = parsed.subject ?? "New Contact Message";
+    const html = `
+      <div style="font-family: Arial, sans-serif;">
+        <h3 style="margin:0 0 10px 0;">${subject}</h3>
+        <p><b>From:</b> ${parsed.fullName} (${parsed.email})</p>
+        ${parsed.phone ? `<p><b>Phone:</b> ${parsed.phone}</p>` : ""}
+        <p><b>Message:</b></p>
+        <pre style="white-space: pre-wrap;">${parsed.message}</pre>
+      </div>
+    `;
 
-  await sendEmail({
-    to: companyInbox,
-    subject: `DERN SEED Contact: ${subject}`,
-    html,
-  });
+    // Best-effort: never let an email failure turn a successful submission into an error.
+    await sendEmail({
+      to: companyInbox,
+      subject: `DERN SEED Contact: ${subject}`,
+      html,
+    });
+  }
 
   return { ok: true, id: rowId };
 }
-

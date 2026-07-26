@@ -6,8 +6,10 @@ import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Navigation from "./components/Navigation/";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { initAnalytics, trackPageView } from "./lib/analytics";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -18,6 +20,8 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import AdminDashboard from "./pages/dashboard/AdminDashboard";
+import EmployeeDashboard from "./pages/dashboard/EmployeeDashboard";
 
 function Router() {
   return (
@@ -31,6 +35,16 @@ function Router() {
       <Route path={"/contact"} component={Contact} />
       <Route path={"/login"} component={Login} />
       <Route path={"/signup"} component={SignUp} />
+      <Route path={"/dashboard/admin"}>
+        <ProtectedRoute allow={["admin"]}>
+          <AdminDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path={"/dashboard/employee"}>
+        <ProtectedRoute allow={["admin", "employee"]}>
+          <EmployeeDashboard />
+        </ProtectedRoute>
+      </Route>
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -56,13 +70,15 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <LanguageProvider>
-          <TooltipProvider>
-            <Toaster />
-            <AnalyticsTracker />
-            <Navigation />
-            <Router />
-            <WhatsAppButton />
-          </TooltipProvider>
+          <AuthProvider>
+            <TooltipProvider>
+              <Toaster />
+              <AnalyticsTracker />
+              <Navigation />
+              <Router />
+              <WhatsAppButton />
+            </TooltipProvider>
+          </AuthProvider>
         </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>

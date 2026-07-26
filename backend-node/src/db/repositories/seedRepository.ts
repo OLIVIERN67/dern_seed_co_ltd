@@ -59,6 +59,11 @@ export function createSeedRepository(pool: Pool) {
       await pool.execute(`DELETE FROM seeds WHERE id = ?`, [id]);
     },
 
+    async countAll() {
+      const [rows]: any = await pool.execute(`SELECT COUNT(*) AS count FROM seeds WHERE is_available = 1`);
+      return Number(rows[0]?.count ?? 0);
+    },
+
     async findByCropType(cropType: string) {
       const [rows] = await pool.execute(
         `SELECT id, name, variety, description, crop_type, germination_rate, planting_season, harvest_period, price_per_kg, stock_quantity, origin, certification, image_url, is_available, created_at, updated_at
