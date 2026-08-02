@@ -1,6 +1,21 @@
 import { db } from "../db";
 
 export class EmployeeService {
+  static async syncFromUser(userId: number, name: string, email: string, isActive = true) {
+    const existing = await db.employees.findByUserId(userId);
+
+    if (existing) {
+      await db.employees.updateById(existing.id, {
+        name,
+        email,
+        is_active: isActive ? 1 : 0,
+      });
+      return existing.id;
+    }
+
+    return db.employees.create(userId, name, null, email, null, null, new Date(), null);
+  }
+
   static async create(userId: number | null, name: string, phone: string | null, email: string | null, position: string | null, department: string | null, hireDate: Date | null, salary: number | null) {
     const id = await db.employees.create(userId, name, phone, email, position, department, hireDate, salary);
 

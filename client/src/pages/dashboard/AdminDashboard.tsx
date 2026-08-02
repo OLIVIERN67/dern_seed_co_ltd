@@ -19,6 +19,14 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import * as api from '@/lib/api';
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ''));
+    reader.onerror = () => reject(new Error('Failed to read image file'));
+    reader.readAsDataURL(file);
+  });
+}
 import {
   StatCard,
   TabButton,
@@ -469,6 +477,7 @@ function EmployeeFormModal({
 export function CustomersTab() {
   const [items, setItems] = useState<api.Farmer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [modalItem, setModalItem] = useState<api.Farmer | 'new' | null>(null);
 
   const load = () => {
@@ -493,38 +502,53 @@ export function CustomersTab() {
     }
   };
 
+  const filteredItems = items.filter((it) => {
+    const text = `${it.name} ${it.email || ''} ${it.phone || ''} ${it.farm_location || ''} ${it.farm_name || ''}`.toLowerCase();
+    return text.includes(search.toLowerCase());
+  });
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700 gap-3">
         <h2 className="font-bold text-gray-900 dark:text-gray-100">Customers</h2>
-        <PrimaryButton onClick={() => setModalItem('new')}>
-          <Plus className="w-4 h-4" /> Add Customer
-        </PrimaryButton>
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Search customers by name, phone, location..."
+            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg text-xs w-full sm:w-64"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <PrimaryButton onClick={() => setModalItem('new')}>
+            <Plus className="w-4 h-4" /> Add Customer
+          </PrimaryButton>
+        </div>
       </div>
       {loading ? (
         <LoadingState />
-      ) : items.length === 0 ? (
-        <EmptyState message="No customers yet." />
+      ) : filteredItems.length === 0 ? (
+        <EmptyState message="No customers found." />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-100 dark:border-gray-700">
                 <Th>Name</Th>
-                <Th>Farm</Th>
-                <Th>Location</Th>
-                <Th>Phone</Th>
+                <Th>Email & Phone</Th>
+                <Th>Farm / Location</Th>
                 <Th>Status</Th>
                 <Th>Actions</Th>
               </tr>
             </thead>
             <tbody>
-              {items.map((it) => (
+              {filteredItems.map((it) => (
                 <tr key={it.id} className="border-b border-gray-50 dark:border-gray-700/50">
                   <Td>{it.name}</Td>
-                  <Td>{it.farm_name ?? '—'}</Td>
-                  <Td>{it.farm_location ?? '—'}</Td>
-                  <Td>{it.phone ?? '—'}</Td>
+                  <Td>
+                    <div>{it.email || '—'}</div>
+                    {it.phone && <div className="text-xs text-gray-400">{it.phone}</div>}
+                  </Td>
+                  <Td>{it.farm_location ?? it.farm_name ?? '—'}</Td>
                   <Td>
                     <StatusBadge active={it.is_active} />
                   </Td>
@@ -630,6 +654,8 @@ export function FarmerFormModal({
 function ProductsTab() {
   const [items, setItems] = useState<api.Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [modalItem, setModalItem] = useState<api.Product | 'new' | null>(null);
 
   const load = () => {
@@ -654,18 +680,50 @@ function ProductsTab() {
     }
   };
 
+  const filteredItems = items.filter((it) => {
+    const matchesSearch =
+      it.name.toLowerCase().includes(search.toLowerCase()) ||
+      (it.category && it.category.toLowerCase().includes(search.toLowerCase())) ||
+      (it.description && it.description.toLowerCase().includes(search.toLowerCase()));
+    const matchesCat =
+      categoryFilter === 'all' ||
+      (it.category && it.category.toLowerCase() === categoryFilter.toLowerCase());
+    return matchesSearch && matchesCat;
+  });
+
+  const categories = Array.from(new Set(items.map((i) => i.category).filter(Boolean) as string[]));
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700 gap-3">
         <h2 className="font-bold text-gray-900 dark:text-gray-100">Products</h2>
-        <PrimaryButton onClick={() => setModalItem('new')}>
-          <Plus className="w-4 h-4" /> New Product
-        </PrimaryButton>
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg text-xs"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg text-xs"
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <option value="all">All Categories</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <PrimaryButton onClick={() => setModalItem('new')}>
+            <Plus className="w-4 h-4" /> New Product
+          </PrimaryButton>
+        </div>
       </div>
       {loading ? (
         <LoadingState />
-      ) : items.length === 0 ? (
-        <EmptyState message="No products yet." />
+      ) : filteredItems.length === 0 ? (
+        <EmptyState message="No products found." />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -673,21 +731,21 @@ function ProductsTab() {
               <tr className="border-b border-gray-100 dark:border-gray-700">
                 <Th>Name</Th>
                 <Th>Category</Th>
-                <Th>Price</Th>
-                <Th>Stock</Th>
+                <Th>Price (RWF)</Th>
+                <Th>Unit</Th>
+                <Th>Stock Quantity</Th>
                 <Th>Status</Th>
                 <Th>Actions</Th>
               </tr>
             </thead>
             <tbody>
-              {items.map((it) => (
+              {filteredItems.map((it) => (
                 <tr key={it.id} className="border-b border-gray-50 dark:border-gray-700/50">
                   <Td>{it.name}</Td>
                   <Td>{it.category ?? '—'}</Td>
                   <Td>{it.price}</Td>
-                  <Td>
-                    {it.stock_quantity} {it.unit}
-                  </Td>
+                  <Td>{it.unit ?? 'kg'}</Td>
+                  <Td>{it.stock_quantity}</Td>
                   <Td>
                     <StatusBadge active={it.is_available} />
                   </Td>
@@ -779,6 +837,19 @@ function ProductFormModal({
         </FormField>
         <FormField label="Image URL">
           <input className={inputClass} value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
+        </FormField>
+        <FormField label="Upload Image">
+          <input
+            type="file"
+            accept="image/*"
+            className={inputClass}
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const dataUrl = await readFileAsDataUrl(file);
+              setForm((prev) => ({ ...prev, image_url: dataUrl }));
+            }}
+          />
         </FormField>
         <div className="flex justify-end gap-2 mt-6">
           <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
@@ -888,6 +959,8 @@ function SeedFormModal({
   const [form, setForm] = useState({
     name: initial?.name ?? '',
     variety: initial?.variety ?? '',
+    varieties: initial?.varieties?.join('\n') ?? '',
+    benefits: initial?.benefits?.join('\n') ?? '',
     description: initial?.description ?? '',
     crop_type: initial?.crop_type ?? '',
     price_per_kg: initial?.price_per_kg?.toString() ?? '',
@@ -904,6 +977,8 @@ function SeedFormModal({
     setSaving(true);
     const payload = {
       ...form,
+      varieties: form.varieties.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean),
+      benefits: form.benefits.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean),
       price_per_kg: Number(form.price_per_kg),
       stock_quantity: Number(form.stock_quantity),
       germination_rate: form.germination_rate ? Number(form.germination_rate) : null,
@@ -940,8 +1015,14 @@ function SeedFormModal({
             <input className={inputClass} value={form.crop_type} onChange={(e) => setForm({ ...form, crop_type: e.target.value })} />
           </FormField>
         </div>
+        <FormField label="Available Varieties (one per line)">
+          <textarea className={inputClass} rows={4} value={form.varieties} onChange={(e) => setForm({ ...form, varieties: e.target.value })} />
+        </FormField>
         <FormField label="Description">
           <textarea className={inputClass} rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+        </FormField>
+        <FormField label="Key Benefits (one per line)">
+          <textarea className={inputClass} rows={4} value={form.benefits} onChange={(e) => setForm({ ...form, benefits: e.target.value })} />
         </FormField>
         <div className="grid grid-cols-2 gap-3">
           <FormField label="Price per kg">
@@ -965,6 +1046,19 @@ function SeedFormModal({
         <FormField label="Image URL">
           <input className={inputClass} value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
         </FormField>
+        <FormField label="Upload Image">
+          <input
+            type="file"
+            accept="image/*"
+            className={inputClass}
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const dataUrl = await readFileAsDataUrl(file);
+              setForm((prev) => ({ ...prev, image_url: dataUrl }));
+            }}
+          />
+        </FormField>
         <div className="flex justify-end gap-2 mt-6">
           <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
           <PrimaryButton type="submit" loading={saving}>
@@ -981,6 +1075,8 @@ function SeedFormModal({
 export function OrdersTab({ isStaffAll }: { isStaffAll: boolean }) {
   const [items, setItems] = useState<api.Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const load = () => {
     setLoading(true);
@@ -996,10 +1092,10 @@ export function OrdersTab({ isStaffAll }: { isStaffAll: boolean }) {
   const handleStatusChange = async (order: api.Order, status: api.Order['status']) => {
     try {
       await api.updateOrder(order.id, { status });
-      toast.success('Order updated');
+      toast.success(`Order #${order.id} status updated to ${status}`);
       load();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to update order');
+    } catch (e: any) {
+      toast.error(e?.message || e instanceof Error ? e.message : 'Failed to update order');
     }
   };
 
@@ -1014,15 +1110,50 @@ export function OrdersTab({ isStaffAll }: { isStaffAll: boolean }) {
     }
   };
 
+  const filteredItems = items.filter((o) => {
+    const custStr = `${o.customer_name || ''} ${o.customer_email || ''} ${o.user_id}`.toLowerCase();
+    const prodStr = o.product_name.toLowerCase();
+    const idStr = String(o.id);
+    const queryLower = search.toLowerCase();
+
+    const matchesSearch =
+      custStr.includes(queryLower) || prodStr.includes(queryLower) || idStr.includes(queryLower);
+    const matchesStatus =
+      statusFilter === 'all' || o.status.toLowerCase() === statusFilter.toLowerCase();
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-gray-700">
-      <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700 gap-3">
         <h2 className="font-bold text-gray-900 dark:text-gray-100">{isStaffAll ? 'All Orders' : 'Orders'}</h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            type="text"
+            placeholder="Search order ID, product, customer..."
+            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg text-xs"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg text-xs font-medium"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="all">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+            <option value="paid">Paid</option>
+            <option value="fulfilled">Fulfilled</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
       </div>
       {loading ? (
         <LoadingState />
-      ) : items.length === 0 ? (
-        <EmptyState message="No orders yet." />
+      ) : filteredItems.length === 0 ? (
+        <EmptyState message="No orders found." />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -1031,27 +1162,36 @@ export function OrdersTab({ isStaffAll }: { isStaffAll: boolean }) {
                 <Th>#</Th>
                 <Th>Customer</Th>
                 <Th>Product</Th>
-                <Th>Qty</Th>
-                <Th>Total</Th>
+                <Th>Qty & Unit</Th>
+                <Th>Total Amount</Th>
                 <Th>Status</Th>
                 <Th>Actions</Th>
               </tr>
             </thead>
             <tbody>
-              {items.map((o) => (
+              {filteredItems.map((o) => (
                 <tr key={o.id} className="border-b border-gray-50 dark:border-gray-700/50">
-                  <Td>{o.id}</Td>
-                  <Td>{o.customer_name ?? o.user_id}</Td>
+                  <Td>#{o.id}</Td>
+                  <Td>
+                    <div>{o.customer_name ?? `User #${o.user_id}`}</div>
+                    {o.customer_email && (
+                      <div className="text-xs text-gray-400">{o.customer_email}</div>
+                    )}
+                  </Td>
                   <Td>{o.product_name}</Td>
-                  <Td>{o.quantity}</Td>
-                  <Td>{o.total_amount}</Td>
+                  <Td>
+                    {o.quantity} {o.unit || 'kg'}
+                  </Td>
+                  <Td>RWF {o.total_amount.toLocaleString()}</Td>
                   <Td>
                     <select
-                      className="text-xs border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg px-2 py-1"
-                      value={o.status}
+                      className="text-xs font-semibold border border-gray-300 dark:border-gray-600 dark:bg-slate-900 rounded-lg px-2 py-1"
+                      value={o.status.toLowerCase()}
                       onChange={(e) => handleStatusChange(o, e.target.value as api.Order['status'])}
                     >
                       <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
                       <option value="paid">Paid</option>
                       <option value="fulfilled">Fulfilled</option>
                       <option value="cancelled">Cancelled</option>

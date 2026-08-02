@@ -46,11 +46,16 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      await register(formData.fullName, formData.email, formData.password);
+      const res = await register(formData.fullName, formData.email, formData.password, formData.phone);
       toast.success('Account created successfully! Welcome to DERN SEED.');
-      // Cookie-based session was set by the backend; sync client auth state.
       await refresh();
-      navigate('/');
+      if (res.user.role === 'admin') {
+        navigate('/dashboard/admin');
+      } else if (res.user.role === 'employee') {
+        navigate('/dashboard/employee');
+      } else {
+        navigate('/dashboard/customer');
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Registration failed');
     } finally {

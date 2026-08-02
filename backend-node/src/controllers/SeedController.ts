@@ -5,6 +5,8 @@ import { SeedService } from "../services/SeedService";
 const CreateSeedSchema = z.object({
   name: z.string().min(2).max(200),
   variety: z.string().max(100).optional().nullable(),
+  varieties: z.union([z.array(z.string().min(1).max(100)), z.string()]).optional().nullable(),
+  benefits: z.union([z.array(z.string().min(1).max(100)), z.string()]).optional().nullable(),
   description: z.string().max(1000).optional().nullable(),
   crop_type: z.string().max(100).optional().nullable(),
   germination_rate: z.number().min(0).max(100).optional().nullable(),
@@ -14,12 +16,14 @@ const CreateSeedSchema = z.object({
   stock_quantity: z.number().int().min(0).max(10000000),
   origin: z.string().max(100).optional().nullable(),
   certification: z.string().max(100).optional().nullable(),
-  image_url: z.string().max(500).url().optional().nullable(),
+  image_url: z.string().optional().nullable(),
 });
 
 const UpdateSeedSchema = z.object({
   name: z.string().min(2).max(200).optional(),
   variety: z.string().max(100).optional().nullable(),
+  varieties: z.union([z.array(z.string().min(1).max(100)), z.string()]).optional().nullable(),
+  benefits: z.union([z.array(z.string().min(1).max(100)), z.string()]).optional().nullable(),
   description: z.string().max(1000).optional().nullable(),
   crop_type: z.string().max(100).optional().nullable(),
   germination_rate: z.number().min(0).max(100).optional().nullable(),
@@ -29,9 +33,19 @@ const UpdateSeedSchema = z.object({
   stock_quantity: z.number().int().min(0).max(10000000).optional(),
   origin: z.string().max(100).optional().nullable(),
   certification: z.string().max(100).optional().nullable(),
-  image_url: z.string().max(500).url().optional().nullable(),
+  image_url: z.string().optional().nullable(),
   is_available: z.number().int().min(0).max(1).optional(),
 });
+
+function normalizeList(value: unknown): string[] | null | undefined {
+  if (value === undefined) return undefined;
+  if (value === null) return null;
+  if (Array.isArray(value)) return value.map((item) => String(item).trim()).filter(Boolean);
+  return String(value)
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
 
 export class SeedController {
   static async create(req: Request, res: Response) {
@@ -40,6 +54,8 @@ export class SeedController {
       const id = await SeedService.create(
         parsed.name,
         parsed.variety ?? null,
+        normalizeList(parsed.varieties) ?? null,
+        normalizeList(parsed.benefits) ?? null,
         parsed.description ?? null,
         parsed.crop_type ?? null,
         parsed.germination_rate ?? null,
@@ -96,6 +112,8 @@ export class SeedController {
       const fields: any = {};
       if (parsed.name !== undefined) fields.name = parsed.name;
       if (parsed.variety !== undefined) fields.variety = parsed.variety;
+      if (parsed.varieties !== undefined) fields.varieties = normalizeList(parsed.varieties);
+      if (parsed.benefits !== undefined) fields.benefits = normalizeList(parsed.benefits);
       if (parsed.description !== undefined) fields.description = parsed.description;
       if (parsed.crop_type !== undefined) fields.crop_type = parsed.crop_type;
       if (parsed.germination_rate !== undefined) fields.germination_rate = parsed.germination_rate;

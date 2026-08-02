@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { db } from "../db";
 import type { UserRole } from "../db/repositories/userRepository";
+import { EmployeeService } from "./EmployeeService.js";
 import { SessionManager } from "./SessionManager.js";
 
 const VALID_ROLES: UserRole[] = ["user", "admin", "farmer", "employee"];
@@ -34,6 +35,11 @@ export class UserService {
     }
     const passwordHash = await bcrypt.hash(password, 10);
     const id = await db.users.createWithRole(name, email, passwordHash, role);
+
+    if (role === "employee") {
+      await EmployeeService.syncFromUser(id, name, email, true);
+    }
+
     return id;
   }
 
@@ -75,6 +81,15 @@ export class UserService {
       await db.users.updateById(targetId, otherFields);
     }
 
+    const nextName = fields.name ?? target.name;
+    const nextEmail = fields.email ?? target.email;
+    const nextRole = fields.role ?? target.role;
+    const nextActive = fields.is_active !== undefined ? fields.is_active === 1 : !!target.is_active;
+
+    if (nextRole === "employee") {
+      await EmployeeService.syncFromUser(targetId, nextName, nextEmail, nextActive);
+    }
+
     if (password && password.trim().length > 0) {
       if (password.trim().length < 8) {
         throw Object.assign(new Error("Password must be at least 8 characters"), { status: 400 });
@@ -85,13 +100,7 @@ export class UserService {
 
     // Keep the linked employee record in sync when an admin changes role away
     // from "employee" or deactivates the account directly from user management.
-    if (fields.role !== undefined && fields.role !== "employee") {
-      const employee = await db.employees.findByUserId(targetId);
-      if (employee) {
-        await db.employees.updateById(employee.id, { is_active: 0 });
-      }
-    }
-    if (fields.is_active === 0) {
+    if ((fields.role !== undefined && fields.role !== "employee") || fields.is_active === 0) {
       const employee = await db.employees.findByUserId(targetId);
       if (employee) {
         await db.employees.updateById(employee.id, { is_active: 0 });

@@ -3,12 +3,14 @@ import { Link } from "wouter";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import LanguageSelector from "./LanguageSelector";
 import AuthButtons from "./AuthButtons";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
 export default function Navigation() {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -87,56 +89,64 @@ export default function Navigation() {
             </div>
           </Link>
 
-          <DesktopNav
-            activeDropdown={activeDropdown}
-            setActiveDropdown={setActiveDropdown}
-            handleDropdownEnter={handleDropdownEnter}
-            handleDropdownLeave={handleDropdownLeave}
-            scrollToElement={scrollToElement}
-            getTranslation={getTranslation}
-            dropdownRef={dropdownRef}
-          />
-
-          <div className="hidden lg:flex items-center gap-2">
-            <LanguageSelector
-              language={language}
-              setLanguage={setLanguage}
-              getTranslation={getTranslation}
-            />
-            <button
-              type="button"
-              onClick={toggleTheme ?? (() => undefined)}
-              className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all duration-300"
-              aria-label={getTranslation("theme_toggle_aria", "Toggle theme")}
-            >
-              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+          {user ? (
             <AuthButtons getTranslation={getTranslation} />
-          </div>
+          ) : (
+            <>
+              <DesktopNav
+                activeDropdown={activeDropdown}
+                setActiveDropdown={setActiveDropdown}
+                handleDropdownEnter={handleDropdownEnter}
+                handleDropdownLeave={handleDropdownLeave}
+                scrollToElement={scrollToElement}
+                getTranslation={getTranslation}
+                dropdownRef={dropdownRef}
+              />
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all duration-300"
-            aria-label={getTranslation("menu_toggle_aria", "Toggle menu")}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+              <div className="hidden lg:flex items-center gap-2">
+                <LanguageSelector
+                  language={language}
+                  setLanguage={setLanguage}
+                  getTranslation={getTranslation}
+                />
+                <button
+                  type="button"
+                  onClick={toggleTheme ?? (() => undefined)}
+                  className="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all duration-300"
+                  aria-label={getTranslation("theme_toggle_aria", "Toggle theme")}
+                >
+                  {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+                <AuthButtons getTranslation={getTranslation} />
+              </div>
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all duration-300"
+                aria-label={getTranslation("menu_toggle_aria", "Toggle menu")}
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </>
+          )}
         </div>
 
-        <MobileNav
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          mobileAboutOpen={mobileAboutOpen}
-          setMobileAboutOpen={setMobileAboutOpen}
-          mobileProductsOpen={mobileProductsOpen}
-          setMobileProductsOpen={setMobileProductsOpen}
-          theme={theme}
-          toggleTheme={toggleTheme ?? (() => undefined)}
-          language={language}
-          setLanguage={(value) => setLanguage(value as typeof language)}
-          scrollToElement={scrollToElement}
-          getTranslation={getTranslation}
-        />
+        {!user && (
+          <MobileNav
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            mobileAboutOpen={mobileAboutOpen}
+            setMobileAboutOpen={setMobileAboutOpen}
+            mobileProductsOpen={mobileProductsOpen}
+            setMobileProductsOpen={setMobileProductsOpen}
+            theme={theme}
+            toggleTheme={toggleTheme ?? (() => undefined)}
+            language={language}
+            setLanguage={(value) => setLanguage(value as typeof language)}
+            scrollToElement={scrollToElement}
+            getTranslation={getTranslation}
+          />
+        )}
       </div>
     </nav>
   );

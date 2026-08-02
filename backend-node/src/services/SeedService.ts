@@ -1,8 +1,8 @@
 import { db } from "../db";
 
 export class SeedService {
-  static async create(name: string, variety: string | null, description: string | null, cropType: string | null, germinationRate: number | null, plantingSeason: string | null, harvestPeriod: string | null, pricePerKg: number, stockQuantity: number, origin: string | null, certification: string | null, imageUrl: string | null) {
-    return db.seeds.create(name, variety, description, cropType, germinationRate, plantingSeason, harvestPeriod, pricePerKg, stockQuantity, origin, certification, imageUrl);
+  static async create(name: string, variety: string | null, varieties: string[] | null, benefits: string[] | null, description: string | null, cropType: string | null, germinationRate: number | null, plantingSeason: string | null, harvestPeriod: string | null, pricePerKg: number, stockQuantity: number, origin: string | null, certification: string | null, imageUrl: string | null) {
+    return db.seeds.create(name, variety, varieties, benefits, description, cropType, germinationRate, plantingSeason, harvestPeriod, pricePerKg, stockQuantity, origin, certification, imageUrl);
   }
 
   static async list() {

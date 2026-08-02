@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
-import { fetchMe, login as apiLogin, logout as apiLogout, setSessionToken, removeSessionToken, getSessionToken, type AuthUser } from '@/lib/api';
+import { fetchMe, login as apiLogin, logout as apiLogout, type AuthUser } from '@/lib/api';
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -20,19 +20,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    const token = getSessionToken();
-    if (!token) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-
     try {
       const res = await fetchMe();
       setUser(res.user as AuthUser);
     } catch {
       // Session invalid or expired — this is a normal state, not an error.
-      removeSessionToken();
       setUser(null);
     } finally {
       setLoading(false);
@@ -43,10 +35,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     refresh();
   }, [refresh]);
 
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      setUser(null);
+      setLoading(false);
+    };
+
+    window.addEventListener("dern-auth-expired", handleSessionExpired);
+    return () => window.removeEventListener("dern-auth-expired", handleSessionExpired);
+  }, []);
+
   const login = useCallback(async (email: string, password: string) => {
     const res = await apiLogin(email, password);
-    // Store the session token; sent on future requests via Authorization header
-    setSessionToken(res.token);
     setUser(res.user);
     return res.user;
   }, []);
@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // already expired server-side), we still clear the local token below
       // so the user is logged out on this device.
     } finally {
-      removeSessionToken();
       setUser(null);
     }
   }, []);

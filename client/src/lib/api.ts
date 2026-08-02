@@ -19,47 +19,23 @@ export class ApiError extends Error {
   }
 }
 
-// Session token storage key.
-// This is NOT a cookie - the token lives in localStorage and is sent on every
-// request via the Authorization header (see `request()` below). The server
-// never sets a Set-Cookie header and never reads a Cookie header for auth.
-const SESSION_TOKEN_STORAGE_KEY = "dern_session_token";
-
-// Get the session token from localStorage
-export function getSessionToken(): string | null {
-  return localStorage.getItem(SESSION_TOKEN_STORAGE_KEY);
-}
-
-// Store the session token in localStorage (called right after login/register)
-export function setSessionToken(token: string): void {
-  localStorage.setItem(SESSION_TOKEN_STORAGE_KEY, token);
-}
-
-// Remove the session token from localStorage (called on logout or when a
-// request comes back 401, meaning the server-side session is gone/expired)
-export function removeSessionToken(): void {
-  localStorage.removeItem(SESSION_TOKEN_STORAGE_KEY);
-}
-
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = getSessionToken();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string> ?? {}),
   };
 
-  // Send the session token via the Authorization header - never as a cookie.
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
   const res = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     headers,
+    credentials: "include",
   });
 
   if (!res.ok) {
     const data = await res.json().catch(() => null);
+    if (res.status === 401) {
+      window.dispatchEvent(new Event("dern-auth-expired"));
+    }
     throw new ApiError(data?.error ?? `Request failed with status ${res.status}`, res.status);
   }
 
@@ -70,6 +46,8 @@ export const api = {
   get: <T>(path: string) => request<T>(path),
   post: <T>(path: string, body?: unknown) =>
     request<T>(path, { method: "POST", body: body === undefined ? undefined : JSON.stringify(body) }),
+  put: <T>(path: string, body?: unknown) =>
+    request<T>(path, { method: "PUT", body: body === undefined ? undefined : JSON.stringify(body) }),
   patch: <T>(path: string, body?: unknown) =>
     request<T>(path, { method: "PATCH", body: body === undefined ? undefined : JSON.stringify(body) }),
   delete: <T>(path: string) => request<T>(path, { method: "DELETE" }),
@@ -88,8 +66,8 @@ export function login(email: string, password: string) {
   return api.post<{ ok: boolean; token: string; user: AuthUser }>("/api/auth/login", { email, password });
 }
 
-export function register(name: string, email: string, password: string) {
-  return api.post<{ ok: boolean; user_id: number; token: string; user: AuthUser }>("/api/auth/register", { name, email, password });
+export function register(name: string, email: string, password: string, phone?: string, address?: string) {
+  return api.post<{ ok: boolean; user_id: number; token: string; user: AuthUser }>("/api/auth/register", { name, email, password, phone, address });
 }
 
 // Revokes the session server-side. Call this before removing the local
@@ -100,6 +78,48 @@ export function logout() {
 
 export function fetchMe() {
   return api.get<{ user: AuthUser }>("/api/users/me");
+}
+
+// ---- Customer endpoints ----
+
+export interface Customer {
+  id: number;
+  user_id: number | null;
+  name: string;
+  email: string;
+  phone?: string | null;
+  address?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface CustomerMessage {
+  id: number;
+  full_name: string;
+  email: string;
+  phone?: string | null;
+  subject?: string | null;
+  product_name?: string | null;
+  quantity?: number | null;
+  message: string;
+  created_at: string;
+  type: 'contact' | 'inquiry';
+}
+
+export function fetchMyCustomerProfile() {
+  return api.get<{ customer: Customer }>("/api/customers/me");
+}
+
+export function updateMyCustomerProfile(fields: { phone?: string; address?: string }) {
+  return api.put<{ ok: boolean }>("/api/customers/me", fields);
+}
+
+export function fetchMyMessages() {
+  return api.get<{ messages: CustomerMessage[] }>("/api/customers/me/messages");
+}
+
+export function listCustomers() {
+  return api.get<{ customers: Customer[] }>("/api/customers");
 }
 
 // ---- Testimonials ----
@@ -268,6 +288,8 @@ export interface Seed {
   id: number;
   name: string;
   variety: string | null;
+  varieties: string[];
+  benefits: string[];
   description: string | null;
   crop_type: string | null;
   germination_rate: number | null;
@@ -306,10 +328,14 @@ export interface Order {
   user_id: number;
   customer_name?: string;
   customer_email?: string;
+  product_id?: number | null;
   product_name: string;
   quantity: number;
+  unit?: string;
+  unit_price?: number;
   total_amount: number;
-  status: "pending" | "paid" | "fulfilled" | "cancelled";
+  shipping_address?: string | null;
+  status: "pending" | "approved" | "rejected" | "paid" | "fulfilled" | "cancelled" | "Pending" | "Approved" | "Rejected" | "Paid" | "Fulfilled" | "Cancelled";
   created_at?: string;
   updated_at?: string;
 }
@@ -318,11 +344,19 @@ export function listOrders() {
   return api.get<{ orders: Order[] }>("/api/orders");
 }
 
-export function createOrder(input: { product_name: string; quantity: number; total_amount: number }) {
+export function createOrder(input: {
+  product_name: string;
+  quantity: number;
+  total_amount: number;
+  product_id?: number | null;
+  unit?: string;
+  unit_price?: number;
+  shipping_address?: string | null;
+}) {
   return api.post<{ ok: boolean; id: number }>("/api/orders", input);
 }
 
-export function updateOrder(id: number, fields: Partial<Pick<Order, "product_name" | "quantity" | "total_amount" | "status">>) {
+export function updateOrder(id: number, fields: Partial<Pick<Order, "product_name" | "quantity" | "unit" | "unit_price" | "total_amount" | "shipping_address" | "status">>) {
   return api.patch<{ ok: boolean }>(`/api/orders/${id}`, fields);
 }
 
@@ -371,6 +405,62 @@ export function listProductInquiries() {
 
 export function markProductInquiryRead(id: number) {
   return api.patch<{ ok: boolean }>(`/api/product-inquiries/${id}/read`);
+}
+
+// ---- Deliveries ----
+
+export interface Delivery {
+  id: number;
+  order_id: number;
+  customer_id: number;
+  customer_name: string;
+  delivery_address: string | null;
+  phone_number: string | null;
+  delivery_status: "pending" | "in_transit" | "delivered" | "cancelled";
+  delivery_date: string | null;
+  delivered_by: string | null;
+  tracking_number: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  /** Joined from orders table */
+  order_product_name?: string;
+  order_status?: string;
+}
+
+export function listMyDeliveries() {
+  return api.get<{ deliveries: Delivery[] }>("/api/deliveries");
+}
+
+export function getDeliveryById(id: number) {
+  return api.get<{ delivery: Delivery }>(`/api/deliveries/${id}`);
+}
+
+export function createDelivery(input: {
+  order_id: number;
+  customer_id: number;
+  customer_name: string;
+  delivery_address?: string | null;
+  phone_number?: string | null;
+  delivery_status?: string;
+  delivery_date?: string | null;
+  delivered_by?: string | null;
+  tracking_number?: string | null;
+  notes?: string | null;
+}) {
+  return api.post<{ ok: boolean; id: number }>("/api/deliveries", input);
+}
+
+export function updateDelivery(id: number, fields: Partial<{
+  delivery_status: string;
+  delivery_date: string | null;
+  delivered_by: string | null;
+  tracking_number: string | null;
+  notes: string | null;
+  delivery_address: string | null;
+  phone_number: string | null;
+}>) {
+  return api.patch<{ ok: boolean }>(`/api/deliveries/${id}`, fields);
 }
 
 // ---- Dashboard stats ----

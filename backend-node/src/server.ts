@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import cookieParser from "cookie-parser";
 
 import { routes } from "./routes/index.js";
 
@@ -69,6 +70,7 @@ export function createServer() {
 
   app.use(express.json({ limit: "1mb" }));
   app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+  app.use(cookieParser());
 
   // Request logging middleware
   app.use((req, res, next) => {
@@ -76,12 +78,8 @@ export function createServer() {
     next();
   });
 
-  // Header-based session authentication (no cookies).
-  // Reads Authorization: Bearer <token>, validates it against the sessions
-  // table, and populates req.user for any downstream requireAuth /
-  // requireAdmin / requireStaff guard. Requests with no/invalid token simply
-  // proceed with req.user left undefined - the route-level guards decide
-  // whether that's acceptable for a given endpoint.
+  // Session authentication uses an httpOnly cookie backed by the sessions
+  // table. A bearer token is still accepted for legacy API callers.
   app.use(sessionMiddleware);
 
   app.use(routes);

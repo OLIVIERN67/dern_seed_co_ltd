@@ -86,17 +86,17 @@ export default function MobileNav({
                     {item.name === "nav_products"
                       ? (item.dropdown as typeof productCategories).map(
                           category => (
-                            <Link
-                              key={category.name}
-                              href="/products"
-                              onClick={() => {
-                                setIsMobileOpen(false);
-                                setIsOpen(false);
-                              }}
-                              className="block px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all"
-                            >
-                              {category.name}
-                            </Link>
+                          <Link
+                            key={category.name}
+                            href="/products"
+                            onClick={() => {
+                              setIsMobileOpen(false);
+                              setIsOpen(false);
+                            }}
+                            className="block px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all"
+                          >
+                            {category.name}
+                          </Link>
                           )
                         )
                       : (item.dropdown as typeof aboutMenuItems).map(
@@ -208,7 +208,12 @@ function MobileAuthSection({
   const [, navigate] = useLocation();
 
   if (user) {
-    const dashboardHref = user.role === "admin" ? "/dashboard/admin" : user.role === "employee" ? "/dashboard/employee" : null;
+    const dashboardHref =
+      user.role === "admin"
+        ? "/dashboard/admin"
+        : user.role === "employee"
+        ? "/dashboard/employee"
+        : "/dashboard/customer";
 
     const handleLogout = async () => {
       await logout();
@@ -223,16 +228,21 @@ function MobileAuthSection({
           <User className="w-4 h-4" />
           <span className="truncate">{user.name}</span>
         </div>
-        {isStaff && dashboardHref && (
-          <Link
-            href={dashboardHref}
-            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"
-            onClick={onNavigate}
-          >
-            <LayoutDashboard className="w-4 h-4" />
-            {getTranslation("nav_dashboard", "Dashboard")}
-          </Link>
-        )}
+        <Link
+          href="/order"
+          className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-sm shadow-xs transition-all"
+          onClick={onNavigate}
+        >
+          Order Seeds Now
+        </Link>
+        <Link
+          href={dashboardHref}
+          className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold text-sm hover:bg-green-50 dark:hover:bg-green-900/20 transition-all"
+          onClick={onNavigate}
+        >
+          <LayoutDashboard className="w-4 h-4" />
+          {getTranslation("nav_dashboard", "Dashboard")}
+        </Link>
         <button
           type="button"
           onClick={handleLogout}

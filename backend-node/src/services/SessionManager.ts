@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import { nanoid } from "nanoid";
 import { db } from "../db/index.js";
 import { getEnv } from "../config/env.js";
 
@@ -24,16 +24,10 @@ export type SessionData = {
  * - The user's active status and role are verified against the `users` table.
  */
 export class SessionManager {
-  private static getSecret(): string {
-    return (
-      getEnv("JWT_SECRET") ||
-      getEnv("SESSION_SECRET") ||
-      "dev-only-insecure-default-session-secret-change-me"
-    ) as string;
-  }
+  private static readonly sessionDurationMinutes = Number(getEnv("SESSION_DURATION_MINUTES", "40")) || 40;
 
   /**
-   * Create a new stateless JWT session for a user after successful login/register.
+   * Create a new server-side session for a user after successful login/register.
    */
   static async createSession(
     userId: number,
@@ -41,24 +35,18 @@ export class SessionManager {
     name: string,
     role: string
   ): Promise<{ token: string; session: SessionData }> {
-    const secret = this.getSecret();
-    const sessionDurationHours = Number(getEnv("SESSION_DURATION_HOURS", "24")) || 24;
-    const expiresAt = new Date(Date.now() + sessionDurationHours * 60 * 60 * 1000);
+    const token = nanoid(48);
+    const expiresAt = new Date(Date.now() + this.sessionDurationMinutes * 60 * 1000);
     const createdAt = new Date();
 
-    const payload = {
-      userId,
-      email,
-      name,
-      role,
-    };
-
-    const token = jwt.sign(payload, secret, {
-      expiresIn: `${sessionDurationHours}h`,
-    });
+    await db.query(
+      `INSERT INTO sessions (user_id, session_token, expires_at, created_at, last_seen_at, revoked_at)
+       VALUES (?, ?, ?, ?, ?, NULL)`,
+      [userId, token, expiresAt, createdAt, createdAt]
+    );
 
     console.log(
-      `[SessionManager] Stateless JWT session created for user ${userId} (${email}), role: ${role}`
+      `[SessionManager] Session created for user ${userId} (${email}), role: ${role}`
     );
 
     return {
@@ -78,84 +66,131 @@ export class SessionManager {
   }
 
   /**
-   * Validate a bearer JWT token statelessly.
-   * Returns null if token is missing, invalid signature, expired, or user is deactivated.
+   * Validate a session token against the database.
+   * Returns null if token is missing, revoked, expired, or user is deactivated.
    */
   static async validateSession(token: string): Promise<SessionData | null> {
     if (!token) return null;
 
     try {
-      const secret = this.getSecret();
-      const decoded = jwt.verify(token, secret) as {
-        userId: number;
-        email: string;
-        name: string;
-        role: string;
-        iat?: number;
-        exp?: number;
-      };
+      const [rows]: any = await db.pool.execute(
+        `SELECT s.id AS session_id, s.user_id, s.session_token, s.expires_at, s.created_at, s.last_seen_at, s.revoked_at,
+                u.email, u.name, u.role, u.is_active
+         FROM sessions s
+         INNER JOIN users u ON u.id = s.user_id
+         WHERE s.session_token = ?
+         LIMIT 1`,
+        [token]
+      );
 
-      if (!decoded || !decoded.userId) {
+      const row = Array.isArray(rows) ? rows[0] : null;
+      if (!row) {
         return null;
       }
 
-      // Verify user exists and is active in the database
-      const user = await db.users.findById(decoded.userId);
-      if (!user) {
-        console.log(`[SessionManager] User ${decoded.userId} not found in DB`);
+      const now = Date.now();
+      const expiresAt = new Date(row.expires_at);
+
+      if (row.revoked_at) {
         return null;
       }
 
-      if (!user.is_active) {
-        console.log(`[SessionManager] User ${decoded.userId} account is deactivated`);
+      if (!row.is_active) {
+        console.log(`[SessionManager] User ${row.user_id} account is deactivated`);
         return null;
       }
 
-      const expiresAt = decoded.exp ? new Date(decoded.exp * 1000) : new Date();
-      const createdAt = decoded.iat ? new Date(decoded.iat * 1000) : new Date();
+      if (Number.isNaN(expiresAt.getTime()) || expiresAt.getTime() <= now) {
+        await this.revokeSession(token);
+        return null;
+      }
+
+      const refreshedExpiresAt = new Date(now + this.sessionDurationMinutes * 60 * 1000);
+      await db.query(
+        `UPDATE sessions
+         SET last_seen_at = ?, expires_at = ?
+         WHERE session_token = ?`,
+        [new Date(now), refreshedExpiresAt, token]
+      );
 
       return {
         token,
-        userId: Number(user.id),
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        isActive: !!user.is_active,
-        expiresAt,
-        createdAt,
-        lastSeenAt: null,
+        userId: Number(row.user_id),
+        email: row.email,
+        name: row.name,
+        role: row.role,
+        isActive: !!row.is_active,
+        expiresAt: refreshedExpiresAt,
+        createdAt: new Date(row.created_at),
+        lastSeenAt: new Date(now),
       };
     } catch (error: any) {
-      console.log("[SessionManager] JWT validation failed:", error?.message || error);
+      console.log("[SessionManager] Session validation failed:", error?.message || error);
       return null;
     }
   }
 
   /**
-   * Revoke session (logout). Stateless JWTs expire automatically.
+   * Revoke session (logout).
    */
-  static async revokeSession(_token: string): Promise<boolean> {
-    console.log("[SessionManager] Logout processed (stateless JWT)");
+  static async revokeSession(token: string): Promise<boolean> {
+    if (!token) return false;
+
+    await db.query(
+      `UPDATE sessions
+       SET revoked_at = COALESCE(revoked_at, NOW())
+       WHERE session_token = ?`,
+      [token]
+    );
+
+    console.log("[SessionManager] Logout processed");
     return true;
   }
 
   /**
-   * Revoke all user sessions. With stateless JWTs, account deactivation in DB
-   * immediately prevents any active JWT from passing validateSession.
+   * Revoke all user sessions.
    */
-  static async revokeAllUserSessions(_userId: number): Promise<number> {
-    console.log(`[SessionManager] Stateless token revocation check active for user ${_userId}`);
-    return 0;
+  static async revokeAllUserSessions(userId: number): Promise<number> {
+    const [result]: any = await db.pool.execute(
+      `UPDATE sessions
+       SET revoked_at = COALESCE(revoked_at, NOW())
+       WHERE user_id = ? AND revoked_at IS NULL`,
+      [userId]
+    );
+    console.log(`[SessionManager] Revoked sessions for user ${userId}`);
+    return Number(result.affectedRows ?? 0);
   }
 
-  /** Hard-delete expired sessions (No-op since no sessions stored in DB). */
+  /** Hard-delete expired sessions. */
   static async cleanupExpiredSessions(): Promise<number> {
-    return 0;
+    const [result]: any = await db.pool.execute(
+      `DELETE FROM sessions
+       WHERE revoked_at IS NOT NULL OR expires_at < NOW() - INTERVAL 1 DAY`
+    );
+    return Number(result.affectedRows ?? 0);
   }
 
-  /** List active sessions for a user (No-op since sessions are stateless). */
-  static async getUserSessions(_userId: number): Promise<Array<Omit<SessionData, "token">>> {
-    return [];
+  /** List active sessions for a user. */
+  static async getUserSessions(userId: number): Promise<Array<Omit<SessionData, "token">>> {
+    const [rows]: any = await db.pool.execute(
+      `SELECT s.user_id, u.email, u.name, u.role, u.is_active, s.expires_at, s.created_at, s.last_seen_at
+       FROM sessions s
+       INNER JOIN users u ON u.id = s.user_id
+       WHERE s.user_id = ? AND s.revoked_at IS NULL AND s.expires_at > NOW()
+       ORDER BY s.created_at DESC`,
+      [userId]
+    );
+
+    return (Array.isArray(rows) ? rows : []).map((row: any) => ({
+      userId: Number(row.user_id),
+      email: row.email,
+      name: row.name,
+      role: row.role,
+      isActive: !!row.is_active,
+      expiresAt: new Date(row.expires_at),
+      createdAt: new Date(row.created_at),
+      lastSeenAt: row.last_seen_at ? new Date(row.last_seen_at) : null,
+    }));
   }
 }
 

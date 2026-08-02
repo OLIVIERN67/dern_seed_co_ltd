@@ -11,20 +11,22 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, allow }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
 
   const allowed = !allow || (user && allow.includes(user.role as any));
 
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      navigate('/login');
+      // Preserve the intended path as a redirect parameter
+      const redirectPath = encodeURIComponent(location);
+      navigate(`/login?redirect=${redirectPath}`);
       return;
     }
     if (!allowed) {
       navigate('/');
     }
-  }, [loading, user, allowed, navigate]);
+  }, [loading, user, allowed, navigate, location]);
 
   if (loading || !user || !allowed) {
     return (

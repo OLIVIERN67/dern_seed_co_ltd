@@ -22,12 +22,13 @@ export default function Login() {
     try {
       const user = await login(email, password);
       toast.success(t('login_welcome_back'));
+
       if (user.role === 'admin') {
         navigate('/dashboard/admin');
       } else if (user.role === 'employee') {
         navigate('/dashboard/employee');
       } else {
-        navigate('/');
+        navigate('/dashboard/customer');
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t('login_sign_in_button'));

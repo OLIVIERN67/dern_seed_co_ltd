@@ -10,7 +10,7 @@ const CreateProductSchema = z.object({
   price: z.number().min(0).max(100000000),
   stock_quantity: z.number().int().min(0).max(10000000),
   unit: z.string().max(50).default("kg"),
-  image_url: z.string().max(500).url().optional().nullable(),
+  image_url: z.string().optional().nullable(),
 });
 
 const UpdateProductSchema = z.object({
@@ -20,7 +20,7 @@ const UpdateProductSchema = z.object({
   price: z.number().min(0).max(100000000).optional(),
   stock_quantity: z.number().int().min(0).max(10000000).optional(),
   unit: z.string().max(50).optional(),
-  image_url: z.string().max(500).url().optional().nullable(),
+  image_url: z.string().optional().nullable(),
   is_available: z.number().int().min(0).max(1).optional(),
 });
 

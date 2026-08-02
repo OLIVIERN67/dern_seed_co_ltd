@@ -30,15 +30,10 @@ export async function sessionMiddleware(
   res: Response,
   next: NextFunction
 ) {
+  const cookieToken = req.cookies?.dern_session;
   const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    // No token provided - continue without authentication
-    // Let requireAuth and requireAdmin middlewares handle the rejection
-    return next();
-  }
-
-  const token = authHeader.substring(7); // Remove "Bearer " prefix
+  const headerToken = authHeader && authHeader.startsWith("Bearer ") ? authHeader.substring(7) : null;
+  const token = cookieToken || headerToken;
 
   if (!token) {
     return next();

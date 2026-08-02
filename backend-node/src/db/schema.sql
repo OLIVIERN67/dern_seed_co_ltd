@@ -31,14 +31,33 @@ CREATE TABLE IF NOT EXISTS sessions (
   INDEX idx_expires_at (expires_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Create customers table
+CREATE TABLE IF NOT EXISTS customers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NULL,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50),
+  address VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  INDEX idx_user_id (user_id),
+  INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Create orders table
 CREATE TABLE IF NOT EXISTS orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
+  product_id INT NULL,
   product_name VARCHAR(200) NOT NULL,
   quantity INT NOT NULL,
+  unit VARCHAR(50) DEFAULT 'kg',
+  unit_price DECIMAL(12, 2) DEFAULT 0.00,
   total_amount DECIMAL(12, 2) NOT NULL,
-  status ENUM('pending', 'paid', 'fulfilled', 'cancelled') DEFAULT 'pending',
+  shipping_address VARCHAR(255) NULL,
+  status ENUM('pending', 'approved', 'rejected', 'paid', 'fulfilled', 'cancelled') DEFAULT 'pending',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -56,7 +75,7 @@ CREATE TABLE IF NOT EXISTS products (
   price DECIMAL(12, 2) NOT NULL,
   stock_quantity INT DEFAULT 0,
   unit VARCHAR(50) DEFAULT 'kg',
-  image_url VARCHAR(500),
+  image_url LONGTEXT,
   is_available TINYINT(1) DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -69,6 +88,8 @@ CREATE TABLE IF NOT EXISTS seeds (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(200) NOT NULL,
   variety VARCHAR(100),
+  varieties_json LONGTEXT,
+  benefits_json LONGTEXT,
   description TEXT,
   crop_type VARCHAR(100),
   germination_rate DECIMAL(5, 2),
@@ -78,7 +99,7 @@ CREATE TABLE IF NOT EXISTS seeds (
   stock_quantity INT DEFAULT 0,
   origin VARCHAR(100),
   certification VARCHAR(100),
-  image_url VARCHAR(500),
+  image_url LONGTEXT,
   is_available TINYINT(1) DEFAULT 1,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -173,6 +194,29 @@ CREATE TABLE IF NOT EXISTS blog_documents (
   INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Create deliveries table (customer delivery tracking)
+CREATE TABLE IF NOT EXISTS deliveries (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  customer_id INT NOT NULL,
+  customer_name VARCHAR(120) NOT NULL,
+  delivery_address VARCHAR(255) NULL,
+  phone_number VARCHAR(50) NULL,
+  delivery_status ENUM('pending', 'in_transit', 'delivered', 'cancelled') DEFAULT 'pending',
+  delivery_date TIMESTAMP NULL,
+  delivered_by VARCHAR(120) NULL,
+  tracking_number VARCHAR(100) NULL,
+  notes TEXT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_order_id (order_id),
+  INDEX idx_customer_id (customer_id),
+  INDEX idx_delivery_status (delivery_status),
+  INDEX idx_tracking_number (tracking_number)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Create testimonials table
 CREATE TABLE IF NOT EXISTS testimonials (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -203,9 +247,6 @@ SELECT * FROM (
 WHERE NOT EXISTS (SELECT 1 FROM testimonials LIMIT 1);
 
 -- Insert default admin user
--- Default credentials: admin@dernseed.com / Admin123!
--- IMPORTANT: change this password immediately after the first login in production.
--- The hash below is a real bcrypt hash (cost 10) of 'Admin123!'.
 INSERT INTO users (name, email, password_hash, role)
 VALUES ('Admin', 'admin@dernseed.com', '$2b$10$ajhXagcjMrlEeG8mx6bDLe2njAuplCaHODSNtZnnceY9EAIlJ1582', 'admin')
 ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash), role = 'admin';

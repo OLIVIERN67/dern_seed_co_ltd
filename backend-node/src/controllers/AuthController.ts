@@ -3,6 +3,14 @@ import { AuthService } from "../services/AuthService.js";
 
 import { z, ZodError } from "zod";
 
+const SESSION_COOKIE_NAME = "dern_session";
+const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  sameSite: "lax" as const,
+  secure: process.env.NODE_ENV === "production",
+  path: "/",
+};
+
 
 /** Convert a ZodError into a single human-readable message. */
 function formatZodError(err: ZodError): string {
@@ -23,6 +31,8 @@ const RegisterSchema = z.object({
     .refine((v) => /[a-z]/.test(v), { message: "Password must include at least one lowercase letter" })
     .refine((v) => /\d/.test(v), { message: "Password must include at least one number" })
     .refine((v) => /[!@#$%^&*(),.?":{}|<>]/.test(v), { message: "Password must include at least one special character" }),
+  phone: z.string().max(50).optional(),
+  address: z.string().max(255).optional(),
 });
 
 const LoginSchema = z.object({
@@ -34,7 +44,9 @@ export class AuthController {
   static async register(req: Request, res: Response) {
     try {
       const parsed = RegisterSchema.parse(req.body ?? {});
-      const out = await AuthService.register(parsed.name, parsed.email, parsed.password);
+      const out = await AuthService.register(parsed.name, parsed.email, parsed.password, parsed.phone, parsed.address);
+
+      res.cookie(SESSION_COOKIE_NAME, out.token, SESSION_COOKIE_OPTIONS);
 
       res.status(201).json({ ok: true, user_id: out.userId, token: out.token, user: out.user });
     } catch (e: any) {
@@ -52,6 +64,8 @@ export class AuthController {
     try {
       const parsed = LoginSchema.parse(req.body ?? {});
       const out = await AuthService.login(parsed.email, parsed.password);
+
+      res.cookie(SESSION_COOKIE_NAME, out.token, SESSION_COOKIE_OPTIONS);
 
       res.json({
         ok: true,
@@ -73,14 +87,15 @@ export class AuthController {
 
   static async logout(req: Request, res: Response) {
     try {
-      // Get the token from the Authorization header
       const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      const token = req.cookies?.[SESSION_COOKIE_NAME] || (authHeader && authHeader.startsWith("Bearer ") ? authHeader.substring(7) : null);
+
+      if (!token) {
         return res.status(401).json({ error: "No session token provided" });
       }
-
-      const token = authHeader.substring(7);
       const revoked = await AuthService.logout(token);
+
+      res.clearCookie(SESSION_COOKIE_NAME, SESSION_COOKIE_OPTIONS);
 
       if (revoked) {
         res.json({

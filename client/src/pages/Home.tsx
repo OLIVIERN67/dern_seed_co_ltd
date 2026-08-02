@@ -156,34 +156,7 @@ export default function Home() {
   ];
 
 
-  const fallbackTestimonials: Testimonial[] = [
-    {
-      id: 1,
-      name: 'Gratien MUNEZERO',
-      role: 'Farmer, Musanze',
-      rating: 5,
-      message: 'DERN SEED has transformed my farming. The quality of seeds and support is exceptional.',
-      initials: 'JM',
-    },
-    {
-      id: 2,
-      name: 'Mary Uwimana',
-      role: 'Agricultural Cooperative Lead',
-      rating: 5,
-      message: 'We trust DERN SEED for all our seed needs. Their certified varieties have increased our yields significantly.',
-      initials: 'MU',
-    },
-    {
-      id: 3,
-      name: 'Peter Habimana',
-      role: 'Commercial Farmer',
-      rating: 5,
-      message: 'The germination rates are consistently high. Excellent customer service and technical support.',
-      initials: 'PH',
-    },
-  ];
-
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(fallbackTestimonials);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -194,7 +167,7 @@ export default function Home() {
         }
       })
       .catch(() => {
-        // Keep the fallback testimonials when the API is unavailable.
+        // Leave the testimonials section empty when the API is unavailable.
       });
     return () => {
       cancelled = true;
@@ -711,6 +684,11 @@ export default function Home() {
                 </div>
               </div>
             ))}
+            {testimonials.length === 0 && (
+              <div className="col-span-full text-center text-gray-500">
+                No testimonials available yet.
+              </div>
+            )}
           </div>
         </div>
       </section>
