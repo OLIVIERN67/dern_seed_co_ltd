@@ -48,18 +48,18 @@ export default function Products() {
       (seed.variety || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       (seed.origin || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       (seed.certification || '').toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+return matchesCategory && matchesSearch;
   });
 
   return (
     <div className={theme === 'dark' ? 'dark' : ''}>
       <div className="min-h-screen bg-white dark:bg-gray-900">
         {/* Hero Section */}
-        <section className="relative min-h-80 flex items-center overflow-hidden">
+<section className="relative min-h-80 flex items-center overflow-hidden">
           <div
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
+              backgroundImage: 'url(/gallery/potatoes 1.jpeg)',
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/60" />

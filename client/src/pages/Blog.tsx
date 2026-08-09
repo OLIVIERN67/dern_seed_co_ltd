@@ -98,10 +98,10 @@ export default function Blog() {
     <div className={`min-h-screen ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className="relative min-h-80 flex items-center overflow-hidden py-24 md:py-32">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
+<div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85)',
+            backgroundImage: 'url(/gallery/potatoes.jpeg)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-900/60" />
@@ -340,10 +340,10 @@ export default function Blog() {
 
       {/* Newsletter CTA */}
       <section className="relative py-20 overflow-hidden">
-        <div
+<div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=75)',
+            backgroundImage: 'url(/gallery/soya.jpeg)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-800/85" />

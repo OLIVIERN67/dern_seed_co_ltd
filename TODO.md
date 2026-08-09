@@ -1,23 +1,19 @@
-# Implementation Plan - Customer Dashboard & Delivery Tracking
+re# TODO - Update Background Images Across Non-Home Pages
 
-## Completion Status
+## Goal
+Replace all hero/header and CTA/background images on non-Home pages that currently use external URLs, Unsplash images, or unrelated images with the specified gallery images. Keep all other content unchanged. Do NOT modify Home page.
 
-### Phase 1: Database & Backend (Delivery System)
-- ✅ 1. Add deliveries table to schema.sql
-- ✅ 2. Create delivery repository (`backend-node/src/db/repositories/deliveryRepository.ts`)
-- ✅ 3. Wire up delivery repository in `backend-node/src/db/index.ts`
-- ✅ 4. Create DeliveryService (`backend-node/src/services/DeliveryService.ts`)
-- ✅ 5. Create DeliveryController (`backend-node/src/controllers/DeliveryController.ts`)
-- ✅ 6. Create delivery routes (`backend-node/src/routes/deliveries.ts`)
-- ✅ 7. Register delivery routes in `backend-node/src/routes/index.ts`
+## Target Images
+- P1 = `/gallery/potatoes 1.jpeg`
+- SO = `/gallery/soya.jpeg`
+- PO = `/gallery/potatoes.jpeg`
+- W2 = `/gallery/Wheat (2).jpeg`
 
-### Phase 2: Frontend - API & Dashboard Updates
-- ✅ 8. Add delivery types and API functions in `client/src/lib/api.ts`
-- ✅ 9. Add Delivery tab to CustomerDashboard.tsx
-- ✅ 10. Mark Unit and Unit Price as read-only on Order Dashboard
-
-### Phase 3: Auth Flow Improvements
-- ✅ 11. Update ProtectedRoute to preserve redirect path
-- ✅ 12. Update Products page "Inquire Now" to check auth and redirect to login
-- ✅ 13. Ensure login redirects to order dashboard for regular users (already existed)
-
+## Steps
+- [x] About.tsx: Hero -> PO, CTA -> SO
+- [x] Gallery.tsx: Hero -> P1, CTA -> W2
+- [x] Blog.tsx: Hero -> W2, Newsletter -> SO
+- [x] Contact.tsx: Hero -> PO
+- [x] Products.tsx: Hero -> P1
+- [x] Services.tsx: Hero -> SO, CTA -> PO
+- [x] Login.tsx: Left panel bg -> P1

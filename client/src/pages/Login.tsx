@@ -40,10 +40,10 @@ export default function Login() {
   return (
     <div className="min-h-screen flex bg-white dark:bg-slate-900">
       {/* Left Side - Image */}
-      <div
+<div
         className="hidden lg:flex lg:w-1/2 bg-cover bg-center relative"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=85)',
+          backgroundImage: 'url(/gallery/potatoes 1.jpeg)',
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-800/60" />
