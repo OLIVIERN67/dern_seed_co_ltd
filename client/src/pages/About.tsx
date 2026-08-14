@@ -340,9 +340,12 @@ export default function About() {
                 <div className={`w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-50'} shadow-md`}>
                   {member.image ? (
                     <img 
-                      src={member.image} 
-                      alt={member.name} 
-                      className="w-full h-full object-cover"
+                      src={encodeURI(member.image)}
+                      alt={`${member.name} - ${member.position}`}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      className="block w-full h-full object-cover object-center"
                     />
                   ) : (
                     <div className={`w-full h-full ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} flex items-center justify-center`}>
