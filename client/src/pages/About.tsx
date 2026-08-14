@@ -10,7 +10,7 @@ export default function About() {
   useEffect(() => {
     applySeo({
       title: 'About DERN SEED - Rwanda\'s Leading Certified Seed Company',
-      description: 'Learn about DERN SEED Company Ltd, Rwanda\'s premier certified seed provider. Discover our mission, values, and commitment to agricultural excellence since 2019.',
+      description: 'Learn about DERN SEED Company Ltd, Rwanda\'s premier certified seed provider. Discover our mission, values, and commitment to agricultural excellence since 2020.',
       keywords: ['about DERN SEED', 'certified seed company Rwanda', 'agricultural company', 'seed production', 'farming solutions', 'Musanze Rwanda', 'agricultural excellence'],
       ogImage: '/images/logo.png',
       canonical: 'https://dernseed.com/about',
