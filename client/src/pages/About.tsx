@@ -92,19 +92,19 @@ export default function About() {
     {
       name: 'Father Alexandre NTABANGANYIMANA',
       position: 'Managing Director',
-      icon: <User className="w-6 h-6" />,
+      image: '/gallery/managing director.jpeg',
       description: 'Leads the overall strategic direction and operations of DERN SEED Company Ltd.'
     },
     {
       name: 'Cassien TWAGIRIMANA',
       position: 'Chief Operations Officer (COO)',
-      icon: <Briefcase className="w-6 h-6" />,
+      image: '/gallery/Chief Operations Officer (COO).jpeg',
       description: 'Oversees day-to-day operations, production, and supply chain management.'
     },
     {
       name: 'Mediatrice MUJAWIYERA',
       position: 'Chief Finance Officer',
-      icon: <Briefcase className="w-6 h-6" />,
+      image: '/gallery/Chief Finance Officer.jpeg',
       description: 'Manages financial planning, budgeting, and accounting operations.'
     },
   ];
@@ -337,8 +337,18 @@ export default function About() {
                 className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up text-center`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className={`w-20 h-20 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  {member.icon}
+                <div className={`w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-50'} shadow-md`}>
+                  {member.image ? (
+                    <img 
+                      src={member.image} 
+                      alt={member.name} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className={`w-full h-full ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} flex items-center justify-center`}>
+                      <User className="w-12 h-12" />
+                    </div>
+                  )}
                 </div>
                 <h3 className={`font-bold text-xl font-poppins mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   {member.name}
