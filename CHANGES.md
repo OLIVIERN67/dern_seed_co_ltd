@@ -95,3 +95,10 @@ account with the `employee` role — either:
 
 This two-step design was kept deliberately (rather than silently generating a login/password)
 so admins retain full control over credentials.
+
+## Frontend Enhancements (Leadership Section)
+
+- **Professional Portraits Added**: Replaced generic icons in the "Staff Administration" section with high-quality portraits for the Managing Director, COO, and CFO.
+- **Enhanced UI Design**: Increased portrait size to `w-32 h-32`, added professional circular cropping (`rounded-full`), subtle borders, and shadow effects for a modern, clean aesthetic.
+- **Responsive Alignment**: Ensured images are properly sized and aligned for both desktop and mobile views using Tailwind's responsive grid and flex utilities.
+- **Fallback Handling**: Maintained generic icon fallbacks to ensure the UI remains functional if images are missing or fail to load.
