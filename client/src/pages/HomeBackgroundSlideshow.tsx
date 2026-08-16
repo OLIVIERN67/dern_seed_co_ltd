@@ -4,8 +4,8 @@ const HOME_BACKGROUND_IMAGES = [
   '/gallery/Home background 1.jpeg',
   '/gallery/Home background 2.jpeg',
   '/gallery/Home background 3.jpeg',
-  '/gallery/Home background 4.jpeg',
-  '/gallery/Home background 5.jpeg',
+  '/gallery/beans 1.jpeg',
+  '/gallery/Maize crop 2.jpeg',
 ];
 
 export default function HomeBackgroundSlideshow() {

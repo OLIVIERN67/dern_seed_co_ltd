@@ -7,6 +7,10 @@ import { fetchTestimonials, type Testimonial } from '@/lib/api';
 import { applySeo } from '@/lib/seo';
 import HomeBackgroundSlideshow from './HomeBackgroundSlideshow';
 import { useLanguage } from '@/contexts/LanguageContext';
+import StaffSection from '@/components/Staff/StaffSection';
+import { seedData, type SeedProduct } from '@/data/seedData';
+import ProductCard from '@/components/Products/ProductCard';
+import ProductDetailsModal from '@/components/ProductDetails/ProductDetailsModal';
 
 
 export default function Home() {
@@ -20,6 +24,7 @@ export default function Home() {
     });
   }, []);
   const { t } = useLanguage();
+  const [selectedProduct, setSelectedProduct] = useState<SeedProduct | null>(null);
 
   const [stats, setStats] = useState({
     farmers: 0,
@@ -75,43 +80,7 @@ export default function Home() {
     },
   ];
 
-  const products = [
-    {
-      name: 'Maize',
-      image: cropImages.maize.primary,
-      category: 'Cereals',
-      description: 'High-yield certified maize seed suitable for different ecological regions',
-      benefits: ['High yield', 'Disease resistant', 'Drought tolerant'],
-    },
-    {
-      name: 'Irish Potato',
-      image: cropImages.potato.primary,
-      category: 'Root Crops',
-      description: 'Certified potato seeds with excellent productivity',
-      benefits: ['High productivity', 'Quality tubers', 'Long storage'],
-    },
-    {
-      name: 'Wheat',
-      image: cropImages.wheat.secondary,
-      category: 'Cereals',
-      description: 'Improved wheat seed varieties for commercial farming',
-      benefits: ['High yield', 'Good quality', 'Early maturity'],
-    },
-    {
-      name: 'Soybean',
-      image: cropImages.soybean.primary,
-      category: 'Legumes',
-      description: 'Protein-rich soybean seed with excellent germination',
-      benefits: ['High protein', 'Nitrogen fixing', 'Market demand'],
-    },
-    {
-      name: 'Bean',
-      image: cropImages.bean.primary,
-      category: 'Legumes',
-      description: 'Quality bean seeds for reliable harvests',
-      benefits: ['High quality', 'Good germination', 'Certified'],
-    },
-  ];
+
 
   const services = [
     {
@@ -420,43 +389,7 @@ export default function Home() {
       </section>
 
       {/* Staff Administration Section */}
-      <section id="staff-administration" className="py-20 bg-gray-50 dark:bg-slate-900">
-        <div className="container">
-          <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Team</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4 text-gray-900 dark:text-white">Staff Administration</h2>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Meet the senior leadership team guiding DERN SEED Company Ltd.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
-              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Managing Director</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Father Alexandre NTABANGANYIMANA</h3>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Leading DERN SEED Company Ltd with a deep commitment to agricultural development and community service.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
-              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Chief Operations Officer</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Cassien TWAGIRIMANA</h3>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Oversees operational excellence to ensure seed production and delivery meet the highest standards.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 p-8 text-center shadow-xl">
-              <div className="text-green-700 dark:text-green-400 text-sm font-semibold uppercase tracking-[0.3em] mb-3">Chief Finance Officer</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Mediatrice MUJAWIYERA</h3>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Manages the company’s financial strategy and supports sustainable growth for the business.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <StaffSection />
 
       {/* Why Choose Us */}
       <section className="py-20">
@@ -488,55 +421,23 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-slate-900">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Catalog</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Featured Products</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <div className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wider mb-2">Our Catalog</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4 text-gray-900 dark:text-white">Featured Products</h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               High-quality certified seeds for various crops and growing conditions.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className="bg-white border border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-green-400 hover:shadow-2xl hover:-translate-y-4 group animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="h-48 rounded-t-xl overflow-hidden mb-0">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="inline-block px-3 py-1 bg-gradient-to-r from-green-100 to-green-50 text-green-700 text-xs font-bold rounded-full mb-3 group-hover:from-green-200 group-hover:to-green-100 transition-all duration-300">
-                    {product.category}
-                  </div>
-                <h3 className="font-bold text-xl font-poppins mb-3 text-gray-900 leading-tight">{product.name}</h3>
-                <p className="text-gray-600 text-base mb-4 leading-relaxed">{product.description}</p>
-                <div className="space-y-2 mb-6">
-                  <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Key Benefits:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {product.benefits.map((benefit, i) => (
-                      <span key={i} className="text-xs bg-green-50 text-green-700 px-3 py-1.5 rounded-full font-medium border border-green-200">
-                        ✓ {benefit}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                  <Link
-                    href="/products"
-                    className="inline-flex items-center px-4 py-2 bg-green-700 text-white font-semibold text-sm rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
-                  >
-                    View Details <ArrowRight className="ml-2 w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
+            {seedData.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onViewDetails={(p) => setSelectedProduct(p)}
+              />
             ))}
           </div>
         </div>
@@ -854,6 +755,12 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      {/* Product Details Modal */}
+      <ProductDetailsModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </div>
   );
 }
