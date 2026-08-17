@@ -18,6 +18,7 @@ import Products from "./pages/Products";
 import Services from "./pages/Services";
 import Gallery from "./pages/Gallery";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -35,6 +36,7 @@ function Router() {
       <Route path={"/order"} component={OrderForm} />
       <Route path={"/services"} component={Services} />
       <Route path={"/gallery"} component={Gallery} />
+      <Route path={"/blog/:slug"} component={BlogDetail} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/login"} component={Login} />

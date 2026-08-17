@@ -84,7 +84,7 @@ export default function Navigation() {
                 DERN SEED
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 font-inter tracking-wider">
-                {getTranslation("certified_seeds", "CERTIFIED SEEDS")}
+                {getTranslation("brand_certified_seeds", "CERTIFIED SEEDS")}
               </div>
             </div>
           </Link>

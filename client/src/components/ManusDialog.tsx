@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/ui/dialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ManusDialogProps {
   title?: string;
@@ -27,6 +28,7 @@ export function ManusDialog({
   onClose,
 }: ManusDialogProps) {
   const [internalOpen, setInternalOpen] = useState(open);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!onOpenChange) {
@@ -66,7 +68,7 @@ export function ManusDialog({
             </DialogTitle>
           ) : null}
           <DialogDescription className="text-sm text-[#858481] leading-5 tracking-[-0.154px]">
-            Please login with Manus to continue
+            {t("manus_dialog_description")}
           </DialogDescription>
         </div>
 
@@ -76,7 +78,7 @@ export function ManusDialog({
             onClick={onLogin}
             className="w-full h-10 bg-[#1a1a19] hover:bg-[#1a1a19]/90 text-white rounded-[10px] text-sm font-medium leading-5 tracking-[-0.154px]"
           >
-            Login with Manus
+            {t("manus_login_button")}
           </Button>
         </DialogFooter>
       </DialogContent>

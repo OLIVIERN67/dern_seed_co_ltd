@@ -1,18 +1,18 @@
 export const productCategories = [
-  { name: "Irish Potato Seed" },
-  { name: "Bean Seed" },
-  { name: "Maize Seed" },
-  { name: "Wheat Seed" },
-  { name: "SoyBean Seed" }
+  { nameKey: "nav_product_irish_potato", fallback: "Irish Potato Seed" },
+  { nameKey: "nav_product_bean", fallback: "Bean Seed" },
+  { nameKey: "nav_product_maize", fallback: "Maize Seed" },
+  { nameKey: "nav_product_wheat", fallback: "Wheat Seed" },
+  { nameKey: "nav_product_soybean", fallback: "Soybean Seed" }
 ];
 
 export const aboutMenuItems = [
-  { name: "Our Mission", href: "/about#mission" },
-  { name: "Our Vision", href: "/about#vision" },
-  { name: "Core Values", href: "/about#values" },
-  { name: "Strategic Goals", href: "/about#goals" },
-  { name: "What We Do", href: "/about#what-we-do" },
-  { name: "Our Team", href: "/about#staff-administration", isHash: true },
+  { nameKey: "nav_about_mission", fallback: "Our Mission", href: "/about#mission" },
+  { nameKey: "nav_about_vision", fallback: "Our Vision", href: "/about#vision" },
+  { nameKey: "nav_about_values", fallback: "Core Values", href: "/about#values" },
+  { nameKey: "nav_about_goals", fallback: "Strategic Goals", href: "/about#goals" },
+  { nameKey: "nav_about_what_we_do", fallback: "What We Do", href: "/about#what-we-do" },
+  { nameKey: "nav_about_team", fallback: "Our Team", href: "/about#staff-administration", isHash: true },
 ];
 
 export const navItems = [

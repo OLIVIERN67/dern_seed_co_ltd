@@ -101,18 +101,18 @@ export default function OrderForm() {
     e.preventDefault();
 
     if (!user) {
-      toast.error('Please log in or sign up to place an order.');
+      toast.error(t('order_login_required'));
       setLocation('/login?redirect=/order');
       return;
     }
 
     if (!productName.trim()) {
-      toast.error('Please select or specify a product');
+      toast.error(t('order_product_required'));
       return;
     }
 
     if (quantity <= 0) {
-      toast.error('Quantity must be greater than 0');
+      toast.error(t('order_quantity_min'));
       return;
     }
 
@@ -129,9 +129,9 @@ export default function OrderForm() {
       });
 
       setOrderSuccess(res.id);
-      toast.success('Order submitted successfully!');
+      toast.success(t('order_success'));
     } catch (err: any) {
-      toast.error(err?.message || 'Failed to submit order');
+      toast.error(err?.message || t('order_failed'));
     } finally {
       setSubmitting(false);
     }
@@ -147,25 +147,25 @@ export default function OrderForm() {
               href="/products"
               className="inline-flex items-center text-sm font-medium text-emerald-200 hover:text-white transition-colors mb-4"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Products
+              <ArrowLeft className="w-4 h-4 mr-2" /> {t('order_back_products')}
             </Link>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 mb-3">
-                  <Sparkles className="w-3.5 h-3.5" /> Certified Quality Seeds
+                  <Sparkles className="w-3.5 h-3.5" /> {t('order_subtitle')}
                 </span>
                 <h1 className="text-3xl md:text-4xl font-bold font-poppins text-white">
-                  Place Seed Order
+                  {t('order_title')}
                 </h1>
                 <p className="text-emerald-100 text-sm mt-1">
-                  Complete your order details below to reserve certified seeds directly from DERN SEED.
+                  {t('order_description')}
                 </p>
               </div>
               <div className="hidden md:flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10">
                 <PackageCheck className="w-8 h-8 text-amber-400" />
                 <div>
-                  <div className="text-xs text-emerald-200">Guaranteed Germination</div>
-                  <div className="text-sm font-semibold text-white">High Crop Yield</div>
+                   <div className="text-xs text-emerald-200">{t('order_feature_1')}</div>
+                   <div className="text-sm font-semibold text-white">{t('order_feature_2')}</div>
                 </div>
               </div>
             </div>
@@ -180,25 +180,24 @@ export default function OrderForm() {
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Order Received!
+                 {t('order_success_title')}
               </h2>
               <p className="text-slate-600 dark:text-slate-300 text-sm mb-6 leading-relaxed">
-                Thank you for ordering with DERN SEED. Your order reference number is{' '}
+                {t('order_success_message')}{' '}
                 <span className="font-bold text-green-700 dark:text-green-400">#{orderSuccess}</span>.
-                Our team is reviewing your order and will contact you for dispatch.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
                   href="/dashboard/customer"
                   className="w-full sm:w-auto px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-xl shadow-md transition-all text-sm text-center"
                 >
-                  View My Customer Dashboard
+                  {t('order_view_dashboard')}
                 </Link>
                 <Link
                   href="/products"
                   className="w-full sm:w-auto px-6 py-3 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-xl transition-all text-sm text-center"
                 >
-                  Browse More Products
+                  {t('order_browse_more')}
                 </Link>
               </div>
             </div>
@@ -209,17 +208,17 @@ export default function OrderForm() {
                 <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 md:p-8 space-y-6">
                   <div className="border-b border-slate-100 dark:border-slate-700 pb-4">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                      <ShoppingBag className="w-5 h-5 text-green-600" /> Order Details
+                      <ShoppingBag className="w-5 h-5 text-green-600" /> {t('order_details_title')}
                     </h2>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      Verify seed selection, quantity, and delivery parameters.
+                      {t('order_details_description')}
                     </p>
                   </div>
 
                   {/* Product Selection */}
                   <div className="space-y-3">
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                      Selected Seed / Product <span className="text-red-500">*</span>
+                      {t('order_selected_product')} <span className="text-red-500">*</span>
                     </label>
 
                     {seeds.length > 0 ? (
@@ -264,7 +263,7 @@ export default function OrderForm() {
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
-                        Quantity <span className="text-red-500">*</span>
+                        {t('order_quantity')} <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -279,7 +278,7 @@ export default function OrderForm() {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
-                        Unit
+                        {t('order_unit')}
                       </label>
                       <input
                         type="text"
@@ -293,7 +292,7 @@ export default function OrderForm() {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">
-                        Unit Price (RWF)
+                        {t('order_unit_price')}
                       </label>
                       <input
                         type="number"
@@ -311,9 +310,9 @@ export default function OrderForm() {
                     <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex items-start gap-3 text-xs text-amber-800 dark:text-amber-300">
                       <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                       <div>
-                        You are currently not logged in. Placed orders will require account registration to track status on your Customer Dashboard.{' '}
+                        {t('order_not_logged_in')}{' '}
                         <Link href="/login" className="underline font-semibold">
-                          Log in here
+                          {t('order_login_here')}
                         </Link>
                       </div>
                     </div>
@@ -325,10 +324,10 @@ export default function OrderForm() {
                     className="w-full py-4 bg-gradient-to-r from-green-700 to-emerald-600 hover:from-green-800 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 text-base disabled:opacity-50"
                   >
                     {submitting ? (
-                      <span>Submitting Order...</span>
+                      <span>{t('order_submitting')}</span>
                     ) : (
                       <>
-                        <span>Submit Order</span>
+                        <span>{t('order_submit_button')}</span>
                         <PackageCheck className="w-5 h-5" />
                       </>
                     )}
@@ -340,33 +339,33 @@ export default function OrderForm() {
               <div className="space-y-6">
                 <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 sticky top-6">
                   <h3 className="font-bold text-slate-900 dark:text-white text-lg border-b border-slate-100 dark:border-slate-700 pb-3 mb-4">
-                    Order Summary
+                    {t('order_summary')}
                   </h3>
 
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
-                      <span>Product:</span>
+                      <span>{t('order_summary_product')}</span>
                       <span className="font-semibold text-slate-900 dark:text-slate-100 text-right">
-                        {productName || 'Not Selected'}
+                        {productName || t('order_summary_not_selected')}
                       </span>
                     </div>
 
                     <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
-                      <span>Quantity:</span>
+                      <span>{t('order_summary_quantity')}</span>
                       <span className="font-mono font-medium text-slate-900 dark:text-slate-100">
                         {quantity} {unit}
                       </span>
                     </div>
 
                     <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
-                      <span>Unit Price:</span>
+                      <span>{t('order_summary_unit_price')}</span>
                       <span className="font-mono text-slate-900 dark:text-slate-100">
                         RWF {unitPrice.toLocaleString()}
                       </span>
                     </div>
 
                     <div className="border-t border-slate-100 dark:border-slate-700 pt-3 flex justify-between items-center">
-                      <span className="font-bold text-slate-900 dark:text-white">Total Amount:</span>
+                      <span className="font-bold text-slate-900 dark:text-white">{t('order_summary_total')}</span>
                       <span className="text-xl font-bold font-mono text-green-700 dark:text-green-400">
                         RWF {totalAmount.toLocaleString()}
                       </span>
@@ -375,10 +374,10 @@ export default function OrderForm() {
 
                   <div className="mt-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 space-y-2 text-xs text-slate-600 dark:text-slate-400">
                     <div className="flex items-center gap-2 font-medium text-slate-800 dark:text-slate-200">
-                      <Truck className="w-4 h-4 text-green-600" /> Fast Regional Logistics
+                      <Truck className="w-4 h-4 text-green-600" /> {t('order_logistics_title')}
                     </div>
                     <p>
-                      Orders are processed directly at Ruhengeri seed facilities and dispatched via certified transport.
+                      {t('order_logistics_desc')}
                     </p>
                   </div>
                 </div>

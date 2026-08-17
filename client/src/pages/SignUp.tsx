@@ -35,19 +35,19 @@ export default function SignUp() {
     if (loading) return;
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error(t('signup_passwords_mismatch'));
       return;
     }
 
     if (!formData.agreeTerms) {
-      toast.error('You must agree to the terms');
+      toast.error(t('signup_terms_required'));
       return;
     }
 
     setLoading(true);
     try {
       const res = await register(formData.fullName, formData.email, formData.password, formData.phone);
-      toast.success('Account created successfully! Welcome to DERN SEED.');
+      toast.success(t('signup_success'));
       await refresh();
       if (res.user.role === 'admin') {
         navigate('/dashboard/admin');
@@ -57,7 +57,7 @@ export default function SignUp() {
         navigate('/dashboard/customer');
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Registration failed');
+      toast.error(err instanceof Error ? err.message : t('signup_failed'));
     } finally {
       setLoading(false);
     }

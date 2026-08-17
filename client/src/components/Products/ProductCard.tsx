@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'wouter';
 import { CheckCircle2, ArrowRight, Eye, Sparkles } from 'lucide-react';
 import type { SeedProduct } from '@/data/seedData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProductCardProps {
   product: SeedProduct;
@@ -14,6 +15,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onViewDetails,
   className = '',
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div
       className={`bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-green-400 dark:hover:border-green-500 transition-all duration-300 hover:-translate-y-2 flex flex-col group ${className}`}
@@ -38,15 +41,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="absolute top-3 right-3">
           <span className="inline-flex items-center gap-1 px-3 py-1 bg-amber-500 text-gray-950 text-xs font-bold rounded-full shadow-sm">
             <Sparkles className="w-3 h-3" />
-            Certified
+            {t('products_certified_badge')}
           </span>
         </div>
 
         {/* Availability tag at bottom corner */}
         <div className="absolute bottom-3 left-3 text-xs text-white/90 font-medium">
-          {product.harvestPeriod && (
+              {product.harvestPeriod && (
             <span className="bg-black/50 backdrop-blur-xs px-2.5 py-1 rounded-md">
-              Maturity: {product.harvestPeriod}
+              {t('product_maturity')} {product.harvestPeriod}
             </span>
           )}
         </div>
@@ -65,7 +68,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Benefits Preview */}
         <div className="mb-6 space-y-1.5 flex-1">
           <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-            Key Highlights:
+            {t('product_key_highlights')}
           </p>
           {product.benefits.slice(0, 3).map((benefit, index) => (
             <div key={index} className="flex items-start gap-2 text-xs text-gray-700 dark:text-gray-300">
@@ -84,14 +87,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             title={`View detailed information about ${product.name}`}
           >
             <Eye className="w-4 h-4 text-green-600 dark:text-green-400" />
-            View Details
+            {t('product_view_details')}
           </button>
 
           <Link
             href={`/order?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(product.category)}`}
             className="w-full sm:flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-green-700 hover:bg-green-800 text-white font-semibold text-sm rounded-lg transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98]"
           >
-            Order Seed
+            {t('product_order_seed')}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

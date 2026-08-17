@@ -87,7 +87,7 @@ export default function MobileNav({
                       ? (item.dropdown as typeof productCategories).map(
                           category => (
                           <Link
-                            key={category.name}
+                            key={category.nameKey}
                             href="/products"
                             onClick={() => {
                               setIsMobileOpen(false);
@@ -95,7 +95,7 @@ export default function MobileNav({
                             }}
                             className="block px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all"
                           >
-                            {category.name}
+                            {getTranslation(category.nameKey, category.fallback)}
                           </Link>
                           )
                         )
@@ -105,7 +105,7 @@ export default function MobileNav({
                             if (subItem.isHash) {
                               return (
                                 <button
-                                  key={subItem.name}
+                                  key={subItem.nameKey}
                                   onClick={() => {
                                     setIsMobileOpen(false);
                                     setIsOpen(false);
@@ -114,13 +114,13 @@ export default function MobileNav({
                                   className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all w-full text-left"
                                 >
                                   <div className="w-7 h-7 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center" />
-                                  {subItem.name}
+                                  {getTranslation(subItem.nameKey, subItem.fallback)}
                                 </button>
                               );
                             }
                             return (
                               <Link
-                                key={subItem.name}
+                                key={subItem.nameKey}
                                 href={subItem.href}
                                 onClick={() => {
                                   setIsMobileOpen(false);
@@ -129,7 +129,7 @@ export default function MobileNav({
                                 className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all"
                               >
                                 <div className="w-7 h-7 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center" />
-                                {subItem.name}
+                                {getTranslation(subItem.nameKey, subItem.fallback)}
                               </Link>
                             );
                           }
@@ -233,7 +233,7 @@ function MobileAuthSection({
           className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-sm shadow-xs transition-all"
           onClick={onNavigate}
         >
-          Order Seeds Now
+          {getTranslation("nav_order_seeds", "Order Seeds Now")}
         </Link>
         <Link
           href={dashboardHref}

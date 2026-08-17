@@ -40,22 +40,22 @@ export default function Gallery() {
       });
     };
 
-    pushCropImages('potato', 'Potato', cropImages.potato.all);
-    pushCropImages('bean', 'Bean', cropImages.bean.all);
-    pushCropImages('maize', 'Maize', cropImages.maize.all);
-    pushCropImages('wheat', 'Wheat', cropImages.wheat.all);
-    pushCropImages('soybean', 'Soybean', cropImages.soybean.all);
+    pushCropImages('potato', t('gallery_crop_potato'), cropImages.potato.all);
+    pushCropImages('bean', t('gallery_crop_bean'), cropImages.bean.all);
+    pushCropImages('maize', t('gallery_crop_maize'), cropImages.maize.all);
+    pushCropImages('wheat', t('gallery_crop_wheat'), cropImages.wheat.all);
+    pushCropImages('soybean', t('gallery_crop_soybean'), cropImages.soybean.all);
 
     return items;
   })();
 
   const categories = [
     { id: 'all', label: t('gallery_browse_collections') || 'All Categories' },
-    { id: 'potato', label: 'Potato' },
-    { id: 'bean', label: 'Bean' },
-    { id: 'maize', label: 'Maize' },
-    { id: 'wheat', label: 'Wheat' },
-    { id: 'soybean', label: 'Soybean' },
+    { id: 'potato', label: t('gallery_crop_potato') },
+    { id: 'bean', label: t('gallery_crop_bean') },
+    { id: 'maize', label: t('gallery_crop_maize') },
+    { id: 'wheat', label: t('gallery_crop_wheat') },
+    { id: 'soybean', label: t('gallery_crop_soybean') },
   ];
 
   const filteredItems = activeCategory === 'all'
@@ -170,19 +170,19 @@ export default function Gallery() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Potato',
+                title: t('gallery_highlight_potato_title'),
                 count: galleryItems.filter((item) => item.category === 'potato').length.toString(),
-                description: 'Field and tuber photos for certified Irish potato seed.',
+                description: t('gallery_highlight_potato_desc'),
               },
               {
-                title: 'Bean & Soybean',
+                title: t('gallery_highlight_legume_title'),
                 count: galleryItems.filter((item) => item.category === 'bean' || item.category === 'soybean').length.toString(),
-                description: 'Legume crop photos from multiplication and field activities.',
+                description: t('gallery_highlight_legume_desc'),
               },
               {
-                title: 'Maize & Wheat',
+                title: t('gallery_highlight_cereal_title'),
                 count: galleryItems.filter((item) => item.category === 'maize' || item.category === 'wheat').length.toString(),
-                description: 'Cereal crop images from early growth to mature harvest stage.',
+                description: t('gallery_highlight_cereal_desc'),
               },
             ].map((stat, index) => (
               <div
@@ -220,35 +220,35 @@ export default function Gallery() {
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              Featured Highlights
+              {t('gallery_highlights_heading')}
             </h2>
             <p className={`max-w-2xl mx-auto ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              Key moments that define our mission and impact.
+              {t('gallery_highlights_description')}
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {[
               {
-                title: 'Crop-Accurate Visuals',
-                description: 'Each crop card now uses the corresponding crop image from your DERN Gallery folder.',
+                title: t('gallery_highlight_visuals_title'),
+                description: t('gallery_highlight_visuals_desc'),
                 emoji: '✓',
               },
               {
-                title: 'Certified Production Focus',
-                description: 'Photos emphasize multiplication fields and certified seed preparation processes.',
+                title: t('gallery_highlight_production_title'),
+                description: t('gallery_highlight_production_desc'),
                 emoji: '✓',
               },
               {
-                title: 'Real DERN Crop Fields',
-                description: 'Images represent actual DERN crop fields rather than generic placeholder graphics.',
+                title: t('gallery_highlight_fields_title'),
+                description: t('gallery_highlight_fields_desc'),
                 emoji: '🤝',
               },
               {
-                title: 'Crop Diversity',
-                description: 'The gallery covers Irish potato, bean, maize, wheat, and soybean crops.',
+                title: t('gallery_highlight_diversity_title'),
+                description: t('gallery_highlight_diversity_desc'),
                 emoji: '🌱',
               },
             ].map((highlight, index) => (
@@ -290,16 +290,16 @@ export default function Gallery() {
 
         <div className="container relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">
-            Join Our Growing Community
+            {t('gallery_join_community_heading')}
           </h2>
           <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-            Be part of the agricultural revolution in Rwanda with DERN SEED.
+            {t('gallery_join_community_description')}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-fade-in-up"
           >
-            Contact Us <ArrowRight className="ml-2 w-5 h-5" />
+            {t('gallery_join_contact_us')} <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
       </section>

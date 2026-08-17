@@ -48,80 +48,32 @@ export default function Home() {
   }, []);
 
   const features = [
-    {
-      icon: <CheckCircle className="w-6 h-6" />,
-      title: 'Certified Seeds',
-      description: 'All seeds meet national certification standards',
-    },
-    {
-      icon: <Zap className="w-6 h-6" />,
-      title: 'High Germination Rate',
-      description: 'Optimized for maximum germination success',
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: 'Disease Resistant',
-      description: 'Varieties bred for resilience against common diseases',
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: 'Trusted Partner',
-      description: 'Years of proven service in the field',
-    },
-    {
-      icon: <Award className="w-6 h-6" />,
-      title: 'Expert Team',
-      description: 'Expert agronomists and seed specialists',
-    },
-    {
-      icon: <Headphones className="w-6 h-6" />,
-      title: 'Customer Support',
-      description: 'Dedicated post-sale and technical assistance',
-    },
+    { icon: <CheckCircle className="w-6 h-6" />, title: t('home_feature_certified_title'), description: t('home_feature_certified_desc') },
+    { icon: <Zap className="w-6 h-6" />, title: t('home_feature_germination_title'), description: t('home_feature_germination_desc') },
+    { icon: <Shield className="w-6 h-6" />, title: t('home_feature_disease_title'), description: t('home_feature_disease_desc') },
+    { icon: <Users className="w-6 h-6" />, title: t('home_feature_trusted_title'), description: t('home_feature_trusted_desc') },
+    { icon: <Award className="w-6 h-6" />, title: t('home_feature_expert_title'), description: t('home_feature_expert_desc') },
+    { icon: <Headphones className="w-6 h-6" />, title: t('home_feature_support_title'), description: t('home_feature_support_desc') },
   ];
 
 
 
   const services = [
-    {
-      icon: <Leaf className="w-8 h-8" />,
-      title: 'Certified Seed Production',
-      description: 'We produce seeds following strict international certification standards',
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: 'Seed Distribution',
-      description: 'Reliable distribution network reaching farmers across the region',
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Agricultural Consultancy',
-      description: 'Expert advice on crop selection and farming practices',
-    },
-    {
-      icon: <Award className="w-8 h-8" />,
-      title: 'Farmer Training',
-      description: 'Comprehensive training programs for improved farming techniques',
-    },
-    {
-      icon: <Headphones className="w-8 h-8" />,
-      title: 'Technical Support',
-      description: 'Ongoing support throughout the growing season',
-    },
-    {
-      icon: <Droplet className="w-8 h-8" />,
-      title: 'Crop Production Advice',
-      description: 'Guidance on optimal planting and harvesting practices',
-    },
+    { icon: <Leaf className="w-8 h-8" />, title: t('home_service_production_title'), description: t('home_service_production_desc') },
+    { icon: <TrendingUp className="w-8 h-8" />, title: t('home_service_distribution_title'), description: t('home_service_distribution_desc') },
+    { icon: <Users className="w-8 h-8" />, title: t('home_service_consultancy_title'), description: t('home_service_consultancy_desc') },
+    { icon: <Award className="w-8 h-8" />, title: t('home_service_training_title'), description: t('home_service_training_desc') },
+    { icon: <Headphones className="w-8 h-8" />, title: t('home_service_tech_title'), description: t('home_service_tech_desc') },
+    { icon: <Droplet className="w-8 h-8" />, title: t('home_service_crop_title'), description: t('home_service_crop_desc') },
   ];
 
   const gallery = [
-    { id: 1, label: 'Irish Potato', image: cropImages.potato.primary },
-    { id: 2, label: 'Bean', image: cropImages.bean.primary },
-    { id: 3, label: 'Maize', image: cropImages.maize.primary },
-    { id: 4, label: 'Wheat', image: cropImages.wheat.primary },
-    { id: 5, label: 'Soybean', image: cropImages.soybean.primary },
-    { id: 6, label: 'Certified Maize Seed', image: cropImages.maize.secondary },
+    { id: 1, label: t('home_gallery_irish_potato'), image: cropImages.potato.primary },
+    { id: 2, label: t('home_gallery_bean'), image: cropImages.bean.primary },
+    { id: 3, label: t('home_gallery_maize'), image: cropImages.maize.primary },
+    { id: 4, label: t('home_gallery_wheat'), image: cropImages.wheat.primary },
+    { id: 5, label: t('home_gallery_soybean'), image: cropImages.soybean.primary },
+    { id: 6, label: t('home_gallery_certified_maize'), image: cropImages.maize.secondary },
   ];
 
 
@@ -144,24 +96,9 @@ export default function Home() {
   }, []);
 
   const blogPosts = [
-    {
-      title: 'Best Time to Plant Maize',
-      category: 'Seasonal Guide',
-      date: 'June 2026',
-      excerpt: 'Learn the optimal planting times for maize in different regions to maximize your harvest.',
-    },
-    {
-      title: 'Choosing Certified Seeds',
-      category: 'Buying Guide',
-      date: 'June 2026',
-      excerpt: 'A comprehensive guide to selecting the right certified seeds for your farming needs.',
-    },
-    {
-      title: 'Pest Management Tips',
-      category: 'Crop Protection',
-      date: 'May 2026',
-      excerpt: 'Effective strategies for managing common pests and protecting your crops naturally.',
-    },
+    { title: t('home_blog_post1_title'), category: t('home_blog_post1_category'), date: t('blog_june_2026'), excerpt: t('home_blog_post1_excerpt') },
+    { title: t('home_blog_post2_title'), category: t('home_blog_post2_category'), date: t('blog_june_2026'), excerpt: t('home_blog_post2_excerpt') },
+    { title: t('home_blog_post3_title'), category: t('home_blog_post3_category'), date: t('blog_may_2026'), excerpt: t('home_blog_post3_excerpt') },
   ];
 
   const headline = t('home_hero_headline');
@@ -265,7 +202,7 @@ export default function Home() {
             </div>
 
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Welcome Message</div>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">{t('home_welcome_message_label')}</div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 text-gray-900 dark:text-gray-100 leading-tight">
                 {t('about_hero_heading')}
               </h2>
@@ -275,50 +212,50 @@ export default function Home() {
                 <div className="grid md:grid-cols-1 gap-6">
                   <div>
                     <p className="text-gray-700 dark:text-gray-200 text-base sm:text-lg leading-relaxed mb-4">
-                      <span className="font-semibold">Dear Valued Visitors, Partners, Farmers, and Stakeholders,</span>
+                      <span className="font-semibold">{t('home_welcome_salutation')}</span>
                     </p>
 
                     <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                      Welcome to <span className="font-semibold">Dern Seed Company Ltd.</span> We are honored to serve Rwanda’s agricultural community through high-quality certified seeds and reliable support.
+                      {t('home_welcome_para1')}
                     </p>
 
                     <p className="text-gray-700 text-base sm:text-lg leading-relaxed mt-4">
-                      Our mission is simple: ensure farmers have access to trustworthy, high-performing, and climate-resilient seed varieties.
+                      {t('home_welcome_para2')}
                     </p>
 
                     <details className="mt-4">
                       <summary className="cursor-pointer select-none inline-flex items-center gap-2 text-green-700 font-semibold">
-                        Read More
+                        {t('home_welcome_read_more')}
                         <ArrowRight className="w-4 h-4" />
                       </summary>
                       <div className="mt-3 text-gray-700 text-base sm:text-lg leading-relaxed space-y-4">
                         <p>
-                          As the Managing Director, I am honored to lead an organization committed to strengthening Rwanda's agricultural sector through the production and supply of high-quality certified seeds and innovative agricultural services.
+                          {t('home_welcome_para3')}
                         </p>
                         <p>
-                          Since our establishment in 2020 under the Diocese of Ruhengeri, we remain dedicated to improving food security, increasing agricultural productivity, and enhancing the livelihoods of farming communities across Rwanda.
+                          {t('home_welcome_para4')}
                         </p>
                         <p>
-                          We believe that <span className="font-semibold">quality seed is the foundation of successful agriculture.</span> This enables farmers to achieve higher yields, better incomes, and sustainable farming systems.
+                          {t('home_welcome_para5')}
                         </p>
                         <p>
-                          Beyond seed production, Dern Seed Company Ltd provides comprehensive agricultural services, including technical training, extension support, contract farming, seed quality assurance, agribusiness advisory services, and market linkage initiatives.
+                          {t('home_welcome_para6')}
                         </p>
                         <p>
-                          On behalf of our Board of Directors, management team, and dedicated staff, I sincerely thank you for your interest. We look forward to building lasting partnerships and growing together toward a more productive, prosperous, and food-secure future.
+                          {t('home_welcome_para7')}
                         </p>
                         <p>
-                          <span className="font-semibold">Thank you for visiting our website, and welcome to the Dern Seed Company Ltd family.</span>
+                          <span className="font-semibold">{t('home_welcome_thank_you')}</span>
                         </p>
                       </div>
                     </details>
                   </div>
 
                   <div className="pt-4 border-t border-gray-100 mt-2 space-y-3">
-                    <p className="text-gray-900 font-bold text-xl sm:text-2xl leading-snug">Father Alexandre NTABANGANYIMANA</p>
+                    <p className="text-gray-900 font-bold text-xl sm:text-2xl leading-snug">{t('home_welcome_director_name')}</p>
                     <div className="flex items-center gap-3">
                       <div className="h-px bg-gray-200 w-16" />
-                      <p className="text-green-700 font-semibold tracking-wide">Managing Director of Dern Seed Company Ltd</p>
+                      <p className="text-green-700 font-semibold tracking-wide">{t('home_welcome_director_title')}</p>
                       <div className="h-px bg-gray-200 w-16" />
                     </div>
                     <p className="text-gray-700 font-semibold text-base"></p>
@@ -345,35 +282,35 @@ export default function Home() {
                 />
                 <div className="absolute bottom-6 left-6 bg-gray-900/90 text-white p-4 rounded-lg backdrop-blur-sm">
                   <div className="text-3xl font-bold font-poppins text-amber-500">5+</div>
-                  <div className="text-xs text-gray-300">Years of Excellence</div>
+                  <div className="text-xs text-gray-300">{t('home_about_years')}</div>
                 </div>
               </div>
             </div>
 
             <div className="animate-slide-in-right">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2 sm:mb-3">About Us</div>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2 sm:mb-3">{t('home_about_badge')}</div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-6 sm:mb-8 text-gray-900 leading-tight">DERN SEED CO LTD</h2>
 
               <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-base sm:text-lg">
-                DERN SEED CO LTD is a professional agricultural company specializing in the production and distribution of high-quality certified seeds. We are committed to supporting farmers with reliable seed varieties that improve productivity, food security, and sustainable agriculture.
+                {t('home_about_description1')}
               </p>
 
               <p className="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-base sm:text-lg">
-                Our mission is to empower farmers across Rwanda with access to premium certified seeds and expert agricultural support. We believe in sustainable farming practices that benefit both farmers and the environment.
+                {t('home_about_description2')}
               </p>
 
               <div className="space-y-3 mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                  <span className="text-gray-700">Certified by national and international standards</span>
+                  <span className="text-gray-700">{t('home_about_certified')}</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                  <span className="text-gray-700">Expert team of agronomists and seed specialists</span>
+                  <span className="text-gray-700">{t('home_about_expert')}</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                  <span className="text-gray-700">Dedicated customer support and technical assistance</span>
+                  <span className="text-gray-700">{t('home_about_support')}</span>
                 </div>
               </div>
 
@@ -381,7 +318,7 @@ export default function Home() {
                 href="/about"
                 className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1"
               >
-                Read More <ArrowRight className="ml-2 w-4 h-4" />
+                {t('common_read_more')} <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -395,10 +332,10 @@ export default function Home() {
       <section className="py-20">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Strengths</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Why Choose DERN SEED</h2>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('home_features_title')}</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('home_features_why_choose')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We provide certified seeds and comprehensive agricultural support to help you achieve better harvests.
+              {t('home_features_description')}
             </p>
           </div>
 
@@ -424,10 +361,10 @@ export default function Home() {
       <section className="py-20 bg-gray-50 dark:bg-slate-900">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wider mb-2">Our Catalog</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4 text-gray-900 dark:text-white">Featured Products</h2>
+            <div className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wider mb-2">{t('home_catalog_title')}</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4 text-gray-900 dark:text-white">{t('home_featured_products_title')}</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              High-quality certified seeds for various crops and growing conditions.
+              {t('home_featured_products_description')}
             </p>
           </div>
 
@@ -447,10 +384,10 @@ export default function Home() {
       <section className="py-20">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">What We Offer</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Our Services</h2>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('home_services_title')}</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('home_services_heading')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Comprehensive agricultural solutions to support your farming journey.
+              {t('home_services_description')}
             </p>
           </div>
 
@@ -476,10 +413,10 @@ export default function Home() {
       <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Work</div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-4 leading-tight">Gallery</h2>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('home_gallery_work')}</div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-4 leading-tight">{t('home_gallery_title')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
-              See our farming operations, training sessions, and community impact.
+              {t('home_gallery_description')}
             </p>
           </div>
 
@@ -509,7 +446,7 @@ export default function Home() {
               href="/gallery"
               className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-              View Full Gallery <ArrowRight className="ml-2 w-4 h-4" />
+              {t('home_gallery_view_full')} <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -528,10 +465,10 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { label: 'Farmers Served', value: '18,000+' },
-              { label: 'Seed Varieties', value: '25+' },
-              { label: 'Years Experience', value: '5+' },
-              { label: 'Districts Reached', value: '14+' },
+              { label: t('home_stats_farmers'), value: '18,000+' },
+              { label: t('home_stats_varieties'), value: '25+' },
+              { label: t('home_stats_experience'), value: '5+' },
+              { label: t('home_stats_districts'), value: '14+' },
             ].map((stat, index) => (
               <div
                 key={index}
@@ -552,10 +489,10 @@ export default function Home() {
       <section className="py-20">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Success Stories</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">What Farmers Say</h2>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('home_testimonials_title')}</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('home_testimonials_heading')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Hear from farmers who have benefited from our certified seeds and services.
+              {t('home_testimonials_description')}
             </p>
           </div>
 
@@ -587,7 +524,7 @@ export default function Home() {
             ))}
             {testimonials.length === 0 && (
               <div className="col-span-full text-center text-gray-500">
-                No testimonials available yet.
+                {t('home_no_testimonials')}
               </div>
             )}
           </div>
@@ -598,10 +535,10 @@ export default function Home() {
       <section className="py-20 bg-gray-50">
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Latest Updates</div>
-            <h2 className="text-4xl font-bold font-poppins mb-4">Blog & Resources</h2>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('home_blog_latest')}</div>
+            <h2 className="text-4xl font-bold font-poppins mb-4">{t('home_blog_heading')}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Educational content and farming tips to help you succeed.
+              {t('home_blog_description')}
             </p>
           </div>
 
@@ -628,7 +565,7 @@ export default function Home() {
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">{post.excerpt}</p>
                 <a href="#" className="text-green-700 font-semibold text-sm hover:text-green-800 transition-all duration-300 inline-flex items-center gap-1 group-hover:gap-2">
-                  Read More <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {t('common_read_more')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             ))}
@@ -639,7 +576,7 @@ export default function Home() {
               href="/blog"
               className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1"
             >
-              View All Articles <ArrowRight className="ml-2 w-4 h-4" />
+              {t('home_blog_view_all')} <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -657,23 +594,23 @@ export default function Home() {
 
         <div className="container relative z-10 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-poppins text-white mb-6 animate-fade-in-up leading-tight">
-            Ready to Improve Your Harvest?
+            {t('home_cta_ready')}
           </h2>
           <p className="text-lg md:text-xl text-gray-100 mb-10 max-w-2xl mx-auto animate-fade-in-up leading-relaxed">
-            Let's grow together with certified seeds and expert agricultural support. Join thousands of farmers achieving better results.
+            {t('home_cta_ready_description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
             <Link
               href="/contact"
               className="inline-flex items-center justify-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-lg"
             >
-              Get Started Now <ArrowRight className="ml-2 w-5 h-5" />
+              {t('home_cta_get_started')} <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
             <Link
               href="/products"
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all duration-300 text-lg"
             >
-              Explore Products
+              {t('home_cta_explore_products')}
             </Link>
           </div>
         </div>
@@ -684,8 +621,8 @@ export default function Home() {
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-16">
             <div className="animate-slide-in-left">
-              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">Get In Touch</div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">Contact Information</h2>
+              <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-3">{t('home_contact_preview_get_in_touch')}</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-poppins mb-10 leading-tight">{t('home_contact_preview_heading')}</h2>
 
               <div className="space-y-6">
                 <div className="flex gap-4">
@@ -693,7 +630,7 @@ export default function Home() {
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">Address</div>
+                    <div className="font-bold text-gray-900">{t('contact_address_label')}</div>
                     <div className="text-gray-600">P.O. BOX 45, Musanze, Rwanda</div>
                   </div>
                 </div>
@@ -703,7 +640,7 @@ export default function Home() {
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">Phone</div>
+                    <div className="font-bold text-gray-900">{t('contact_phone_label')}</div>
                     <div className="text-gray-600">+250 782 724 840</div>
                   </div>
                 </div>
@@ -713,7 +650,7 @@ export default function Home() {
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">Email</div>
+                    <div className="font-bold text-gray-900">{t('contact_email_label')}</div>
                     <div className="text-gray-600">dernseedcompanyltd2020@gmail.com</div>
                   </div>
                 </div>
@@ -723,8 +660,8 @@ export default function Home() {
                     <Clock className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">Business Hours</div>
-                    <div className="text-gray-600">Monday - Friday: 8:00 AM - 5:00 PM</div>
+                    <div className="font-bold text-gray-900">{t('contact_business_hours_label')}</div>
+                    <div className="text-gray-600">{t('home_contact_business_hours')}</div>
                   </div>
                 </div>
               </div>
@@ -733,7 +670,7 @@ export default function Home() {
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition-all duration-300 hover:-translate-y-1 mt-8"
               >
-                Send Message <ArrowRight className="ml-2 w-4 h-4" />
+                {t('home_contact_preview_send_message')} <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </div>
 

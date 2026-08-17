@@ -167,10 +167,10 @@ export default function Footer() {
             <p>{t('footer_copyright')}</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-green-500 transition-colors">
-                Privacy Policy
+                {t('footer_privacy_policy')}
               </a>
               <a href="#" className="hover:text-green-500 transition-colors">
-                Terms & Conditions
+                {t('footer_terms_conditions')}
               </a>
             </div>
           </div>

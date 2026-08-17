@@ -37,10 +37,10 @@ export default function Products() {
   }, []);
 
   const categories = [
-    { id: 'all', label: 'All Seeds' },
-    { id: 'root-crops', label: 'Root Crops' },
-    { id: 'legumes', label: 'Legumes' },
-    { id: 'cereals', label: 'Cereals' },
+    { id: 'all', label: t('products_all') },
+    { id: 'root-crops', label: t('products_root_crops') },
+    { id: 'legumes', label: t('products_legumes') },
+    { id: 'cereals', label: t('products_cereals') },
   ];
 
   // Filter and search logic
@@ -78,7 +78,7 @@ export default function Products() {
           <div className="container relative z-10">
             <div className="max-w-2xl animate-fade-in-up">
               <div className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">
-                Certified Quality Seeds
+                {t('products_certified_quality')}
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins text-white mb-4">
                 {t('products_hero_heading') || 'Our Certified Seeds'}
@@ -101,7 +101,7 @@ export default function Products() {
                 <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
-                  placeholder="Search seeds, benefits, crop types..."
+                  placeholder={t('products_search_placeholder')}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-green-500 focus:outline-none shadow-xs"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -134,7 +134,7 @@ export default function Products() {
                   className="w-full flex items-center justify-between px-4 py-2.5 border rounded-xl shadow-xs focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 hover:border-green-500 text-sm"
                 >
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    {categories.find((f) => f.id === activeFilter)?.label || 'Select Category'}
+                    {categories.find((f) => f.id === activeFilter)?.label || t('products_select_category')}
                   </span>
                   <ChevronDown
                     className={`w-5 h-5 transition-transform duration-200 ${
@@ -192,7 +192,7 @@ export default function Products() {
                   }}
                   className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
-                  Reset Filters
+                  {t('products_reset_filters')}
                 </button>
               </div>
             )}

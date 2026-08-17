@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake, User, Briefcase } from 'lucide-react';
 import Footer from '@/components/Footer';
 import StaffSection from '@/components/Staff/StaffSection';
 import { applySeo } from '@/lib/seo';
@@ -24,89 +24,86 @@ export default function About() {
   const values = [
     {
       icon: <CheckCircle className="w-8 h-8" />,
-      title: 'Quality',
-      description: 'Maintaining the highest standards in seed production and processing.',
+      title: t('about_value_quality_title'),
+      description: t('about_value_quality_desc'),
     },
     {
       icon: <Heart className="w-8 h-8" />,
-      title: 'Integrity',
-      description: 'Conducting business with honesty, transparency, and accountability.',
+      title: t('about_value_integrity_title'),
+      description: t('about_value_integrity_desc'),
     },
     {
       icon: <Sparkles className="w-8 h-8" />,
-      title: 'Innovation',
-      description: 'Adopting modern technologies and climate-smart solutions.',
+      title: t('about_value_innovation_title'),
+      description: t('about_value_innovation_desc'),
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: 'Partnership',
-      description: 'Building strong relationships with farmers, cooperatives, and development partners.',
+      title: t('about_value_partnership_title'),
+      description: t('about_value_partnership_desc'),
     },
     {
       icon: <Leaf className="w-8 h-8" />,
-      title: 'Sustainability',
-      description: 'Promoting environmentally responsible and economically viable agricultural practices.',
+      title: t('about_value_sustainability_title'),
+      description: t('about_value_sustainability_desc'),
     },
     {
       icon: <HeartHandshake className="w-8 h-8" />,
-      title: 'Community Impact',
-      description: 'Improving livelihoods and supporting inclusive rural development.',
+      title: t('about_value_community_title'),
+      description: t('about_value_community_desc'),
     },
   ];
 
   const goals = [
-    'Increasing farmers\' access to high-quality certified seeds.',
-    'Promoting climate-smart and sustainable agricultural practices.',
-    'Supporting contract farming and inclusive value chain development.',
-    'Enhancing food security and rural livelihoods.',
-    'Creating lasting partnerships that drive agricultural innovation and economic growth.',
+    t('about_goal_1'),
+    t('about_goal_2'),
+    t('about_goal_3'),
+    t('about_goal_4'),
+    t('about_goal_5'),
   ];
 
   const whatWeDo = [
-    'Certified seed production and multiplication',
-    'Seed processing, cleaning, grading, and treatment',
-    'Contract farming and outgrower management',
-    'Farmer training and extension services',
-    'Seed aggregation, storage, and market linkage',
-    'Climate-smart agricultural solutions',
+    t('about_what_we_do_1'),
+    t('about_what_we_do_2'),
+    t('about_what_we_do_3'),
+    t('about_what_we_do_4'),
+    t('about_what_we_do_5'),
+    t('about_what_we_do_6'),
   ];
 
   const beneficiaries = [
-    'Smallholder farmers',
-    'Commercial farmers',
-    'Farmer cooperatives',
-    'Agro-dealers',
-    'NGOs',
-    'Development projects',
-    'Government agricultural programs',
-    'Seed distributors',
-    'Institutional buyers',
+    t('about_beneficiary_smallholder'),
+    t('about_beneficiary_cooperatives'),
+    t('about_beneficiary_agribusiness'),
+    t('about_beneficiary_development'),
+    t('about_beneficiary_ngos'),
+    t('about_beneficiary_government'),
   ];
 
   const projects = [
-    'Scaling up Climate-Smart Irish Potato Seed Systems through Sandponic Minituber Production, Contract Farming, and Market Aggregation in Northern Rwanda',
-    'Contract Farming Model for Certified Bean Seed Multiplication, Grain Production, and Bean Aggregation, Storage, and Market Linkage Hub',
+    t('about_project_seed_scaling'),
+    t('about_project_farmer_field'),
   ];
 
   // Staff Administration Data
   const staffMembers = [
     {
       name: 'Father Alexandre NTABANGANYIMANA',
-      position: 'Managing Director',
+      position: t('about_staff_ceo'),
       icon: <User className="w-6 h-6" />,
-      description: 'Leads the overall strategic direction and operations of DERN SEED Company Ltd.'
+      description: t('about_staff_ceo_desc')
     },
     {
       name: 'Cassien TWAGIRIMANA',
-      position: 'Chief Operations Officer (COO)',
+      position: t('about_staff_operations'),
       icon: <Briefcase className="w-6 h-6" />,
-      description: 'Oversees day-to-day operations, production, and supply chain management.'
+      description: t('about_staff_operations_desc')
     },
     {
       name: 'Mediatrice MUJAWIYERA',
-      position: 'Chief Finance Officer',
+      position: t('about_staff_quality'),
       icon: <Briefcase className="w-6 h-6" />,
-      description: 'Manages financial planning, budgeting, and accounting operations.'
+      description: t('about_staff_quality_desc')
     },
   ];
 
@@ -196,9 +193,9 @@ export default function About() {
       <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Ownership</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_ownership')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Backed by the Ruhengeri Catholic Diocese
+              {t('about_ownership_heading')}
             </h2>
             <p className={`leading-relaxed mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Dern Seed Company Ltd is a privately managed agribusiness company owned by the Ruhengeri Catholic Diocese. Guided by the Diocese's commitment to social and economic development, the company promotes sustainable agriculture, supports smallholder farmers, and contributes to community empowerment through the production and distribution of certified quality seeds.
@@ -219,7 +216,7 @@ export default function About() {
                 <Target className="w-8 h-8" />
               </div>
               <h3 className={`text-2xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                Our Mission
+                {t('about_mission')}
               </h3>
               <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                 To produce, process, and distribute high-quality certified seeds while empowering farmers through contract farming, extension services, technology adoption, and sustainable agricultural practices.
@@ -231,7 +228,7 @@ export default function About() {
                 <Leaf className="w-8 h-8" />
               </div>
               <h3 className={`text-2xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                Our Vision
+                {t('about_vision')}
               </h3>
               <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                 To become a leading producer and supplier of certified quality seeds and innovative agricultural solutions that transform farmers' productivity and contribute to food security in Rwanda and the East African region.
@@ -242,7 +239,7 @@ export default function About() {
           {/* Our Goal */}
           <div id="goals" className={`${theme === 'dark' ? 'bg-green-900/20 border-green-800' : 'bg-green-50 border-green-100'} rounded-2xl p-8 lg:p-12 border`}>
             <h3 className={`text-2xl font-bold font-poppins mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Our Goal
+              {t('about_our_goal')}
             </h3>
             <p className={`mb-6 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Our goal is to become a leading and trusted provider of certified seeds and integrated agricultural solutions in Rwanda and the East African region by:
@@ -263,9 +260,9 @@ export default function About() {
       <section id="what-we-do" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Scope</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_our_scope')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              What We Do
+              {t('about_what_we_do')}
             </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -287,9 +284,9 @@ export default function About() {
       <section id="values" className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-16 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">What Drives Us</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_what_drives_us')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Our Values
+              {t('about_our_values')}
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               These values guide every decision we make and shape our culture and relationships.
@@ -322,12 +319,12 @@ export default function About() {
       <section id="staff-administration" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Our Leadership</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_who_we_are')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Staff Administration
+              {t('about_our_story')}
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              Meet the dedicated leadership team driving agricultural excellence at DERN SEED.
+              {t('about_staff_admin_desc')}
             </p>
           </div>
 
@@ -360,9 +357,9 @@ export default function About() {
       <section className={`py-20 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Who We Serve</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_who_we_serve')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Target Beneficiaries
+              {t('about_target_beneficiaries')}
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
@@ -383,9 +380,9 @@ export default function About() {
       <section className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Looking Ahead</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_looking_ahead')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Recent Strategic Project Portfolio
+              {t('about_recent_projects')}
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               These initiatives aim to increase the availability of quality seed, strengthen farmer-market connections, improve productivity, and enhance resilience to climate change.
@@ -415,23 +412,23 @@ export default function About() {
         <div className="container">
           <div className={`max-w-3xl mx-auto ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-2xl p-8 lg:p-10 shadow-sm`}>
             <h3 className={`text-2xl font-bold font-poppins mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Company Information
+              {t('about_company_information')}
             </h3>
             <dl className={`space-y-3 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Company Name:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_company_name_label')}</dt>
                 <dd>Dern Seed Company Ltd</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Head Office:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_head_office_label')}</dt>
                 <dd>Byimana Village, Ruhengeri Cell, Muhoza Sector, Musanze District, Rwanda</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Postal Address:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_postal_address_label')}</dt>
                 <dd>P.O. Box 45, Musanze, Rwanda</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Telephone:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_telephone_label')}</dt>
                 <dd>
                   <a href="tel:+250782724840" className={`transition-colors ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
                     +250 782 724 840
@@ -439,7 +436,7 @@ export default function About() {
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Email:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_email_label')}</dt>
                 <dd>
                   <a href="mailto:dernseedcompanyltd2020@gmail.com" className={`transition-colors break-all ${theme === 'dark' ? 'hover:text-green-400' : 'hover:text-green-700'}`}>
                     dernseedcompanyltd2020@gmail.com
@@ -447,7 +444,7 @@ export default function About() {
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-2">
-                <dt className="font-semibold sm:w-48 shrink-0">Established:</dt>
+                <dt className="font-semibold sm:w-48 shrink-0">{t('about_established_label')}</dt>
                 <dd>June 2020</dd>
               </div>
             </dl>
@@ -467,16 +464,16 @@ style={{
 
         <div className="container relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">
-            Together, We Are Cultivating a More Food-Secure Future
+            {t('about_cta_heading')}
           </h2>
           <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-            Partner with DERN SEED for reliable certified seeds and expert agricultural support.
+            {t('about_cta_description')}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-fade-in-up"
           >
-            Contact Us Today <ArrowRight className="ml-2 w-5 h-5" />
+            {t('about_cta_contact_us')} <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
       </section>

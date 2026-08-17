@@ -57,12 +57,12 @@ export default function DesktopNav({
                       <div className="space-y-2">
                         {(item.dropdown as typeof productCategories).map(category => (
                           <Link
-                            key={category.name}
+                            key={category.nameKey}
                             href="/products"
                             onClick={() => setActiveDropdown(null)}
                             className="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200"
                           >
-                            {category.name}
+                            {getTranslation(category.nameKey, category.fallback)}
                           </Link>
                         ))}
                         <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
@@ -85,7 +85,7 @@ export default function DesktopNav({
                           if (subItem.isHash) {
                             return (
                               <button
-                                key={subItem.name}
+                                key={subItem.nameKey}
                                 onClick={() => {
                                   setActiveDropdown(null);
                                   scrollToElement(hashId);
@@ -93,19 +93,19 @@ export default function DesktopNav({
                                 className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200 group w-full text-left"
                               >
                                 <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center group-hover:bg-green-100 dark:group-hover:bg-green-900/50 transition-colors" />
-                                <span className="font-medium">{subItem.name}</span>
+                                <span className="font-medium">{getTranslation(subItem.nameKey, subItem.fallback)}</span>
                               </button>
                             );
                           }
                           return (
                             <Link
-                              key={subItem.name}
+                              key={subItem.nameKey}
                               href={subItem.href}
                               onClick={() => setActiveDropdown(null)}
                               className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-200 group"
                             >
                               <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center group-hover:bg-green-100 dark:group-hover:bg-green-900/50 transition-colors" />
-                              <span className="font-medium">{subItem.name}</span>
+                              <span className="font-medium">{getTranslation(subItem.nameKey, subItem.fallback)}</span>
                             </Link>
                           );
                         })}

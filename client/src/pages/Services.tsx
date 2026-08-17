@@ -25,137 +25,127 @@ export default function Services() {
     {
       image: '/gallery/potatoes.jpeg',
       imageAlt: 'Certified potato seed harvest from DERN SEED production',
-      title: 'Certified Seed Production & Multiplication',
-      description: 'We produce and multiply high-quality certified seeds — Irish potato, bean, maize, wheat, and soybean — that meet national quality standards, ensuring farmers have access to reliable planting materials for improved yields.',
+      title: t('services_seed_production_title'),
+      description: t('services_seed_production_desc'),
     },
     {
       image: '/gallery/maize seed.jpeg',
       imageAlt: 'Certified maize seed prepared for supply',
-      title: 'Production & Supply of Certified Seeds',
-      description: 'We process and supply certified seeds to farmers, cooperatives, agribusinesses, and development organizations, including multiplication, quality control, packaging, storage, and distribution to local and regional markets.',
+      title: t('services_seed_distribution_title'),
+      description: t('services_seed_distribution_desc'),
     },
     {
       image: '/gallery/maize crop 1.jpeg',
       imageAlt: 'Healthy maize crop growing in the field',
-      title: 'Climate-Resilient & High-Yield Varieties',
-      description: 'We develop, promote, and supply seed varieties adapted to changing environmental conditions — built to withstand drought, pests, and disease while increasing productivity and profitability.',
+      title: t('services_climate_resilient_title'),
+      description: t('services_climate_resilient_desc'),
     },
     {
       image: '/gallery/visit.jpeg',
       imageAlt: 'DERN SEED field visit with agricultural partners',
-      title: 'Contract Seed Multiplication',
-      description: 'We partner with farmers, cooperatives, and agricultural organizations, providing pre-basic and basic seed, technical guidance, and market access under agreed standards and conditions.',
+      title: t('services_contract_farming_title'),
+      description: t('services_contract_farming_desc'),
     },
     {
       image: '/gallery/maize seed 3.jpeg',
       imageAlt: 'Clean certified seed ready for processing and packaging',
-      title: 'Seed Processing & Packaging',
-      description: 'We conduct cleaning, grading, sorting, treatment, quality control, and packaging to improve seed purity, germination rates, and storage life — collaborating with trusted partners for large-scale needs.',
+      title: t('services_seed_processing_title'),
+      description: t('services_seed_processing_desc'),
     },
     {
       image: '/gallery/derne image.jpeg',
       imageAlt: 'DERN SEED training and field learning activity',
-      title: 'Farmer Training & Capacity Building',
-      description: 'We train farmers, cooperatives, and producer groups on quality seed production, good agricultural practices, climate-smart farming, post-harvest handling, and agribusiness management.',
+      title: t('services_farmer_training_title'),
+      description: t('services_farmer_training_desc'),
     },
     {
       image: '/gallery/Home background 4.jpeg',
       imageAlt: 'Agricultural field support in a crop production area',
-      title: 'Agricultural Extension Services',
-      description: 'We offer technical guidance on seed selection, planting, crop management, pest and disease control, soil fertility management, and post-harvest practices.',
+      title: t('services_tech_support_title'),
+      description: t('services_tech_support_desc'),
     },
     {
       image: '/gallery/potatoes field 2.jpeg',
       imageAlt: 'Potato demonstration plot in a DERN SEED field',
-      title: 'Demonstration Plots & Field Trials',
-      description: 'We establish demonstration plots and conduct field trials to showcase improved and climate-resilient varieties under real farming conditions, refining recommendations for different agro-ecological zones.',
+      title: t('services_demo_plots_title'),
+      description: t('services_demo_plots_desc'),
     },
     {
       image: '/gallery/Wheat.jpeg',
       imageAlt: 'Wheat crop used for agronomic advisory services',
-      title: 'Agronomic Advisory Services',
-      description: 'We guide farmers on soil preparation, planting techniques, fertilizer use, pest and disease management, irrigation practices, and crop nutrition.',
+      title: t('services_agri_consultancy_title'),
+      description: t('services_agri_consultancy_desc'),
     },
     {
       image: '/gallery/beans.jpeg',
       imageAlt: 'Bean seed and agro-input distribution material',
-      title: 'Agro-Input Distribution',
-      description: 'We supply and distribute quality seeds, fertilizers, and crop protection products sourced from trusted suppliers, through local networks and partnerships.',
+      title: t('services_agro_input_title'),
+      description: t('services_agro_input_desc'),
     },
     {
       image: '/gallery/soya.jpeg',
       imageAlt: 'Soybean field used in research and development partnerships',
-      title: 'Research & Development Partnerships',
-      description: 'We collaborate with research institutions, universities, and private sector actors to test improved varieties, adapt crops to local conditions, and develop climate-smart technologies.',
+      title: t('services_rd_partnerships_title'),
+      description: t('services_rd_partnerships_desc'),
     },
     {
       image: '/gallery/mbc 23.jpeg',
       imageAlt: 'Bean crop field supporting market linkage work',
-      title: 'Market Linkage & Buyer Connections',
-      description: 'We connect farmers, cooperatives, and agribusiness partners to reliable buyers and markets, organizing supply chains and reducing post-harvest losses.',
+      title: t('services_market_linkage_title'),
+      description: t('services_market_linkage_desc'),
     },
     {
       image: '/gallery/dern seed co ltd.jpg',
       imageAlt: 'DERN SEED company presence for finance facilitation',
-      title: 'Access to Finance Facilitation',
-      description: 'We link farmers and cooperatives with banks, microfinance institutions, SACCOs, impact investors, DFIs, and grant programs — assisting with business profiles and documentation for financing.',
+      title: t('services_finance_title'),
+      description: t('services_finance_desc'),
     },
     {
       image: '/gallery/Home background 3.jpeg',
       imageAlt: 'Agricultural collaboration field scene',
-      title: 'Public-Private Development Partnerships',
-      description: 'We collaborate with government institutions, NGOs, development agencies, and research organizations on seed systems, climate-smart agriculture, and rural economic development.',
+      title: t('services_dev_partnerships_title'),
+      description: t('services_dev_partnerships_desc'),
     },
     {
       image: '/gallery/Home background 2.jpeg',
       imageAlt: 'Community agriculture activity for youth and women empowerment',
-      title: 'Youth & Women Empowerment in Agribusiness',
-      description: 'We create opportunities for youth and women in seed production, training, contract farming, and value chain activities — with mentorship and access to inputs and markets.',
+      title: t('services_youth_women_title'),
+      description: t('services_youth_women_desc'),
     },
     {
       image: '/gallery/potatoes 1.jpeg',
       imageAlt: 'Maize production field for agricultural project implementation',
-      title: 'Agricultural Project Implementation',
-      description: 'We support planning, coordination, execution, monitoring, and evaluation of agricultural projects for NGOs, government programs, and private initiatives.',
+      title: t('services_project_impl_title'),
+      description: t('services_project_impl_desc'),
     },
     {
       image: '/gallery/Wheat (2).jpeg',
       imageAlt: 'Wheat field representing agricultural investment opportunities',
-      title: 'Investment & Impact Partnership Opportunities',
-      description: 'We welcome collaboration with impact investors, DFIs, agribusiness companies, and NGOs to scale seed production and generate measurable social and financial returns.',
+      title: t('services_investment_title'),
+      description: t('services_investment_desc'),
     },
   ];
 
   const opportunities = [
     {
       emoji: '🎓',
-      title: 'Professional Internship & Industrial Attachments',
-      description: 'Structured internship and practical training programs for university students and graduates in agriculture and related fields — covering seed production, agribusiness marketing, quality assurance, contract farming coordination, and M&E. Interns gain hands-on field experience, mentorship, and certification upon completion.',
+      title: t('services_opportunity_training'),
+      description: t('services_opportunity_training_desc'),
     },
     {
       emoji: '💰',
-      title: 'Access to Finance & Agribusiness Linkages (BK Partnership)',
-      description: 'We support farmers and agribusiness groups to access financing through partnerships with Bank of Kigali (BK) and other microfinance institutions — including seasonal input loans, investment financing, cooperative financing schemes, and financial literacy support.',
+      title: t('services_opportunity_cooperative'),
+      description: t('services_opportunity_cooperative_desc'),
     },
     {
       emoji: '🌍',
-      title: 'Development Partner Projects & Collaborations',
-      description: 'We work with AGRA (AIDI Project) on seed systems and climate-smart agriculture, IITA on the FOBASI food basket initiative, and COMESA–ACTESA on climate-smart potato seed systems using sandponic technology.',
+      title: t('services_opportunity_contract'),
+      description: t('services_opportunity_contract_desc'),
     },
     {
       emoji: '🌱',
-      title: 'Contract Farming & Production Opportunities',
-      description: 'Opportunities for farmers and cooperatives in certified Irish potato, bean, maize, soybean, and wheat seed production — with certified seed supply, technical supervision, guaranteed market access, and fair pricing agreements.',
-    },
-    {
-      emoji: '🧑‍🌾',
-      title: 'Youth & Women Empowerment',
-      description: 'Training programs, agribusiness incubation support, access to production opportunities, market linkage facilitation, and skills development in modern farming systems.',
-    },
-    {
-      emoji: '🤝',
-      title: 'Strategic Institutional Collaboration',
-      description: 'We welcome partnerships with government institutions, NGOs and development agencies, research organizations, private agribusiness companies, and universities and training institutions.',
+      title: t('services_opportunity_consultancy'),
+      description: t('services_opportunity_consultancy_desc'),
     },
   ];
 
@@ -187,10 +177,10 @@ export default function Services() {
   ];
 
   const processSteps = [
-    { step: '1', title: 'Consultation', description: 'We understand your farming needs and conditions' },
-    { step: '2', title: 'Selection', description: 'We recommend the best seed varieties for you' },
-    { step: '3', title: 'Support', description: 'We provide training and technical guidance' },
-    { step: '4', title: 'Success', description: 'We monitor progress and ensure good results' },
+    { step: '1', title: t('services_process_1_title'), description: t('services_process_1_desc') },
+    { step: '2', title: t('services_process_2_title'), description: t('services_process_2_desc') },
+    { step: '3', title: t('services_process_3_title'), description: t('services_process_3_desc') },
+    { step: '4', title: t('services_process_4_title'), description: t('services_process_4_desc') },
   ];
 
   return (
@@ -207,8 +197,8 @@ export default function Services() {
 
         <div className="container relative z-10">
           <div className="max-w-2xl animate-fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">Our Services</h1>
-            <p className="text-xl text-gray-200">Comprehensive agricultural solutions for Rwandan farmers</p>
+            <h1 className="text-5xl md:text-6xl font-bold font-poppins text-white mb-6">{t('services_hero_heading')}</h1>
+            <p className="text-xl text-gray-200">{t('services_hero_description')}</p>
           </div>
         </div>
       </section>
@@ -258,17 +248,17 @@ export default function Services() {
             <div className={`text-xs font-bold ${
               theme === 'dark' ? 'text-green-400' : 'text-green-600'
             } uppercase tracking-wider mb-2`}>
-              Get Involved
+              {t('services_opportunities_tag')}
             </div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              Available Opportunities We Are Currently Offering
+              {t('services_opportunities_heading')}
             </h2>
             <p className={`max-w-2xl mx-auto ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              We are actively creating inclusive agricultural and agribusiness opportunities for farmers, students, cooperatives, and development partners.
+              {t('services_opportunities_description')}
             </p>
           </div>
 
@@ -309,12 +299,12 @@ export default function Services() {
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              Frequently Asked Questions
+              {t('services_faq_heading')}
             </h2>
             <p className={`max-w-2xl mx-auto ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              Find answers to common questions about our services.
+              {t('services_faq_description')}
             </p>
           </div>
 
@@ -370,12 +360,12 @@ export default function Services() {
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              Our Service Process
+              {t('services_process_heading')}
             </h2>
             <p className={`max-w-2xl mx-auto ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              How we work with farmers and partners to ensure success.
+              {t('services_process_description')}
             </p>
           </div>
 
@@ -426,16 +416,16 @@ export default function Services() {
 
         <div className="container relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold font-poppins text-white mb-4 animate-fade-in-up">
-            Ready to Get Started?
+            {t('services_cta_heading')}
           </h2>
           <p className="text-lg text-green-100 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-            Contact us today to learn more about our services and opportunities.
+            {t('services_cta_description')}
           </p>
           <Link
             href="/contact"
             className="inline-flex items-center px-8 py-4 bg-amber-500 text-gray-900 font-bold rounded-lg hover:bg-amber-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-fade-in-up"
           >
-            Contact Us <ArrowRight className="ml-2 w-5 h-5" />
+            {t('services_cta_contact_us')} <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
       </section>
