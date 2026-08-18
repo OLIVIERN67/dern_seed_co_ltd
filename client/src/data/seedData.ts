@@ -93,11 +93,11 @@ export const seedData: SeedProduct[] = [
     id: 'maize',
     name: 'Certified Maize Seed',
     category: 'Cereals',
-    image: '/gallery/maize 1.jpeg',
+    image: '/gallery/maize 3.jpeg',
     galleryImages: [
+      '/gallery/maize 3.jpeg',
       '/gallery/maize 1.jpeg',
       '/gallery/maize 2.jpeg',
-      '/gallery/maize 3.jpeg',
       '/gallery/maize 4.jpeg',
       '/gallery/maize crop 1.jpeg',
       '/gallery/Maize crop 2.jpeg',

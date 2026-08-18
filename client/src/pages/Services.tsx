@@ -9,9 +9,9 @@ import { useTheme } from '@/contexts/ThemeContext';
 export default function Services() {
   useEffect(() => {
     applySeo({
-      title: 'DERN SEED Services - Certified Seed Production & Agricultural Solutions',
-      description: 'Discover DERN SEED services: certified seed production, agricultural training, technical support, seed processing, and distribution. Comprehensive farming solutions for Rwandan farmers.',
-      keywords: ['seed production services', 'agricultural training Rwanda', 'certified seed multiplication', 'farming technical support', 'seed processing', 'agricultural solutions', 'DERN SEED services'],
+      title: 'DERN SEED Services - Certified Seed Production, Multiplication & Agricultural Solutions',
+      description: 'Discover DERN SEED services: certified seed production and multiplication for Irish Potato, Bean, Maize, Wheat, and Soybean. Agricultural training, technical support, seed processing, and distribution solutions for Rwandan farmers.',
+      keywords: ['certified seed production', 'seed multiplication Rwanda', 'Irish potato seed', 'bean seed', 'maize seed', 'wheat seed', 'soybean seed', 'agricultural training Rwanda', 'farming technical support', 'seed processing', 'DERN SEED services'],
       ogImage: '/images/logo.png',
       canonical: 'https://dernseed.com/services',
     });
@@ -23,13 +23,13 @@ export default function Services() {
 
   const services = [
     {
-      image: '/gallery/potatoes.jpeg',
-      imageAlt: 'Certified potato seed harvest from DERN SEED production',
+      image: '/gallery/maize crop 1.jpeg',
+      imageAlt: 'DERN SEED certified seed production and multiplication',
       title: t('services_seed_production_title'),
       description: t('services_seed_production_desc'),
     },
     {
-      image: '/gallery/maize seed.jpeg',
+      image: '/gallery/maize 1.jpeg',
       imageAlt: 'Certified maize seed prepared for supply',
       title: t('services_seed_distribution_title'),
       description: t('services_seed_distribution_desc'),
@@ -47,19 +47,19 @@ export default function Services() {
       description: t('services_contract_farming_desc'),
     },
     {
-      image: '/gallery/maize seed 3.jpeg',
+      image: '/gallery/maize 2.jpeg',
       imageAlt: 'Clean certified seed ready for processing and packaging',
       title: t('services_seed_processing_title'),
       description: t('services_seed_processing_desc'),
     },
     {
-      image: '/gallery/derne image.jpeg',
+      image: '/gallery/dern seed co ltd.jpg',
       imageAlt: 'DERN SEED training and field learning activity',
       title: t('services_farmer_training_title'),
       description: t('services_farmer_training_desc'),
     },
     {
-      image: '/gallery/Home background 4.jpeg',
+      image: '/gallery/visit.jpeg',
       imageAlt: 'Agricultural field support in a crop production area',
       title: t('services_tech_support_title'),
       description: t('services_tech_support_desc'),
@@ -71,13 +71,13 @@ export default function Services() {
       description: t('services_demo_plots_desc'),
     },
     {
-      image: '/gallery/Wheat.jpeg',
+      image: '/gallery/Wheat 1.jpeg',
       imageAlt: 'Wheat crop used for agronomic advisory services',
       title: t('services_agri_consultancy_title'),
       description: t('services_agri_consultancy_desc'),
     },
     {
-      image: '/gallery/beans.jpeg',
+      image: '/gallery/beans 1.jpeg',
       imageAlt: 'Bean seed and agro-input distribution material',
       title: t('services_agro_input_title'),
       description: t('services_agro_input_desc'),
@@ -89,7 +89,7 @@ export default function Services() {
       description: t('services_rd_partnerships_desc'),
     },
     {
-      image: '/gallery/mbc 23.jpeg',
+      image: '/gallery/beans 2.jpeg',
       imageAlt: 'Bean crop field supporting market linkage work',
       title: t('services_market_linkage_title'),
       description: t('services_market_linkage_desc'),
@@ -119,7 +119,7 @@ export default function Services() {
       description: t('services_project_impl_desc'),
     },
     {
-      image: '/gallery/Wheat (2).jpeg',
+      image: '/gallery/Wheat 2.jpeg',
       imageAlt: 'Wheat field representing agricultural investment opportunities',
       title: t('services_investment_title'),
       description: t('services_investment_desc'),

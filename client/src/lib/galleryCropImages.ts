@@ -2,13 +2,11 @@ const MAIZE_IMAGES = [
   '/gallery/maize crop 1.jpeg',
   '/gallery/Maize crop 2.jpeg',
   '/gallery/maize crop 3.jpeg',
-  '/gallery/maize crop 6.jpeg',
-  '/gallery/maize crop 11.jpeg',
   '/gallery/maize crop4.jpeg',
-  '/gallery/maize seed 1.jpeg',
-  '/gallery/maize seed 2.jpeg',
-  '/gallery/maize seed 3.jpeg',
-  '/gallery/maize seed.jpeg',
+  '/gallery/maize 1.jpeg',
+  '/gallery/maize 2.jpeg',
+  '/gallery/maize 3.jpeg',
+  '/gallery/maize 4.jpeg',
 ];
 
 
@@ -22,14 +20,14 @@ const POTATO_IMAGES = [
 ];
 
 const BEAN_IMAGES = [
-  '/gallery/beans.jpeg',
   '/gallery/beans 1.jpeg',
-  '/gallery/mbc 23.jpeg',
+  '/gallery/beans 2.jpeg',
+  '/gallery/beans 4.jpeg',
 ];
 
 const WHEAT_IMAGES = [
-  '/gallery/Wheat.jpeg',
-  '/gallery/Wheat (2).jpeg',
+  '/gallery/Wheat 1.jpeg',
+  '/gallery/Wheat 2.jpeg',
 ];
 
 const SOYBEAN_IMAGES = [

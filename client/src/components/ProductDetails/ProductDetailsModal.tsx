@@ -14,6 +14,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import type { SeedProduct } from '@/data/seedData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProductDetailsModalProps {
   product: SeedProduct | null;
@@ -24,6 +25,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   product,
   onClose,
 }) => {
+  const { t } = useLanguage();
   const [activeImage, setActiveImage] = useState<string>('');
 
   // Update active image whenever product changes
@@ -98,7 +100,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label={t('product_modal_close')}
             className="p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-full hover:bg-gray-200 dark:hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -125,7 +127,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                     <button
                       type="button"
                       onClick={handlePrevImage}
-                      aria-label="Previous photo"
+                       aria-label={t('product_modal_prev')}
                       className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-80 hover:opacity-100"
                     >
                       <ChevronLeft className="w-5 h-5" />
@@ -133,7 +135,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                     <button
                       type="button"
                       onClick={handleNextImage}
-                      aria-label="Next photo"
+                       aria-label={t('product_modal_next')}
                       className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all opacity-80 hover:opacity-100"
                     >
                       <ChevronRight className="w-5 h-5" />
@@ -190,7 +192,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   <div className="p-3.5 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700/70">
                     <div className="flex items-center gap-2 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider mb-1">
                       <Calendar className="w-4 h-4" />
-                      Planting Season
+                      {t('product_planting_season')}
                     </div>
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {product.plantingSeason}
@@ -200,7 +202,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   <div className="p-3.5 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700/70">
                     <div className="flex items-center gap-2 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider mb-1">
                       <Clock className="w-4 h-4" />
-                      Harvest Period
+                      {t('product_harvest_period')}
                     </div>
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">
                       {product.harvestPeriod}
@@ -215,7 +217,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   href={`/order?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(product.category)}`}
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-green-700 hover:bg-green-800 text-white font-bold text-base rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
                 >
-                  Order This Seed Now
+                  {t('product_order_now')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
@@ -227,7 +229,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             <div className="flex items-center gap-2 mb-4">
               <Leaf className="w-5 h-5 text-green-700 dark:text-green-400" />
               <h3 className="text-lg font-bold font-poppins text-gray-900 dark:text-white">
-                Key Agronomic Benefits
+                {t('product_benefits')}
               </h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
@@ -247,7 +249,7 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             <div className="flex items-center gap-2 mb-4">
               <ShieldCheck className="w-5 h-5 text-green-700 dark:text-green-400" />
               <h3 className="text-lg font-bold font-poppins text-gray-900 dark:text-white">
-                Quality Standards & Seed Specifications
+                {t('product_quality_standards')}
               </h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
@@ -271,14 +273,14 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             onClick={onClose}
             className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-gray-200 font-semibold text-sm rounded-lg transition-colors"
           >
-            Close Details
+            {t('product_close_details')}
           </button>
 
           <Link
             href={`/order?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(product.category)}`}
             className="inline-flex items-center gap-2 px-6 py-2.5 bg-green-700 hover:bg-green-800 text-white font-bold text-sm rounded-lg transition-all hover:shadow-md"
           >
-            Inquire / Order
+            {t('product_inquire_order')}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

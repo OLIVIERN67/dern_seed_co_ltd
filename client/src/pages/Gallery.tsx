@@ -283,7 +283,7 @@ export default function Gallery() {
 <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(/gallery/Wheat (2).jpeg)',
+            backgroundImage: 'url(/gallery/Wheat 2.jpeg)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-800/85" />
