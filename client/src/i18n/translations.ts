@@ -269,7 +269,7 @@ export const translations: Record<Language, Record<string, string>> = {
       'Partner with DERN SEED for reliable certified seeds and expert agricultural support.',
     about_cta_contact_us: 'Contact Us Today',
 
-    about_staff_admin_desc: 'Our experienced leadership team driving agricultural excellence across Rwanda.',
+    about_staff_admin_desc: 'Meet the dedicated leadership team driving agricultural excellence and quality seed production at DERN SEED Company Ltd.',
     staff_badge_title: 'Our Leadership',
     staff_title: 'Staff Administration',
     staff_subtitle: 'Meet the dedicated leadership team driving agricultural excellence and quality seed production at DERN SEED Company Ltd.',
@@ -977,7 +977,7 @@ export const translations: Record<Language, Record<string, string>> = {
       'Fata umufatanyabikorwa na DERN SEED ku mbuto zemejwe zizewe n’ubufasha bw’impuguke.',
     about_cta_contact_us: 'Tuvugane uyu munsi',
 
-    about_staff_admin_desc: 'Ikipe yacu y\'ubuyobozi iri gukangahira ubwiza bw\'ubuhinzi mu Rwanda.',
+    about_staff_admin_desc: 'Menya ikipe y\'ubuyobozi yemejwe iri gukangahira ubwiza bw\'ubuhinzi no kwitegura imbuto z\'ubwiza mu isosiyete ya DERN SEED Company Ltd.',
     staff_badge_title: 'Abayobozi bacu',
     staff_title: 'Ubuyobozi bw\'Abakozi',
     staff_subtitle: 'Menya ikipe y\'ubuyobozi yemejwe iri gukangahira ubwiza bw\'ubuhinzi no kwitegura imbuto z\'ubwiza mu isosiyete ya DERN SEED.',
@@ -1682,7 +1682,7 @@ export const translations: Record<Language, Record<string, string>> = {
       'Partenaires de DERN SEED pour des semences certifiées fiables et un accompagnement agricole d’experts.',
     about_cta_contact_us: 'Contactez-nous dès aujourd’hui',
 
-    about_staff_admin_desc: 'Notre équipe de direction expérimentée guide l\u2019excellence agricole à travers le Rwanda.',
+    about_staff_admin_desc: 'Découvrez l\'équipe de direction dévouée qui guide l\'excellence agricole et la production de semences certifiées chez DERN SEED Company Ltd.',
     staff_badge_title: 'Notre Direction',
     staff_title: 'Administration du Personnel',
     staff_subtitle: 'Découvrez l\'équipe de direction dévouée qui guide l\'excellence agricole et la production de semences certifiées chez DERN SEED.',

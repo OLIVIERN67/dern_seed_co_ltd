@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake, User, Briefcase } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, Target, Leaf, Heart, Sparkles, HeartHandshake } from 'lucide-react';
 import Footer from '@/components/Footer';
 import StaffSection from '@/components/Staff/StaffSection';
+import { staffData } from '@/data/staffData';
+import StaffCard from '@/components/Staff/StaffCard';
 import { applySeo } from '@/lib/seo';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -83,28 +85,6 @@ export default function About() {
   const projects = [
     t('about_project_seed_scaling'),
     t('about_project_farmer_field'),
-  ];
-
-  // Staff Administration Data
-  const staffMembers = [
-    {
-      name: 'Father Alexandre NTABANGANYIMANA',
-      position: t('about_staff_ceo'),
-      icon: <User className="w-6 h-6" />,
-      description: t('about_staff_ceo_desc')
-    },
-    {
-      name: 'Cassien TWAGIRIMANA',
-      position: t('about_staff_operations'),
-      icon: <Briefcase className="w-6 h-6" />,
-      description: t('about_staff_operations_desc')
-    },
-    {
-      name: 'Mediatrice MUJAWIYERA',
-      position: t('about_staff_quality'),
-      icon: <Briefcase className="w-6 h-6" />,
-      description: t('about_staff_quality_desc')
-    },
   ];
 
   return (
@@ -319,35 +299,18 @@ export default function About() {
       <section id="staff-administration" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container">
           <div className="text-center mb-12 animate-fade-in-up">
-            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('about_who_we_are')}</div>
+            <div className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">{t('staff_badge_title')}</div>
             <h2 className={`text-4xl font-bold font-poppins mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              {t('about_our_story')}
+              {t('staff_title')}
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              {t('about_staff_admin_desc')}
+              {t('staff_subtitle')}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {staffMembers.map((member, index) => (
-              <div
-                key={index}
-                className={`${theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} border rounded-xl p-8 transition-all duration-300 hover:border-green-400 hover:shadow-lg hover:-translate-y-2 animate-fade-in-up text-center`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className={`w-20 h-20 ${theme === 'dark' ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-700'} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  {member.icon}
-                </div>
-                <h3 className={`font-bold text-xl font-poppins mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                  {member.name}
-                </h3>
-                <p className={`text-sm font-semibold mb-3 ${theme === 'dark' ? 'text-green-400' : 'text-green-700'}`}>
-                  {member.position}
-                </p>
-                <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  {member.description}
-                </p>
-              </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
+            {staffData.map((member) => (
+              <StaffCard key={member.id} member={member} />
             ))}
           </div>
         </div>
